@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>AI Trade Beta - XAU/USD PSAR Single Point Signal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0A0C15;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .bg-animated {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(44,62,255,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 70%, rgba(157,78,255,0.12) 0%, transparent 55%),
+                linear-gradient(135deg, #070B14 0%, #0A0F1E 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #2C3EFF; top: -200px; left: -150px; opacity: 0.15; }
+        .orb-2 { width: 450px; height: 450px; background: #9D4EFF; bottom: -150px; right: -100px; opacity: 0.12; }
+        .orb-3 { width: 300px; height: 300px; background: #FFAA00; top: 50%; left: 50%; opacity: 0.05; transform: translate(-50%, -50%); }
+        .app-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 36px;
+        }
+        @media (max-width: 768px) {
+            .app-container { padding: 16px; }
+        }
+        .header-premium {
+            background: rgba(12,17,32,0.65);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 1px solid rgba(66,153,225,0.25);
+            padding: 20px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .brand-premium {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .logo-premium {
+            height: 52px;
+            width: auto;
+            filter: drop-shadow(0 0 20px rgba(44,62,255,0.6));
+            transition: transform 0.3s;
+        }
+        .logo-premium:hover { transform: scale(1.02); }
+        .title-premium h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #60A5FA, #C084FC);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .title-premium .badge-premium {
+            font-size: 0.7rem;
+            color: #7E8AA8;
+            letter-spacing: 1px;
+        }
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,255,170,0.08);
+            padding: 8px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(0,255,170,0.25);
+            backdrop-filter: blur(10px);
+        }
+        .led-live {
+            width: 10px;
+            height: 10px;
+            background: #00FFAA;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00FFAA;
+            animation: pulse-live 1.2s infinite;
+        }
+        @keyframes pulse-live {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .control-bar {
+            background: rgba(12,17,32,0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            border: 1px solid rgba(66,153,225,0.2);
+            padding: 20px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .timeframe-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(0,0,0,0.35);
+            padding: 8px 24px;
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+        }
+        .timeframe-icon { font-size: 1.5rem; color: #2C3EFF; }
+        .timeframe-text { font-size: 1rem; font-weight: 700; }
+        .timeframe-desc { font-size: 0.7rem; color: #8D9BD0; }
+        .action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        .button-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .generate-btn-premium {
+            background: linear-gradient(105deg, #2C3EFF, #7C3AED);
+            border: none;
+            padding: 14px 44px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 28px rgba(44,62,255,0.4);
+        }
+        .generate-btn-premium:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 12px 36px rgba(44,62,255,0.6);
+        }
+        .generate-btn-premium:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .reset-btn-premium {
+            background: rgba(255,70,85,0.12);
+            border: 1px solid rgba(255,70,85,0.35);
+            padding: 10px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #FF6B7A;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .reset-btn-premium:hover {
+            background: rgba(255,70,85,0.25);
+            border-color: rgba(255,70,85,0.6);
+            color: #FF8A96;
+            transform: translateY(-1px);
+        }
+        .buy-limit-btn {
+            background: linear-gradient(105deg, #FF8C00, #FFD700);
+            border: none;
+            padding: 14px 44px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0A0C15;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 28px rgba(255,140,0,0.4);
+            animation: glowPulse 2s infinite;
+        }
+        @keyframes glowPulse {
+            0%,100% { box-shadow: 0 8px 28px rgba(255,140,0,0.4); }
+            50% { box-shadow: 0 8px 40px rgba(255,215,0,0.6); }
+        }
+        .buy-limit-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 12px 36px rgba(255,140,0,0.6);
+        }
+        .limit-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+        }
+        .limit-indicator i { font-size: 1rem; }
+        .limit-badge {
+            background: #2C3EFF;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 0 10px rgba(44,62,255,0.3);
+        }
+        .limit-badge.warning { background: #FFAA00; color: #0A0C15; box-shadow: 0 0 10px rgba(255,170,0,0.3); }
+        .limit-badge.danger { background: #FF4655; box-shadow: 0 0 10px rgba(255,70,85,0.3); }
+        .limit-badge.zero { background: #FF0000; animation: pulse-red 1s infinite; }
+        .info-reset {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,255,170,0.08);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #00FFAA;
+        }
+        .info-reset i { font-size: 0.8rem; }
+        .cooldown-timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            color: #FFAA00;
+            backdrop-filter: blur(10px);
+        }
+        .cooldown-timer i { font-size: 1rem; animation: spin 2s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .cooldown-timer span { font-weight: 700; font-family: monospace; font-size: 1rem; letter-spacing: 1px; }
+        .signal-card-premium {
+            background: rgba(12,17,32,0.55);
+            backdrop-filter: blur(24px);
+            border-radius: 40px;
+            border: 1px solid rgba(66,153,225,0.25);
+            padding: 36px;
+            transition: all 0.3s;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.4);
+        }
+        @media (max-width: 640px) {
+            .signal-card-premium { padding: 24px; }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 32px;
+            border: 1px dashed rgba(66,153,225,0.3);
+        }
+        .empty-icon { font-size: 5rem; color: #3A4468; margin-bottom: 24px; opacity: 0.7; }
+        .empty-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 12px; color: #8D9BD0; }
+        .empty-subtitle { font-size: 0.9rem; color: #5A6A8A; }
+        .limit-exhausted-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(255,70,85,0.1), rgba(255,140,0,0.05));
+            border-radius: 32px;
+            border: 1px solid rgba(255,70,85,0.3);
+        }
+        .limit-exhausted-icon { font-size: 5rem; color: #FF4655; margin-bottom: 24px; }
+        .limit-exhausted-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 12px; color: #FF4655; }
+        .limit-exhausted-subtitle { font-size: 0.9rem; color: #8D9BD0; margin-bottom: 16px; }
+        .price-info {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .price-info .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFD700;
+        }
+        .price-info .period {
+            font-size: 0.8rem;
+            color: #8D9BD0;
+        }
+        .buy-limit-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 28px;
+            padding: 24px;
+            margin-top: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .countdown-reset {
+            margin-top: 16px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            font-size: 0.8rem;
+            color: #FFAA00;
+        }
+        .signal-result {
+            display: none;
+        }
+        .signal-result.active {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            animation: slideUpFade 0.6s cubic-bezier(0.2,0.9,0.4,1.1);
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .signal-glow-card {
+            text-align: center;
+            padding: 48px 24px;
+            border-radius: 36px;
+            background: rgba(0,0,0,0.35);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .signal-glow-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .signal-glow-card:hover::before { opacity: 1; }
+        .signal-glow-card.buy { background: linear-gradient(135deg, rgba(0,255,157,0.18), rgba(0,255,157,0.04)); border: 1px solid rgba(0,255,157,0.5); box-shadow: 0 0 50px rgba(0,255,157,0.2); }
+        .signal-glow-card.sell { background: linear-gradient(135deg, rgba(255,70,85,0.18), rgba(255,70,85,0.04)); border: 1px solid rgba(255,70,85,0.5); box-shadow: 0 0 50px rgba(255,70,85,0.2); }
+        .signal-glow-card.wait { background: linear-gradient(135deg, rgba(255,170,0,0.1), rgba(255,170,0,0.03)); border: 1px solid rgba(255,170,0,0.3); }
+        .signal-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 8px 24px; border-radius: 60px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 24px; backdrop-filter: blur(10px); }
+        .signal-value-super { font-size: 5rem; font-weight: 800; letter-spacing: 8px; margin: 24px 0; }
+        @media (max-width: 640px) { .signal-value-super { font-size: 3rem; letter-spacing: 4px; } }
+        .signal-value-super.buy { color: #00FF9D; text-shadow: 0 0 40px rgba(0,255,157,0.5); }
+        .signal-value-super.sell { color: #FF4655; text-shadow: 0 0 40px rgba(255,70,85,0.5); }
+        .signal-value-super.wait { color: #FFAA00; text-shadow: 0 0 20px rgba(255,170,0,0.3); }
+        .psar-info-card { background: rgba(0,0,0,0.35); border-radius: 28px; padding: 20px 28px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        .psar-info-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: #8D9BD0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .psar-info-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .psar-value-box { display: flex; align-items: baseline; gap: 8px; background: rgba(0,0,0,0.3); padding: 8px 20px; border-radius: 40px; }
+        .psar-label { font-size: 0.75rem; color: #8D9BD0; }
+        .psar-value { font-size: 1.3rem; font-weight: 700; font-family: monospace; color: #60A5FA; }
+        .psar-trend { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 40px; background: rgba(0,0,0,0.3); }
+        .trend-indicator { width: 10px; height: 10px; border-radius: 50%; }
+        .trend-indicator.up { background: #00FF9D; box-shadow: 0 0 8px #00FF9D; animation: pulse-green 1.5s infinite; }
+        .trend-indicator.down { background: #FF4655; box-shadow: 0 0 8px #FF4655; animation: pulse-red 1.5s infinite; }
+        .trend-indicator.wait { background: #FFAA00; box-shadow: 0 0 8px #FFAA00; animation: pulse-yellow 1.5s infinite; }
+        @keyframes pulse-green { 0%,100% { opacity: 0.5; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+        @keyframes pulse-red { 0%,100% { opacity: 0.5; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+        @keyframes pulse-yellow { 0%,100% { opacity: 0.5; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+        .psar-position { padding: 8px 20px; border-radius: 40px; background: rgba(0,0,0,0.3); font-size: 0.8rem; }
+        .position-bullish { color: #00FF9D; }
+        .position-bearish { color: #FF4655; }
+        .position-wait { color: #FFAA00; }
+        .strength-meter-modern { margin-top: 20px; }
+        .strength-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.75rem; }
+        .strength-bar-modern { background: #1A1F35; border-radius: 20px; height: 8px; overflow: hidden; }
+        .strength-fill-modern { height: 100%; width: 0%; background: linear-gradient(90deg, #2C3EFF, #A855F7, #00FF9D); border-radius: 20px; transition: width 0.8s cubic-bezier(0.2,0.9,0.4,1.1); }
+        .trading-info-panel { background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2)); border-radius: 32px; padding: 8px; border: 1px solid rgba(66,153,225,0.15); }
+        .trading-info-container { display: flex; align-items: stretch; gap: 1px; background: rgba(255,255,255,0.05); border-radius: 28px; overflow: hidden; }
+        .info-item { flex: 1; text-align: center; padding: 20px 16px; background: rgba(0,0,0,0.3); transition: all 0.3s; position: relative; }
+        .info-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 20%; height: 60%; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent); }
+        .info-item:hover { background: rgba(66,153,225,0.1); transform: translateY(-2px); }
+        .info-icon { font-size: 1.3rem; margin-bottom: 8px; display: inline-block; }
+        .info-icon.spot { color: #60A5FA; text-shadow: 0 0 10px rgba(96,165,250,0.3); }
+        .info-icon.sl { color: #FF6B7A; text-shadow: 0 0 10px rgba(255,107,122,0.3); }
+        .info-icon.tp { color: #00FFAA; text-shadow: 0 0 10px rgba(0,255,170,0.3); }
+        .info-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; color: #8D9BD0; margin-bottom: 8px; }
+        .info-value { font-size: 1.5rem; font-weight: 800; font-family: monospace; letter-spacing: 0.5px; }
+        .info-value.spot { color: #60A5FA; }
+        .info-value.sl { color: #FF6B7A; }
+        .info-value.tp { color: #00FFAA; }
+        .info-sub { font-size: 0.6rem; color: #5A6A8A; margin-top: 6px; }
+        @media (max-width: 640px) { .trading-info-container { flex-direction: column; gap: 1px; } .info-item:not(:last-child)::after { display: none; } .info-item { padding: 14px; } .info-value { font-size: 1.2rem; } }
+        .rr-info-super { background: linear-gradient(95deg, rgba(15,20,36,0.8), rgba(17,24,39,0.8)); border-radius: 24px; padding: 16px; text-align: center; font-size: 0.85rem; border: 1px solid rgba(66,153,225,0.2); backdrop-filter: blur(10px); }
+        .footer-premium { text-align: center; margin-top: 32px; font-size: 0.65rem; opacity: 0.4; }
+
+        /* Modal & Overlay */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); z-index: 2000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container { background: rgba(18,24,40,0.95); backdrop-filter: blur(24px); border-radius: 40px; border: 1px solid rgba(255,215,0,0.3); max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; padding: 32px; animation: modalSlideIn 0.4s ease-out; }
+        @keyframes modalSlideIn { from { opacity: 0; transform: scale(0.95) translateY(-20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .modal-header { text-align: center; margin-bottom: 24px; }
+        .modal-header h2 { font-size: 1.8rem; background: linear-gradient(135deg, #FFD700, #FF8C00); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(255,70,85,0.2); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; font-size: 1.2rem; transition: all 0.2s; }
+        .close-modal:hover { background: rgba(255,70,85,0.4); }
+        .qris-section { text-align: center; margin-bottom: 24px; }
+        .qris-image { width: 200px; height: 200px; background: white; border-radius: 20px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+        .qris-image:hover { transform: scale(1.02); }
+        .qris-image img { width: 100%; height: 100%; object-fit: contain; }
+        .qris-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #1A1F35, #0F1424); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #8D9BD0; font-size: 0.8rem; text-align: center; }
+        .amount-info { background: rgba(0,0,0,0.4); border-radius: 20px; padding: 16px; margin-bottom: 24px; }
+        .amount-label { font-size: 0.8rem; color: #8D9BD0; }
+        .amount-value { font-size: 2rem; font-weight: 800; color: #FFD700; }
+        .unique-code { font-size: 1.2rem; font-weight: 700; color: #00FFAA; margin-top: 8px; }
+        .payment-info { font-size: 0.7rem; color: #8D9BD0; margin-top: 8px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.8rem; margin-bottom: 8px; color: #8D9BD0; }
+        .form-group label i { margin-right: 6px; color: #FFD700; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: white; font-size: 0.9rem; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #FFD700; }
+        .form-group select option { background: #1A1F35; color: white; }
+        .guide-section { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 16px; margin-bottom: 24px; }
+        .guide-title { font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; color: #FFD700; }
+        .guide-images { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .guide-image { width: 120px; height: 120px; background: rgba(0,0,0,0.5); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+        .guide-image:hover { transform: scale(1.05); }
+        .guide-image img { width: 100%; height: 100%; object-fit: cover; }
+        .confirm-btn { width: 100%; background: linear-gradient(105deg, #00FFAA, #2C3EFF); border: none; padding: 16px; border-radius: 60px; font-weight: 700; font-size: 1rem; color: white; cursor: pointer; transition: all 0.3s; }
+        .confirm-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .payment-loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,11,20,0.98); backdrop-filter: blur(20px); z-index: 4000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.5s cubic-bezier(0.2,0.9,0.4,1.1);
+        }
+        .payment-loading-overlay.active { opacity: 1; visibility: visible; }
+        .payment-loading-card { background: linear-gradient(135deg, rgba(18,24,40,0.98), rgba(10,14,26,0.98)); backdrop-filter: blur(30px); border-radius: 56px; padding: 56px 72px; text-align: center; border: 1px solid rgba(0,255,170,0.3); box-shadow: 0 40px 60px -25px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,255,170,0.1) inset; animation: paymentModalSlideIn 0.6s cubic-bezier(0.2,0.9,0.4,1.1); }
+        @keyframes paymentModalSlideIn { from { opacity: 0; transform: scale(0.92) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @media (max-width:480px) { .payment-loading-card { padding: 40px 32px; } }
+        .payment-loading-animation { position: relative; width: 120px; height: 120px; margin: 0 auto 35px; }
+        .payment-loading-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; border-top-color: #00FFAA; border-right-color: #2C3EFF; animation: paymentSpinRing 1s linear infinite; }
+        .payment-loading-ring:nth-child(2) { width: 90px; height: 90px; top: 15px; left: 15px; border-top-color: #FFD700; border-right-color: #FF8C00; animation: paymentSpinRingReverse 1.3s linear infinite; }
+        .payment-loading-ring:nth-child(3) { width: 60px; height: 60px; top: 30px; left: 30px; border-top-color: #A855F7; border-right-color: #00FFAA; animation: paymentSpinRing 0.8s linear infinite; }
+        .payment-loading-ring:nth-child(4) { width: 30px; height: 30px; top: 45px; left: 45px; border-top-color: #FF4655; border-right-color: #FFD700; animation: paymentSpinRingReverse 0.6s linear infinite; }
+        @keyframes paymentSpinRing { to { transform: rotate(360deg); } }
+        @keyframes paymentSpinRingReverse { to { transform: rotate(-360deg); } }
+        .payment-loading-text { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #00FFAA, #2C3EFF, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 12px; letter-spacing: 1px; }
+        .payment-loading-subtext { font-size: 0.85rem; color: #8D9BD0; margin-bottom: 28px; }
+        .payment-loading-progress { width: 320px; background: #1A1F35; border-radius: 40px; height: 8px; overflow: hidden; margin: 0 auto; }
+        .payment-loading-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00FFAA, #2C3EFF, #FFD700); border-radius: 40px; transition: width 0.1s linear; position: relative; }
+        .payment-loading-progress-fill::after { content: ''; position: absolute; right: 0; top: -2px; width: 10px; height: 12px; background: #FFD700; border-radius: 50%; box-shadow: 0 0 10px #FFD700; }
+        .payment-loading-steps { display: flex; justify-content: center; gap: 32px; margin-top: 32px; flex-wrap: wrap; }
+        .payment-step { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 0.7rem; color: #5A6A8A; transition: all 0.3s; }
+        .payment-step i { font-size: 1.2rem; }
+        .payment-step.active { color: #00FFAA; text-shadow: 0 0 10px rgba(0,255,170,0.3); }
+        .payment-step.completed { color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .image-preview-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 3000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .image-preview-modal.active { opacity: 1; visibility: visible; }
+        .image-preview-container { max-width: 90%; max-height: 90%; position: relative; }
+        .image-preview-container img { width: 100%; height: auto; max-height: 85vh; object-fit: contain; border-radius: 20px; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+        .close-preview { position: absolute; top: -40px; right: 0; background: rgba(255,70,85,0.3); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; font-size: 1.2rem; transition: all 0.2s; }
+        .close-preview:hover { background: rgba(255,70,85,0.6); }
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,11,20,0.96); backdrop-filter: blur(16px); z-index: 1000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s ease;
+        }
+        .loading-overlay.active { opacity: 1; visibility: visible; }
+        .loading-card { background: rgba(18,24,40,0.95); backdrop-filter: blur(24px); border-radius: 48px; padding: 48px 64px; text-align: center; border: 1px solid rgba(66,153,225,0.4); box-shadow: 0 30px 50px -20px rgba(0,0,0,0.5); }
+        @media (max-width:480px) { .loading-card { padding: 32px 24px; } }
+        .loading-animation { position: relative; width: 80px; height: 80px; margin: 0 auto 28px; }
+        .loading-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; border-top-color: #2C3EFF; border-right-color: #9D4EFF; animation: spinRing 1s linear infinite; }
+        .loading-ring:nth-child(2) { width: 60px; height: 60px; top: 10px; left: 10px; border-top-color: #A855F7; border-right-color: #00FFAA; animation: spinRingReverse 1.2s linear infinite; }
+        .loading-ring:nth-child(3) { width: 40px; height: 40px; top: 18px; left: 18px; border-top-color: #00FFAA; border-right-color: #2C3EFF; animation: spinRing 0.8s linear infinite; }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+        @keyframes spinRingReverse { to { transform: rotate(-360deg); } }
+        .loading-text { font-size: 1.3rem; font-weight: 700; background: linear-gradient(135deg, #FFFFFF, #60A5FA); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 12px; }
+        .loading-subtext { font-size: 0.8rem; color: #8D9BD0; margin-bottom: 24px; }
+        .loading-progress { width: 280px; background: #1A1F35; border-radius: 40px; height: 6px; overflow: hidden; margin: 0 auto; }
+        .loading-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #2C3EFF, #00FFAA); border-radius: 40px; transition: width 0.1s linear; }
+        .loading-steps { display: flex; justify-content: center; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+        .step { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.65rem; color: #5A6A8A; }
+        .step.active { color: #2C3EFF; }
+        .step.completed { color: #00FFAA; }
+    </style>
+</head>
+<body>
+<div class="bg-animated"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- PAYMENT LOADING OVERLAY -->
+<div class="payment-loading-overlay" id="paymentLoadingOverlay">
+    <div class="payment-loading-card">
+        <div class="payment-loading-animation">
+            <div class="payment-loading-ring"></div>
+            <div class="payment-loading-ring"></div>
+            <div class="payment-loading-ring"></div>
+            <div class="payment-loading-ring"></div>
+        </div>
+        <div class="payment-loading-text" id="paymentLoadingText">MEMPROSES PEMBAYARAN</div>
+        <div class="payment-loading-subtext" id="paymentLoadingSubText">Memverifikasi data Anda...</div>
+        <div class="payment-loading-progress">
+            <div class="payment-loading-progress-fill" id="paymentLoadingProgressFill"></div>
+        </div>
+        <div class="payment-loading-steps">
+            <div class="payment-step" id="payStep1"><i class="fas fa-check-circle"></i><span>VALIDASI</span></div>
+            <div class="payment-step" id="payStep2"><i class="fas fa-credit-card"></i><span>PEMBAYARAN</span></div>
+            <div class="payment-step" id="payStep3"><i class="fas fa-database"></i><span>UPDATE LIMIT</span></div>
+            <div class="payment-step" id="payStep4"><i class="fas fa-check-double"></i><span>KONFIRMASI</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="image-preview-modal" id="imagePreviewModal">
+    <div class="image-preview-container">
+        <button class="close-preview" id="closePreviewBtn">&times;</button>
+        <img id="previewImage" src="" alt="Preview">
+    </div>
+</div>
+
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal-container">
+        <button class="close-modal" id="closeModalBtn">&times;</button>
+        <div class="modal-header">
+            <h2><i class="fas fa-cart-plus"></i> Tambah Limit</h2>
+            <p style="color:#8D9BD0; margin-top:8px;">Isi data dengan lengkap untuk konfirmasi pembayaran</p>
+        </div>
+        <div class="qris-section">
+            <div class="qris-image" id="qrisImage">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhH0Z6ewE2H7V-Maa0448YScMvF2qjha4Xt6uKlioFSJeUXHSzYesEbB2CsWE1LRdJSN7QxwYW1yGRDN2uyYVY6DtaTfKn_727s9cC2dWr3mNoezeKIFci6rRK6HzbQzCE1DYg8q1F5DWOm9RbypUNB5ipKcIDbXL0GW9d9SRIQ3QePOqw_lcEL4t1Wh_DK" 
+                     alt="QRIS Code" 
+                     style="width:100%; height:100%; object-fit:contain;"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"qris-placeholder\"><i class=\"fas fa-qrcode\" style=\"font-size:3rem\"></i><br>QRIS Code<br>Maulana Klikz</div>'">
+            </div>
+            <div class="amount-info">
+                <div class="amount-label">Harga per Limit</div>
+                <div class="amount-value">Rp8.000</div>
+                <div class="unique-code" id="uniqueCodeDisplay">Kode Unik: <span id="uniqueCode">000</span></div>
+                <div class="payment-info">Atas Nama: Maulana Klikz</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-layer-group"></i> Jumlah Limit yang Ingin Dibeli (Maksimal 20)</label>
+            <input type="number" id="limitAmount" placeholder="Contoh: 5" value="1" min="1" max="20" step="1" style="font-size: 1.2rem; font-weight: 700;">
+            <div class="total-price" style="margin-top: 12px;" id="totalPriceBox">
+                Total yang harus dibayar: <span style="color:#FFD700; font-weight:800;" id="totalAmountDisplay">Rp 0</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-university"></i> Sumber Dana</label>
+            <select id="sourceBank">
+                <option value="">Pilih Bank / E-Wallet</option>
+                <optgroup label="🏦 BANK">
+                    <option value="BCA">BCA</option>
+                    <option value="Mandiri">Mandiri</option>
+                    <option value="BNI">BNI</option>
+                    <option value="BRI">BRI</option>
+                    <option value="CIMB Niaga">CIMB Niaga</option>
+                    <option value="Danamon">Danamon</option>
+                    <option value="Permata">Permata</option>
+                    <option value="OCBC NISP">OCBC NISP</option>
+                    <option value="Maybank">Maybank</option>
+                    <option value="BSI">BSI (Bank Syariah Indonesia)</option>
+                </optgroup>
+                <optgroup label="📱 E-WALLET">
+                    <option value="GoPay">GoPay</option>
+                    <option value="OVO">OVO</option>
+                    <option value="DANA">DANA</option>
+                    <option value="LinkAja">LinkAja</option>
+                    <option value="ShopeePay">ShopeePay</option>
+                    <option value="QRIS">QRIS (Umum)</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-user"></i> Atas Nama (Nama Pengirim)</label>
+            <input type="text" id="senderName" placeholder="Contoh: Ahmad Maulana" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Email Aktif</label>
+            <input type="email" id="userEmail" placeholder="contoh@email.com" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-hashtag"></i> No Transaksi / No Referensi / RRN</label>
+            <input type="text" id="transactionNumber" placeholder="Contoh: 1234567890" autocomplete="off">
+        </div>
+        <div class="guide-section">
+            <div class="guide-title"><i class="fas fa-info-circle"></i> Panduan Konfirmasi Pembayaran</div>
+            <div class="guide-images">
+                <div class="guide-image" data-img="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiCKtWd3W2whyxbomxiajeZpHzatXj-gWdTclEhmTJvKXTlrmdXlwFsIrncxfP6miDfZaGbqmjvETaw9JOQyUXjFazkNaggnaWbz_9uu9hOAgGGvOvw02QE34i1fPiMXuztCe6pU2mB6oEh6QtIFscRji68s93WJJAfhKpQUZ2MOD68yRYUmrDrSSQlGoqx/s1280/IMG-20260404-WA0007.jpg">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiCKtWd3W2whyxbomxiajeZpHzatXj-gWdTclEhmTJvKXTlrmdXlwFsIrncxfP6miDfZaGbqmjvETaw9JOQyUXjFazkNaggnaWbz_9uu9hOAgGGvOvw02QE34i1fPiMXuztCe6pU2mB6oEh6QtIFscRji68s93WJJAfhKpQUZ2MOD68yRYUmrDrSSQlGoqx/s1280/IMG-20260404-WA0007.jpg" 
+                         alt="Panduan 1"
+                         style="width:100%; height:100%; object-fit:cover; border-radius:12px;"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\"text-align:center\"><i class=\"fas fa-image\" style=\"font-size:2rem\"></i><br>Gambar 1</div>'">
+                </div>
+                <div class="guide-image" data-img="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgxk9soM4YJW0TqcDDhhSftpNPOfhRw4-csdOPvHQWlMKrF5P2Mx6Qbimx1CFR_O5AVZJEoYAGgT-1tB_LVl5JYPB95Ha3MlFPqQd9C8wVziuHcpf8met34IG4FshjHJ_o_kdGyZOU-lhsT2BhlsCnI1fMbZnlQJsp8qQ2t0-B_PRHYxxJ69Zi4EaSUOoMO/s934/IMG-20260404-WA0008.jpg">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgxk9soM4YJW0TqcDDhhSftpNPOfhRw4-csdOPvHQWlMKrF5P2Mx6Qbimx1CFR_O5AVZJEoYAGgT-1tB_LVl5JYPB95Ha3MlFPqQd9C8wVziuHcpf8met34IG4FshjHJ_o_kdGyZOU-lhsT2BhlsCnI1fMbZnlQJsp8qQ2t0-B_PRHYxxJ69Zi4EaSUOoMO/s934/IMG-20260404-WA0008.jpg"
+                         alt="Panduan 2"
+                         style="width:100%; height:100%; object-fit:cover; border-radius:12px;"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\"text-align:center\"><i class=\"fas fa-image\" style=\"font-size:2rem\"></i><br>Gambar 2</div>'">
+                </div>
+            </div>
+            <p style="font-size:0.7rem; color:#8D9BD0; margin-top:12px; text-align:center;">Klik gambar untuk memperbesar | Masukkan data sesuai bukti transfer Anda</p>
+        </div>
+        <button class="confirm-btn" id="confirmPaymentBtn">
+            <i class="fas fa-check-circle"></i> Konfirmasi Pembayaran
+        </button>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-card">
+        <div class="loading-animation">
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+        </div>
+        <div class="loading-text" id="loadingMainText">ANALYZING MARKET</div>
+        <div class="loading-subtext" id="loadingSubText">Fetching XAU/USD data...</div>
+        <div class="loading-progress"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
+        <div class="loading-steps">
+            <div class="step" id="step1"><i class="fas fa-database"></i><span>DATA</span></div>
+            <div class="step" id="step2"><i class="fas fa-chart-line"></i><span>PSAR</span></div>
+            <div class="step" id="step3"><i class="fas fa-chart-simple"></i><span>ATR</span></div>
+            <div class="step" id="step4"><i class="fas fa-bullhorn"></i><span>SIGNAL</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header-premium">
+        <div class="brand-premium">
+            <img class="logo-premium" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9YQmaIHSrk0AT8IpfU-nDQ2NmGo700YpMQSj3Lvo-_7kX4G6xyX_pd5KyxCznX6r0Tl2vYvZkZf797uCgHXQflFsDW5-HThG2rIg3PCR1LXrhuU3GDndJkLyyfdhC5LfsQuw2TFnwTAePABrvRF-PVrOF3ZTqBqMNYZ-ErDcXvCW5sCzLGcIkWzO_6YwN/s1024/1000832791.png" alt="AI Trade">
+            <div class="title-premium">
+                <h1>AI Trade <span style="font-size: 0.8rem;">beta</span></h1>
+                <div class="badge-premium">XAU/USD • PSAR SINGLE POINT SIGNAL</div>
+            </div>
+        </div>
+        <div class="status-indicator"><div class="led-live"></div><span>LIVE DATA</span></div>
+    </div>
+
+    <div class="control-bar">
+        <div class="timeframe-info">
+            <i class="fas fa-chart-line timeframe-icon"></i>
+            <div>
+                <div class="timeframe-text">M15</div>
+                <div class="timeframe-desc"></div>
+            </div>
+        </div>
+        <div class="action-group">
+            <div class="button-row">
+                <div class="limit-indicator">
+                    <i class="fas fa-chart-simple"></i>
+                    <span>Limit analisa:</span>
+                    <span class="limit-badge" id="limitCount">10</span>
+                    <span><i class="fas fa-calendar-alt"></i> <span id="resetDate">-</span></span>
+                </div>
+                <div class="info-reset">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refund limit otomatis setiap <strong>14 hari</strong> setelah limit habis</span>
+                </div>
+                <div class="cooldown-timer" id="cooldownTimer" style="display: none;">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span id="cooldownTime">10:00</span>
+                </div>
+                <button class="generate-btn-premium" id="generateSignalBtn">
+                    <i class="fas fa-microchip"></i> GENERATE SIGNAL <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="button-row">
+                <button class="reset-btn-premium" id="resetDisplayBtn">
+                    <i class="fas fa-eraser"></i> RESET SIGNAL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="signal-card-premium">
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="empty-title">Ready for Analysis</div>
+            <div class="empty-subtitle">Click "GENERATE SIGNAL" to start PSAR analysis</div>
+            <div class="info-reset" style="display: inline-flex; margin-top: 20px; background: rgba(0,0,0,0.3);">
+                <i class="fas fa-sync-alt"></i>
+                <span>Automation strategies PSAR </span>
+            </div>
+        </div>
+
+        <div class="limit-exhausted-state" id="limitExhaustedState" style="display: none;">
+            <div class="limit-exhausted-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="limit-exhausted-title">Limit Analisa Habis!</div>
+            <div class="limit-exhausted-subtitle">Anda telah menggunakan semua analisa gratis.<br>Tambah limit untuk melanjutkan analisa.</div>
+            <div class="info-reset" style="display: inline-flex; margin-bottom: 20px; background: rgba(0,0,0,0.3);">
+                <i class="fas fa-sync-alt"></i>
+                <span>Reset otomatis setelah <strong id="countdownDays">14</strong> hari</span>
+            </div>
+            <div class="countdown-reset" id="countdownTimer">
+                ⏳ Waktu reset: <span id="resetCountdown">Menghitung...</span>
+            </div>
+            <div class="buy-limit-card">
+                <div class="price-info">
+                    <div class="price">Rp8.000</div>
+                    <div class="period">/ limit</div>
+                </div>
+                <button class="buy-limit-btn" id="buyLimitBtn">
+                    <i class="fas fa-cart-plus"></i> BELI LIMIT <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="signal-result" id="signalResult">
+            <div class="signal-glow-card" id="signalGlowCard">
+                <div class="signal-badge"><i class="fas fa-robot"></i> <span>AI RECOMMENDATION</span> <i class="fas fa-chart-line"></i></div>
+                <div class="signal-value-super" id="signalValueText">—</div>
+                
+                <div class="psar-info-card">
+                    <div class="psar-info-title">
+                        <i class="fas fa-chart-line"></i>
+                        <span>PARABOLIC SAR METRICS</span>
+                    </div>
+                    <div class="psar-info-content">
+                        <div class="psar-value-box">
+                            <span class="psar-label"><i class="fas fa-dot-circle"></i> PSAR Value</span>
+                            <span class="psar-value" id="psarValueDisplay">$0.00</span>
+                        </div>
+                        <div class="psar-trend" id="psarTrendBox">
+                            <div class="trend-indicator" id="trendIndicator"></div>
+                            <span id="trendText">—</span>
+                        </div>
+                        <div class="psar-position" id="psarPositionBox">
+                            <span id="positionText">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strength-meter-modern">
+                    <div class="strength-header">
+                        <span><i class="fas fa-charging-station"></i> SIGNAL STRENGTH</span>
+                        <span id="strengthPercentText">0%</span>
+                    </div>
+                    <div class="strength-bar-modern">
+                        <div class="strength-fill-modern" id="strengthFillBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trading-info-panel">
+                <div class="trading-info-container">
+                    <div class="info-item">
+                        <div class="info-icon spot"><i class="fas fa-chart-line"></i></div>
+                        <div class="info-label">SPOT XAU/USD</div>
+                        <div class="info-value spot" id="currentPriceDisplay">$ ----.--</div>
+                        <div class="info-sub">Harga Saat Ini</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon sl"><i class="fas fa-shield-alt"></i></div>
+                        <div class="info-label">STOP LOSS (SL)</div>
+                        <div class="info-value sl" id="slValueDisplay">—</div>
+                        <div class="info-sub">Level Kerugian Maksimal</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon tp"><i class="fas fa-bullseye"></i></div>
+                        <div class="info-label">TAKE PROFIT (TP)</div>
+                        <div class="info-value tp" id="tpValueDisplay">—</div>
+                        <div class="info-sub">Level Target Profit</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rr-info-super">
+                <i class="fas fa-balance-scale"></i> RISK / REWARD 1:1 • ATR(14) Volatility Based
+            </div>
+        </div>
+    </div>
+    <div class="footer-premium">AI Trade Beta • PSAR double confirmation • CH-070426</div>
+</div>
+
+<script>
+    const API_KEY = '242dcd32043c4112b0b95b28e4b439a6';
+    const SYMBOL = 'XAU/USD';
+    const TIMEFRAME = '15min';
+    const API_URL = `https://api.twelvedata.com/time_series?symbol=${SYMBOL}&interval=${TIMEFRAME}&outputsize=65&apikey=${API_KEY}`;
+    
+    const PSAR_STEP = 0.10;
+    const PSAR_MAX = 0.15;
+    const MAX_ANALYSIS = 10;
+    const RESET_DAYS = 14;
+    const RESET_MS = RESET_DAYS * 24 * 60 * 60 * 1000;
+    const COOLDOWN_SECONDS = 600;
+    const PRICE_PER_LIMIT = 8000;
+    const MAX_LIMIT_PURCHASE = 20;
+    
+    let cooldownEndTime = null;
+    let cooldownInterval = null;
+    let resetCountdownInterval = null;
+    
+    let userLimit = { remaining: MAX_ANALYSIS, resetTime: null, hasResetScheduled: false };
+    let hasShownLimitAlert = false;
+    let currentUniqueCode = Math.floor(Math.random() * 900) + 100;
+
+    // DOM Elements
+    const generateBtn = document.getElementById('generateSignalBtn');
+    const resetDisplayBtn = document.getElementById('resetDisplayBtn');
+    const buyLimitBtn = document.getElementById('buyLimitBtn');
+    const emptyState = document.getElementById('emptyState');
+    const limitExhaustedState = document.getElementById('limitExhaustedState');
+    const signalResult = document.getElementById('signalResult');
+    const signalValueSpan = document.getElementById('signalValueText');
+    const strengthFill = document.getElementById('strengthFillBar');
+    const strengthPercent = document.getElementById('strengthPercentText');
+    const currentPriceSpan = document.getElementById('currentPriceDisplay');
+    const slSpan = document.getElementById('slValueDisplay');
+    const tpSpan = document.getElementById('tpValueDisplay');
+    const signalGlowCard = document.getElementById('signalGlowCard');
+    const psarValueDisplay = document.getElementById('psarValueDisplay');
+    const trendIndicator = document.getElementById('trendIndicator');
+    const trendText = document.getElementById('trendText');
+    const positionText = document.getElementById('positionText');
+    const cooldownTimerDiv = document.getElementById('cooldownTimer');
+    const cooldownTimeSpan = document.getElementById('cooldownTime');
+    const limitCountSpan = document.getElementById('limitCount');
+    const resetDateSpan = document.getElementById('resetDate');
+    const resetCountdownSpan = document.getElementById('resetCountdown');
+    const countdownDaysSpan = document.getElementById('countdownDays');
+    
+    const paymentLoadingOverlay = document.getElementById('paymentLoadingOverlay');
+    const paymentLoadingText = document.getElementById('paymentLoadingText');
+    const paymentLoadingSubText = document.getElementById('paymentLoadingSubText');
+    const paymentLoadingProgressFill = document.getElementById('paymentLoadingProgressFill');
+    const payStep1 = document.getElementById('payStep1');
+    const payStep2 = document.getElementById('payStep2');
+    const payStep3 = document.getElementById('payStep3');
+    const payStep4 = document.getElementById('payStep4');
+    
+    const paymentModal = document.getElementById('paymentModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+    const transactionNumberInput = document.getElementById('transactionNumber');
+    const limitAmountInput = document.getElementById('limitAmount');
+    const sourceBankSelect = document.getElementById('sourceBank');
+    const senderNameInput = document.getElementById('senderName');
+    const userEmailInput = document.getElementById('userEmail');
+    const uniqueCodeSpan = document.getElementById('uniqueCode');
+    const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+    
+    const imagePreviewModal = document.getElementById('imagePreviewModal');
+    const previewImage = document.getElementById('previewImage');
+    const closePreviewBtn = document.getElementById('closePreviewBtn');
+    const qrisImage = document.getElementById('qrisImage');
+    
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingMainText = document.getElementById('loadingMainText');
+    const loadingSubText = document.getElementById('loadingSubText');
+    const loadingProgressFill = document.getElementById('loadingProgressFill');
+    const step1 = document.getElementById('step1'), step2 = document.getElementById('step2'), step3 = document.getElementById('step3'), step4 = document.getElementById('step4');
+
+    // Payment Loading Functions
+    function showPaymentLoading() {
+        paymentLoadingOverlay.classList.add('active');
+        paymentLoadingProgressFill.style.width = '0%';
+        [payStep1, payStep2, payStep3, payStep4].forEach(s => s.classList.remove('active', 'completed'));
+        payStep1.classList.add('active');
+    }
+    function updatePaymentLoading(progress, mainText, subText, currentStep) {
+        paymentLoadingProgressFill.style.width = `${progress}%`;
+        paymentLoadingText.textContent = mainText;
+        paymentLoadingSubText.textContent = subText;
+        [payStep1, payStep2, payStep3, payStep4].forEach((step, idx) => {
+            if (idx < currentStep - 1) { step.classList.remove('active'); step.classList.add('completed'); }
+            else if (idx === currentStep - 1) { step.classList.add('active'); step.classList.remove('completed'); }
+            else { step.classList.remove('active', 'completed'); }
+        });
+    }
+    function hidePaymentLoading() {
+        paymentLoadingOverlay.classList.remove('active');
+    }
+    async function simulatePaymentLoading() {
+        return new Promise((resolve) => {
+            let progress = 0, step = 1;
+            updatePaymentLoading(0, 'MEMPROSES PEMBAYARAN', 'Memvalidasi data Anda...', 1);
+            const interval = setInterval(() => {
+                progress += 2.5;
+                if (progress >= 25 && step === 1) { step = 2; updatePaymentLoading(progress, 'MEMVERIFIKASI TRANSAKSI', 'Menghubungi server pembayaran...', step); }
+                else if (progress >= 50 && step === 2) { step = 3; updatePaymentLoading(progress, 'MEMPERBARUI LIMIT', 'Menambahkan limit ke akun Anda...', step); }
+                else if (progress >= 75 && step === 3) { step = 4; updatePaymentLoading(progress, 'FINALISASI', 'Menyiapkan konfirmasi...', step); }
+                else if (step === 4 && progress < 98) { updatePaymentLoading(progress, 'HAMPIR SELESAI', 'Memproses data terakhir...', step); }
+                if (progress >= 100) { clearInterval(interval); updatePaymentLoading(100, 'BERHASIL!', 'Pembayaran dikonfirmasi!', 4); setTimeout(resolve, 500); }
+            }, 50);
+        });
+    }
+    
+    // Countdown Reset Functions
+    function startResetCountdown() {
+        if (resetCountdownInterval) clearInterval(resetCountdownInterval);
+        if (userLimit.resetTime && userLimit.hasResetScheduled) {
+            updateCountdownDisplay();
+            resetCountdownInterval = setInterval(updateCountdownDisplay, 1000);
+        } else if (resetCountdownSpan) {
+            resetCountdownSpan.textContent = 'Tidak dalam masa reset';
+        }
+    }
+    function updateCountdownDisplay() {
+        if (!userLimit.resetTime || !userLimit.hasResetScheduled) {
+            if (resetCountdownSpan) resetCountdownSpan.textContent = 'Tidak dalam masa reset';
+            if (countdownDaysSpan) countdownDaysSpan.textContent = RESET_DAYS;
+            return;
+        }
+        const now = Date.now();
+        const remaining = Math.max(0, userLimit.resetTime - now);
+        if (remaining <= 0) {
+            clearInterval(resetCountdownInterval);
+            resetCountdownInterval = null;
+            userLimit.remaining = MAX_ANALYSIS;
+            userLimit.resetTime = null;
+            userLimit.hasResetScheduled = false;
+            saveLimitToLocalStorage();
+            updateLimitDisplay();
+            if (resetCountdownSpan) resetCountdownSpan.textContent = 'Reset selesai!';
+            setTimeout(() => {
+                alert('📢 INFO: Limit analisa Anda telah RESET secara otomatis!\n\nAnda mendapatkan 10 analisa gratis baru.\nSelamat menganalisa!');
+            }, 500);
+        } else {
+            const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            if (resetCountdownSpan) {
+                if (days > 0) {
+                    resetCountdownSpan.textContent = `${days} hari ${hours} jam ${minutes} menit`;
+                    if (countdownDaysSpan) countdownDaysSpan.textContent = days;
+                } else if (hours > 0) {
+                    resetCountdownSpan.textContent = `${hours} jam ${minutes} menit`;
+                } else {
+                    resetCountdownSpan.textContent = `${minutes} menit`;
+                }
+            }
+        }
+    }
+    function scheduleReset() {
+        if (!userLimit.hasResetScheduled && userLimit.remaining <= 0) {
+            userLimit.resetTime = Date.now() + RESET_MS;
+            userLimit.hasResetScheduled = true;
+            saveLimitToLocalStorage();
+            startResetCountdown();
+            console.log('⏰ Reset dijadwalkan dalam 14 hari');
+        }
+    }
+    function cancelReset() {
+        if (userLimit.hasResetScheduled) {
+            userLimit.resetTime = null;
+            userLimit.hasResetScheduled = false;
+            saveLimitToLocalStorage();
+            if (resetCountdownInterval) {
+                clearInterval(resetCountdownInterval);
+                resetCountdownInterval = null;
+            }
+            if (resetCountdownSpan) resetCountdownSpan.textContent = 'Reset dibatalkan (limit tersedia)';
+            console.log('❌ Reset dibatalkan karena pembelian limit');
+        }
+    }
+    function getTotalAmount(limitQty, uniqueCode) {
+        const subtotal = PRICE_PER_LIMIT * limitQty;
+        return subtotal + uniqueCode;
+    }
+    function calculateTotal() {
+        let limitQty = parseInt(limitAmountInput.value) || 1;
+        if (limitQty < 1) limitQty = 1;
+        if (limitQty > MAX_LIMIT_PURCHASE) {
+            limitQty = MAX_LIMIT_PURCHASE;
+            limitAmountInput.value = MAX_LIMIT_PURCHASE;
+            alert(`⚠️ Maksimal pembelian limit adalah ${MAX_LIMIT_PURCHASE} limit.`);
+        }
+        const total = getTotalAmount(limitQty, currentUniqueCode);
+        if (totalAmountDisplay) totalAmountDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        return total;
+    }
+    function generateUniqueCode() {
+        currentUniqueCode = Math.floor(Math.random() * 900) + 100;
+        uniqueCodeSpan.textContent = currentUniqueCode;
+        calculateTotal();
+        return currentUniqueCode;
+    }
+    function showImagePreview(imgSrc) {
+        previewImage.src = imgSrc;
+        imagePreviewModal.classList.add('active');
+    }
+    function closeImagePreview() {
+        imagePreviewModal.classList.remove('active');
+    }
+    if (qrisImage) {
+        qrisImage.addEventListener('click', () => {
+            const qrisImg = qrisImage.querySelector('img');
+            if (qrisImg && qrisImg.src) showImagePreview(qrisImg.src);
+        });
+    }
+    document.querySelectorAll('.guide-image').forEach(guideImg => {
+        guideImg.addEventListener('click', () => {
+            const imgElement = guideImg.querySelector('img');
+            if (imgElement && imgElement.src) showImagePreview(imgElement.src);
+        });
+    });
+    closePreviewBtn.addEventListener('click', closeImagePreview);
+    imagePreviewModal.addEventListener('click', (e) => {
+        if (e.target === imagePreviewModal) closeImagePreview();
+    });
+    function openPaymentModal() {
+        generateUniqueCode();
+        limitAmountInput.value = 1;
+        calculateTotal();
+        paymentModal.classList.add('active');
+    }
+    function closePaymentModal() {
+        paymentModal.classList.remove('active');
+        transactionNumberInput.value = '';
+        sourceBankSelect.value = '';
+        senderNameInput.value = '';
+        userEmailInput.value = '';
+        limitAmountInput.value = '1';
+    }
+    async function confirmPayment() {
+        const transactionNumber = transactionNumberInput.value.trim();
+        const sourceBank = sourceBankSelect.value;
+        const senderName = senderNameInput.value.trim();
+        const userEmail = userEmailInput.value.trim();
+        let limitQty = parseInt(limitAmountInput.value) || 1;
+        if (limitQty < 1) limitQty = 1;
+        if (limitQty > MAX_LIMIT_PURCHASE) {
+            alert(`⚠️ Maksimal pembelian limit adalah ${MAX_LIMIT_PURCHASE} limit.`);
+            limitAmountInput.value = MAX_LIMIT_PURCHASE;
+            calculateTotal();
+            return;
+        }
+        if (!sourceBank) { alert('⚠️ Harap pilih sumber dana (Bank / E-Wallet)'); return; }
+        if (!senderName) { alert('⚠️ Harap masukkan nama pengirim'); return; }
+        if (!userEmail) { alert('⚠️ Harap masukkan email aktif'); return; }
+        if (!userEmail.includes('@') || !userEmail.includes('.')) { alert('⚠️ Harap masukkan email yang valid'); return; }
+        if (!transactionNumber) { alert('⚠️ Harap masukkan No Transaksi / No Referensi / RRN'); return; }
+        closePaymentModal();
+        showPaymentLoading();
+        await simulatePaymentLoading();
+        userLimit.remaining += limitQty;
+        cancelReset();
+        saveLimitToLocalStorage();
+        updateLimitDisplay();
+        if (cooldownEndTime) {
+            clearInterval(cooldownInterval);
+            cooldownEndTime = null;
+            generateBtn.disabled = false;
+            cooldownTimerDiv.style.display = 'none';
+        }
+        showEmptyState();
+        hidePaymentLoading();
+        alert(`✅ Pembayaran BERHASIL diverifikasi!\n\nSelamat! +${limitQty} limit telah ditambahkan.\nTotal limit +${limitQty} analisa.\nSisa limit Anda: ${userLimit.remaining}\n\nTerima kasih telah menambah limit!`);
+    }
+    function showEmptyState() {
+        emptyState.style.display = 'block';
+        limitExhaustedState.style.display = 'none';
+        signalResult.classList.remove('active');
+    }
+    function showLimitExhaustedState() {
+        emptyState.style.display = 'none';
+        limitExhaustedState.style.display = 'block';
+        signalResult.classList.remove('active');
+        if (userLimit.hasResetScheduled) startResetCountdown();
+    }
+    function showSignalResult() {
+        emptyState.style.display = 'none';
+        limitExhaustedState.style.display = 'none';
+        signalResult.classList.add('active');
+    }
+    function resetDisplay() {
+        showEmptyState();
+        signalValueSpan.textContent = '—';
+        strengthFill.style.width = '0%';
+        strengthPercent.textContent = '0%';
+        currentPriceSpan.textContent = '$ ----.--';
+        slSpan.textContent = '—';
+        tpSpan.textContent = '—';
+        psarValueDisplay.textContent = '$0.00';
+        trendText.textContent = '—';
+        positionText.textContent = '—';
+        trendIndicator.className = 'trend-indicator';
+        signalGlowCard.classList.remove('buy', 'sell', 'wait');
+        signalValueSpan.classList.remove('buy', 'sell', 'wait');
+    }
+    function showLimitPurchaseAlert() {
+        if (userLimit.remaining <= 0 && !hasShownLimitAlert) {
+            hasShownLimitAlert = true;
+            setTimeout(() => {
+                const userConfirmed = confirm(
+                    `⚠️ PERINGATAN! ⚠️\n\nLimit analisa Anda telah HABIS!\n\n📊 Sisa limit: ${userLimit.remaining}\n🔄 Reset otomatis: 14 hari dari sekarang\n\n💡 Ingin melanjutkan analisa?\n\n✅ Tekan OK untuk membeli limit tambahan\n❌ Tekan Cancel untuk menutup`
+                );
+                if (userConfirmed) openPaymentModal();
+            }, 500);
+        }
+    }
+    function loadLimitFromLocalStorage() {
+        try {
+            const savedLimit = localStorage.getItem('aiTrade_userLimit');
+            if (savedLimit) {
+                const data = JSON.parse(savedLimit);
+                userLimit = {
+                    remaining: data.remaining,
+                    resetTime: data.resetTime || null,
+                    hasResetScheduled: data.hasResetScheduled || false
+                };
+                if (userLimit.hasResetScheduled && userLimit.resetTime && Date.now() >= userLimit.resetTime) {
+                    userLimit.remaining = MAX_ANALYSIS;
+                    userLimit.resetTime = null;
+                    userLimit.hasResetScheduled = false;
+                    saveLimitToLocalStorage();
+                }
+            } else {
+                userLimit = { remaining: MAX_ANALYSIS, resetTime: null, hasResetScheduled: false };
+                saveLimitToLocalStorage();
+            }
+            updateLimitDisplay();
+            if (userLimit.remaining <= 0) {
+                if (!userLimit.hasResetScheduled) scheduleReset();
+                showLimitExhaustedState();
+                showLimitPurchaseAlert();
+            } else {
+                showEmptyState();
+            }
+        } catch (e) { console.error(e); }
+    }
+    function saveLimitToLocalStorage() { localStorage.setItem('aiTrade_userLimit', JSON.stringify(userLimit)); }
+    function updateLimitDisplay() {
+        limitCountSpan.textContent = userLimit.remaining;
+        if (userLimit.remaining <= 0) {
+            limitCountSpan.classList.add('zero');
+            limitCountSpan.classList.remove('warning', 'danger');
+        } else if (userLimit.remaining <= 2) {
+            limitCountSpan.classList.add('danger');
+            limitCountSpan.classList.remove('warning', 'zero');
+        } else if (userLimit.remaining <= 5) {
+            limitCountSpan.classList.add('warning');
+            limitCountSpan.classList.remove('danger', 'zero');
+        } else {
+            limitCountSpan.classList.remove('warning', 'danger', 'zero');
+        }
+        if (userLimit.hasResetScheduled && userLimit.resetTime) {
+            const resetDate = new Date(userLimit.resetTime);
+            resetDateSpan.textContent = resetDate.toLocaleDateString('id-ID');
+        } else {
+            resetDateSpan.textContent = '-';
+        }
+        if (userLimit.remaining <= 0) {
+            if (!userLimit.hasResetScheduled) scheduleReset();
+            showLimitExhaustedState();
+            showLimitPurchaseAlert();
+            generateBtn.disabled = true;
+        } else {
+            if (userLimit.hasResetScheduled) cancelReset();
+            if (!signalResult.classList.contains('active') && emptyState.style.display !== 'none') showEmptyState();
+            if (!isOnCooldown()) generateBtn.disabled = false;
+        }
+    }
+    function useAnalysis() { if (userLimit.remaining <= 0) return false; userLimit.remaining--; saveLimitToLocalStorage(); updateLimitDisplay(); return true; }
+    function hasRemainingAnalysis() { return userLimit.remaining > 0; }
+    function startCooldown() {
+        cooldownEndTime = Date.now() + (COOLDOWN_SECONDS * 1000);
+        generateBtn.disabled = true;
+        cooldownTimerDiv.style.display = 'flex';
+        updateCooldownDisplay();
+        if (cooldownInterval) clearInterval(cooldownInterval);
+        cooldownInterval = setInterval(updateCooldownDisplay, 1000);
+    }
+    function updateCooldownDisplay() {
+        if (!cooldownEndTime) return;
+        const remaining = Math.max(0, cooldownEndTime - Date.now());
+        if (remaining <= 0) {
+            clearInterval(cooldownInterval);
+            generateBtn.disabled = false;
+            cooldownTimerDiv.style.display = 'none';
+            cooldownEndTime = null;
+        } else {
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            cooldownTimeSpan.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }
+    }
+    function isOnCooldown() { return cooldownEndTime && Date.now() < cooldownEndTime; }
+    function showLoading() { loadingOverlay.classList.add('active'); loadingProgressFill.style.width = '0%'; [step1,step2,step3,step4].forEach(s => s.classList.remove('active','completed')); step1.classList.add('active'); }
+    function updateLoading(progress, mainText, subText, currentStep) {
+        loadingProgressFill.style.width = `${progress}%`;
+        loadingMainText.textContent = mainText;
+        loadingSubText.textContent = subText;
+        [step1,step2,step3,step4].forEach((step, idx) => {
+            if (idx < currentStep-1) { step.classList.remove('active'); step.classList.add('completed'); }
+            else if (idx === currentStep-1) { step.classList.add('active'); step.classList.remove('completed'); }
+            else { step.classList.remove('active','completed'); }
+        });
+    }
+    function hideLoading() { loadingOverlay.classList.remove('active'); }
+    async function simulateLoading() {
+        return new Promise((resolve) => {
+            let progress = 0, step = 1;
+            updateLoading(0, 'INITIALIZING ENGINE', 'Starting PSAR analysis...', 1);
+            const interval = setInterval(() => {
+                progress += 2;
+                if (progress >= 25 && step === 1) { step = 2; updateLoading(progress, 'FETCHING MARKET DATA', 'Retrieving XAU/USD live prices...', step); }
+                else if (progress >= 50 && step === 2) { step = 3; updateLoading(progress, 'CALCULATING PSAR', `Computing Parabolic SAR (Step:${PSAR_STEP} Max:${PSAR_MAX})...`, step); }
+                else if (progress >= 75 && step === 3) { step = 4; updateLoading(progress, 'SINGLE POINT CHECK', 'Signal berlaku saat 1 titik PSAR muncul...', step); }
+                else if (step === 4 && progress < 98) { updateLoading(progress, 'FINALIZING ANALYSIS', 'Preparing trading recommendation...', step); }
+                if (progress >= 100) { clearInterval(interval); updateLoading(100, 'SIGNAL GENERATED', 'Ready to display results!', 4); setTimeout(resolve, 200); }
+            }, 50);
+        });
+    }
+
+    // PSAR Calculation
+    function calculateParabolicSAR(highs, lows) {
+        const sar = [], trend = [];
+        if (highs.length < 2) return { sar: [], trend: [] };
+        let currentSAR, currentTrend, currentEP, currentAF = PSAR_STEP;
+        if (highs[1] > highs[0]) { currentTrend = true; currentSAR = lows[0]; currentEP = highs[1]; }
+        else { currentTrend = false; currentSAR = highs[0]; currentEP = lows[1]; }
+        sar.push(currentSAR); trend.push(currentTrend);
+        for (let i = 1; i < highs.length; i++) {
+            let newSAR = currentSAR + currentAF * (currentEP - currentSAR);
+            if (currentTrend) { newSAR = Math.min(newSAR, lows[i-1]); if (i > 1) newSAR = Math.min(newSAR, lows[i-2]); }
+            else { newSAR = Math.max(newSAR, highs[i-1]); if (i > 1) newSAR = Math.max(newSAR, highs[i-2]); }
+            let reversal = false;
+            if (currentTrend && newSAR > lows[i]) { reversal = true; currentTrend = false; newSAR = currentEP; currentAF = PSAR_STEP; currentEP = lows[i]; }
+            else if (!currentTrend && newSAR < highs[i]) { reversal = true; currentTrend = true; newSAR = currentEP; currentAF = PSAR_STEP; currentEP = highs[i]; }
+            if (!reversal) {
+                if (currentTrend && highs[i] > currentEP) { currentEP = highs[i]; currentAF = Math.min(currentAF + PSAR_STEP, PSAR_MAX); }
+                else if (!currentTrend && lows[i] < currentEP) { currentEP = lows[i]; currentAF = Math.min(currentAF + PSAR_STEP, PSAR_MAX); }
+            }
+            currentSAR = newSAR; sar.push(currentSAR); trend.push(currentTrend);
+        }
+        return { sar, trend };
+    }
+    function calculateATR(highs, lows, closes, period = 14) {
+        if (highs.length < period + 1) return 2.0;
+        let trs = [];
+        for (let i = 1; i < highs.length; i++) {
+            let hl = highs[i] - lows[i];
+            let hc = Math.abs(highs[i] - closes[i - 1]);
+            let lc = Math.abs(lows[i] - closes[i - 1]);
+            trs.push(Math.max(hl, hc, lc));
+        }
+        const recentTR = trs.slice(-period);
+        const atr = recentTR.reduce((a,b) => a+b, 0) / period;
+        return atr;
+    }
+    function analyzePSARWithDoubleConfirmation(ohlc) {
+        const highs = ohlc.map(c=>c.high), lows = ohlc.map(c=>c.low), closes = ohlc.map(c=>c.close);
+        const currentPrice = closes[closes.length-1];
+        const { sar, trend } = calculateParabolicSAR(highs, lows);
+        if (sar.length < 2) return { signal: 'WAIT', strength: 30, price: currentPrice, psarValue: 0 };
+        const currentSAR = sar[sar.length-1];
+        const currentTrend = trend[trend.length-1];
+        const currentPosition = currentSAR < currentPrice ? 'below' : 'above';
+        let signal = 'WAIT', strength = 30;
+        if (currentPosition === 'below') { signal = 'BUY'; strength = 50 + (Math.abs(currentPrice - currentSAR) / currentPrice * 450); strength = Math.min(95, Math.max(45, strength)); }
+        else if (currentPosition === 'above') { signal = 'SELL'; strength = 50 + (Math.abs(currentSAR - currentPrice) / currentPrice * 450); strength = Math.min(95, Math.max(45, strength)); }
+        return {
+            signal: signal,
+            strength: Math.floor(Math.min(95, Math.max(5, strength))),
+            price: currentPrice,
+            psarValue: currentSAR,
+            trend: currentTrend ? 'UPTREND' : 'DOWNTREND',
+            position: currentPosition,
+            confirmationText: '✓ 1 Titik PSAR - Signal Aktif'
+        };
+    }
+    function displaySignalResult(analysis, sl, tp) {
+        showSignalResult();
+        currentPriceSpan.textContent = `$ ${analysis.price.toFixed(2)}`;
+        signalValueSpan.textContent = analysis.signal;
+        strengthFill.style.width = `${analysis.strength}%`;
+        strengthPercent.textContent = `${analysis.strength}%`;
+        slSpan.textContent = `$ ${sl.toFixed(2)}`;
+        tpSpan.textContent = `$ ${tp.toFixed(2)}`;
+        psarValueDisplay.textContent = `$ ${analysis.psarValue.toFixed(2)}`;
+        trendText.textContent = analysis.trend;
+        const confHtml = `<span style="font-size:0.7rem; color:#00FFAA;">✓ 1 Titik PSAR - Signal Aktif</span>`;
+        if (analysis.position === 'below') {
+            trendIndicator.className = 'trend-indicator up';
+            positionText.innerHTML = `<i class="fas fa-arrow-down"></i> SAR di BAWAH harga <span style="color:#00FF9D">(BULLISH - BUY)</span><br>${confHtml}`;
+            positionText.className = 'position-bullish';
+        } else if (analysis.position === 'above') {
+            trendIndicator.className = 'trend-indicator down';
+            positionText.innerHTML = `<i class="fas fa-arrow-up"></i> SAR di ATAS harga <span style="color:#FF4655">(BEARISH - SELL)</span><br>${confHtml}`;
+            positionText.className = 'position-bearish';
+        } else {
+            trendIndicator.className = 'trend-indicator wait';
+            positionText.innerHTML = `<i class="fas fa-chart-line"></i> Analyzing...<br>${confHtml}`;
+            positionText.className = 'position-wait';
+        }
+        signalGlowCard.classList.remove('buy','sell','wait');
+        signalValueSpan.classList.remove('buy','sell','wait');
+        if (analysis.signal === 'BUY') { signalGlowCard.classList.add('buy'); signalValueSpan.classList.add('buy'); }
+        else if (analysis.signal === 'SELL') { signalGlowCard.classList.add('sell'); signalValueSpan.classList.add('sell'); }
+        else { signalGlowCard.classList.add('wait'); signalValueSpan.classList.add('wait'); }
+    }
+    async function fetchAndAnalyze() {
+        if (isOnCooldown()) { alert('⏳ Mohon tunggu cooldown selesai sebelum generate signal baru.'); return; }
+        if (!hasRemainingAnalysis()) { alert(`⚠️ Limit analisa Anda telah habis!\n\nTambah limit dengan harga Rp${PRICE_PER_LIMIT.toLocaleString('id-ID')}/limit (maksimal ${MAX_LIMIT_PURCHASE} limit).\n\nAtau tunggu reset otomatis dalam 14 hari.`); showLimitExhaustedState(); return; }
+        generateBtn.disabled = true;
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            if (data.status === 'error' || !data.values) throw new Error(data.message);
+            let values = data.values.reverse();
+            const ohlc = values.map(v => ({ time: v.datetime, open: parseFloat(v.open), high: parseFloat(v.high), low: parseFloat(v.low), close: parseFloat(v.close) }));
+            let analysis = analyzePSARWithDoubleConfirmation(ohlc);
+            let atr = calculateATR(ohlc.map(c=>c.high), ohlc.map(c=>c.low), ohlc.map(c=>c.close), 14);
+            if (atr <= 0.2) atr = 2.0;
+            let sl, tp;
+            if (analysis.signal === 'BUY') { sl = analysis.price - atr; tp = analysis.price + atr; }
+            else if (analysis.signal === 'SELL') { sl = analysis.price + atr; tp = analysis.price - atr; }
+            else { sl = analysis.price; tp = analysis.price; }
+            useAnalysis();
+            displaySignalResult(analysis, sl, tp);
+            startCooldown();
+            console.log(`✅ PSAR SINGLE POINT SIGNAL: ${analysis.signal} | Strength: ${analysis.strength}% | PSAR di posisi: ${analysis.position} | Price: ${analysis.price}`);
+        } catch (error) { console.error(error); alert('Gagal mengambil data. Periksa koneksi internet.'); generateBtn.disabled = false; }
+    }
+
+    generateBtn.addEventListener('click', async () => {
+        if (isOnCooldown()) { alert('⏳ Mohon tunggu cooldown selesai sebelum generate signal baru.'); return; }
+        if (!hasRemainingAnalysis()) { alert(`⚠️ Limit analisa Anda telah habis!\n\nTambah limit dengan harga Rp${PRICE_PER_LIMIT.toLocaleString('id-ID')}/limit (maksimal ${MAX_LIMIT_PURCHASE} limit).\n\nAtau tunggu reset otomatis dalam 14 hari.`); showLimitExhaustedState(); return; }
+        showLoading(); await simulateLoading(); await fetchAndAnalyze(); hideLoading();
+    });
+    resetDisplayBtn.addEventListener('click', () => resetDisplay());
+    if (buyLimitBtn) buyLimitBtn.addEventListener('click', () => openPaymentModal());
+    if (limitAmountInput) limitAmountInput.addEventListener('input', () => calculateTotal());
+    closeModalBtn.addEventListener('click', () => closePaymentModal());
+    confirmPaymentBtn.addEventListener('click', () => confirmPayment());
+    paymentModal.addEventListener('click', (e) => { if (e.target === paymentModal) closePaymentModal(); });
+
+    loadLimitFromLocalStorage();
+    generateUniqueCode();
+    console.log('✅ App ready with PSAR SINGLE POINT SIGNAL (1 titik langsung signal)');
+</script>
+</body>
+</html>
