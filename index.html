@@ -135,7 +135,7 @@
         @media (max-width: 480px) { .live-badge span { font-size: 0.65rem; } }
         
         /* ================================================================ */
-        /* ===== CONTROL BAR - TIMEFRAME DIPISAH ===== */
+        /* ===== CONTROL BAR ===== */
         /* ================================================================ */
         .control-bar {
             background: rgba(10, 12, 21, 0.75);
@@ -167,7 +167,6 @@
         }
         .control-bar:hover { border-color: rgba(59, 130, 246, 0.08); }
         
-        /* ===== LEFT SECTION - TIMEFRAME DIPISAH ===== */
         .control-left {
             display: flex;
             align-items: center;
@@ -175,19 +174,9 @@
             flex-shrink: 0;
             flex-wrap: wrap;
         }
-        @media (max-width: 768px) { 
-            .control-left { 
-                justify-content: center;
-                gap: 10px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .control-left { 
-                gap: 8px;
-            } 
-        }
+        @media (max-width: 768px) { .control-left { justify-content: center; gap: 10px; } }
+        @media (max-width: 480px) { .control-left { gap: 8px; } }
         
-        /* ===== TIMEFRAME ITEM - M15 ===== */
         .timeframe-item {
             display: flex;
             align-items: center;
@@ -199,18 +188,8 @@
             transition: all 0.3s;
             cursor: default;
         }
-        @media (max-width: 768px) { 
-            .timeframe-item { 
-                padding: 10px 18px; 
-                gap: 12px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .timeframe-item { 
-                padding: 8px 12px; 
-                gap: 8px;
-            } 
-        }
+        @media (max-width: 768px) { .timeframe-item { padding: 10px 18px; gap: 12px; } }
+        @media (max-width: 480px) { .timeframe-item { padding: 8px 12px; gap: 8px; } }
         .timeframe-item:hover {
             background: rgba(255,255,255,0.05);
             border-color: rgba(59, 130, 246, 0.15);
@@ -219,42 +198,22 @@
         
         .timeframe-icon {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 16px rgba(37,99,235,0.25);
             flex-shrink: 0;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) { 
-            .timeframe-icon { 
-                width: 40px; 
-                height: 40px; 
-            } 
-        }
-        @media (max-width: 480px) { 
-            .timeframe-icon { 
-                width: 34px; 
-                height: 34px; 
-            } 
-        }
+        @media (max-width: 768px) { .timeframe-icon { width: 40px; height: 40px; } }
+        @media (max-width: 480px) { .timeframe-icon { width: 34px; height: 34px; } }
         .timeframe-item:hover .timeframe-icon {
             box-shadow: 0 4px 24px rgba(37,99,235,0.35);
             transform: scale(1.05);
         }
-        .timeframe-icon i { 
-            font-size: 0.85rem; 
-            color: white; 
-        }
-        @media (max-width: 768px) { 
-            .timeframe-icon i { font-size: 0.95rem; } 
-        }
-        @media (max-width: 480px) { 
-            .timeframe-icon i { font-size: 0.75rem; } 
-        }
+        .timeframe-icon i { font-size: 0.85rem; color: white; }
+        @media (max-width: 768px) { .timeframe-icon i { font-size: 0.95rem; } }
+        @media (max-width: 480px) { .timeframe-icon i { font-size: 0.75rem; } }
         
         .timeframe-label {
             font-size: 1rem;
@@ -262,14 +221,9 @@
             color: #60A5FA;
             letter-spacing: -0.2px;
         }
-        @media (max-width: 768px) { 
-            .timeframe-label { font-size: 1.1rem; } 
-        }
-        @media (max-width: 480px) { 
-            .timeframe-label { font-size: 0.9rem; } 
-        }
+        @media (max-width: 768px) { .timeframe-label { font-size: 1.1rem; } }
+        @media (max-width: 480px) { .timeframe-label { font-size: 0.9rem; } }
         
-        /* ===== PAIR ITEM - XAU/USD ===== */
         .pair-item {
             display: flex;
             align-items: center;
@@ -281,18 +235,8 @@
             transition: all 0.3s;
             cursor: default;
         }
-        @media (max-width: 768px) { 
-            .pair-item { 
-                padding: 10px 18px; 
-                gap: 12px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .pair-item { 
-                padding: 8px 12px; 
-                gap: 8px;
-            } 
-        }
+        @media (max-width: 768px) { .pair-item { padding: 10px 18px; gap: 12px; } }
+        @media (max-width: 480px) { .pair-item { padding: 8px 12px; gap: 8px; } }
         .pair-item:hover {
             background: rgba(255,255,255,0.05);
             border-color: rgba(245,158,11,0.15);
@@ -301,42 +245,22 @@
         
         .pair-icon {
             background: linear-gradient(135deg, #F59E0B, #F97316);
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 16px rgba(245,158,11,0.20);
             flex-shrink: 0;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) { 
-            .pair-icon { 
-                width: 40px; 
-                height: 40px; 
-            } 
-        }
-        @media (max-width: 480px) { 
-            .pair-icon { 
-                width: 34px; 
-                height: 34px; 
-            } 
-        }
+        @media (max-width: 768px) { .pair-icon { width: 40px; height: 40px; } }
+        @media (max-width: 480px) { .pair-icon { width: 34px; height: 34px; } }
         .pair-item:hover .pair-icon {
             box-shadow: 0 4px 24px rgba(245,158,11,0.35);
             transform: scale(1.05) rotate(-5deg);
         }
-        .pair-icon i { 
-            font-size: 0.85rem; 
-            color: white; 
-        }
-        @media (max-width: 768px) { 
-            .pair-icon i { font-size: 0.95rem; } 
-        }
-        @media (max-width: 480px) { 
-            .pair-icon i { font-size: 0.75rem; } 
-        }
+        .pair-icon i { font-size: 0.85rem; color: white; }
+        @media (max-width: 768px) { .pair-icon i { font-size: 0.95rem; } }
+        @media (max-width: 480px) { .pair-icon i { font-size: 0.75rem; } }
         
         .pair-label {
             font-size: 0.85rem;
@@ -344,26 +268,17 @@
             color: #FBBF24;
             letter-spacing: -0.2px;
         }
-        @media (max-width: 768px) { 
-            .pair-label { font-size: 0.95rem; } 
-        }
-        @media (max-width: 480px) { 
-            .pair-label { font-size: 0.8rem; } 
-        }
+        @media (max-width: 768px) { .pair-label { font-size: 0.95rem; } }
+        @media (max-width: 480px) { .pair-label { font-size: 0.8rem; } }
         .pair-label small {
             font-size: 0.55rem;
             color: #9CA3AF;
             font-weight: 400;
             margin-left: 4px;
         }
-        @media (max-width: 768px) { 
-            .pair-label small { font-size: 0.6rem; } 
-        }
-        @media (max-width: 480px) { 
-            .pair-label small { font-size: 0.5rem; } 
-        }
+        @media (max-width: 768px) { .pair-label small { font-size: 0.6rem; } }
+        @media (max-width: 480px) { .pair-label small { font-size: 0.5rem; } }
         
-        /* ===== ACCURACY BADGE ===== */
         .accuracy-badge {
             display: flex;
             align-items: center;
@@ -379,44 +294,19 @@
             cursor: default;
             white-space: nowrap;
         }
-        @media (max-width: 768px) { 
-            .accuracy-badge { 
-                padding: 8px 16px; 
-                font-size: 0.8rem;
-                gap: 8px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .accuracy-badge { 
-                padding: 6px 12px; 
-                font-size: 0.65rem;
-                gap: 5px;
-            } 
-        }
+        @media (max-width: 768px) { .accuracy-badge { padding: 8px 16px; font-size: 0.8rem; gap: 8px; } }
+        @media (max-width: 480px) { .accuracy-badge { padding: 6px 12px; font-size: 0.65rem; gap: 5px; } }
         .accuracy-badge:hover {
             background: rgba(74,222,128,0.12);
             border-color: rgba(74,222,128,0.20);
             transform: scale(1.02);
         }
-        .accuracy-badge i {
-            font-size: 0.7rem;
-            color: #4ADE80;
-        }
-        @media (max-width: 768px) { 
-            .accuracy-badge i { font-size: 0.8rem; } 
-        }
-        .accuracy-badge .acc-value {
-            font-weight: 800;
-            font-size: 0.75rem;
-        }
-        @media (max-width: 768px) { 
-            .accuracy-badge .acc-value { font-size: 0.85rem; } 
-        }
-        @media (max-width: 480px) { 
-            .accuracy-badge .acc-value { font-size: 0.7rem; } 
-        }
+        .accuracy-badge i { font-size: 0.7rem; color: #4ADE80; }
+        @media (max-width: 768px) { .accuracy-badge i { font-size: 0.8rem; } }
+        .accuracy-badge .acc-value { font-weight: 800; font-size: 0.75rem; }
+        @media (max-width: 768px) { .accuracy-badge .acc-value { font-size: 0.85rem; } }
+        @media (max-width: 480px) { .accuracy-badge .acc-value { font-size: 0.7rem; } }
         
-        /* ===== RIGHT SECTION - ACTIONS ===== */
         .control-right {
             display: flex;
             align-items: center;
@@ -424,17 +314,9 @@
             flex-wrap: wrap;
             flex-shrink: 0;
         }
-        @media (max-width: 768px) { 
-            .control-right { 
-                justify-content: center;
-                gap: 10px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .control-right { gap: 8px; } 
-        }
+        @media (max-width: 768px) { .control-right { justify-content: center; gap: 10px; } }
+        @media (max-width: 480px) { .control-right { gap: 8px; } }
         
-        /* ===== LIMIT BOX ===== */
         .limit-box { 
             display: flex; 
             align-items: center; 
@@ -446,35 +328,17 @@
             transition: all 0.3s;
             cursor: default;
         }
-        @media (max-width: 768px) { 
-            .limit-box { 
-                padding: 10px 20px; 
-                gap: 10px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .limit-box { 
-                padding: 8px 14px; 
-                gap: 6px;
-            } 
-        }
+        @media (max-width: 768px) { .limit-box { padding: 10px 20px; gap: 10px; } }
+        @media (max-width: 480px) { .limit-box { padding: 8px 14px; gap: 6px; } }
         .limit-box:hover {
             background: rgba(255,255,255,0.05);
             border-color: rgba(59, 130, 246, 0.15);
             transform: translateY(-1px);
         }
-        .limit-box i { 
-            color: #9CA3AF; 
-            font-size: 0.85rem; 
-        }
+        .limit-box i { color: #9CA3AF; font-size: 0.85rem; }
         @media (max-width: 768px) { .limit-box i { font-size: 0.95rem; } }
         @media (max-width: 480px) { .limit-box i { font-size: 0.8rem; } }
-        
-        .limit-box .limit-label { 
-            font-size: 0.75rem; 
-            color: #9CA3AF; 
-            font-weight: 500;
-        }
+        .limit-box .limit-label { font-size: 0.75rem; color: #9CA3AF; font-weight: 500; }
         @media (max-width: 768px) { .limit-box .limit-label { font-size: 0.85rem; } }
         @media (max-width: 480px) { .limit-box .limit-label { font-size: 0.7rem; } }
         
@@ -490,28 +354,11 @@
             transition: all 0.3s;
             box-shadow: 0 2px 12px rgba(37,99,235,0.2);
         }
-        @media (max-width: 768px) { 
-            .limit-badge { 
-                font-size: 0.95rem; 
-                padding: 3px 16px; 
-                min-width: 32px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .limit-badge { 
-                font-size: 0.8rem; 
-                padding: 2px 12px; 
-                min-width: 24px;
-            } 
-        }
-        .limit-badge.zero { 
-            background: linear-gradient(135deg, #DC2626, #EF4444); 
-            animation: pulse-red 1s infinite; 
-            box-shadow: 0 2px 16px rgba(239,68,68,0.3);
-        }
+        @media (max-width: 768px) { .limit-badge { font-size: 0.95rem; padding: 3px 16px; min-width: 32px; } }
+        @media (max-width: 480px) { .limit-badge { font-size: 0.8rem; padding: 2px 12px; min-width: 24px; } }
+        .limit-badge.zero { background: linear-gradient(135deg, #DC2626, #EF4444); animation: pulse-red 1s infinite; box-shadow: 0 2px 16px rgba(239,68,68,0.3); }
         @keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
         
-        /* ===== COOLDOWN ===== */
         .cooldown { 
             display: flex; 
             align-items: center; 
@@ -526,24 +373,11 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) { 
-            .cooldown { 
-                font-size: 0.85rem; 
-                padding: 10px 20px;
-                gap: 10px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .cooldown { 
-                font-size: 0.7rem; 
-                padding: 8px 14px;
-                gap: 6px;
-            } 
-        }
+        @media (max-width: 768px) { .cooldown { font-size: 0.85rem; padding: 10px 20px; gap: 10px; } }
+        @media (max-width: 480px) { .cooldown { font-size: 0.7rem; padding: 8px 14px; gap: 6px; } }
         .cooldown i { font-size: 0.8rem; }
         @media (max-width: 768px) { .cooldown i { font-size: 0.9rem; } }
         
-        /* ===== GENERATE BUTTON ===== */
         .btn-generate {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
             border: none;
@@ -562,32 +396,9 @@
             overflow: hidden;
             white-space: nowrap;
         }
-        @media (max-width: 768px) { 
-            .btn-generate { 
-                padding: 12px 32px; 
-                font-size: 0.95rem;
-                gap: 12px;
-                flex: 1;
-                justify-content: center;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .btn-generate { 
-                padding: 10px 20px; 
-                font-size: 0.8rem;
-                gap: 8px;
-            } 
-        }
-        @media (max-width: 380px) { 
-            .btn-generate { 
-                padding: 8px 16px; 
-                font-size: 0.7rem;
-                gap: 6px;
-            } 
-            .btn-generate .btn-text { display: none; }
-            .btn-generate .btn-icon { font-size: 1rem; }
-        }
-        
+        @media (max-width: 768px) { .btn-generate { padding: 12px 32px; font-size: 0.95rem; gap: 12px; flex: 1; justify-content: center; } }
+        @media (max-width: 480px) { .btn-generate { padding: 10px 20px; font-size: 0.8rem; gap: 8px; } }
+        @media (max-width: 380px) { .btn-generate { padding: 8px 16px; font-size: 0.7rem; gap: 6px; } .btn-generate .btn-text { display: none; } .btn-generate .btn-icon { font-size: 1rem; } }
         .btn-generate::before {
             content: ''; 
             position: absolute; 
@@ -599,22 +410,15 @@
             transition: left 0.6s;
         }
         .btn-generate:hover:not(:disabled)::before { left: 100%; }
-        .btn-generate:hover:not(:disabled) { 
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 36px rgba(37,99,235,0.40);
-        }
+        .btn-generate:hover:not(:disabled) { transform: translateY(-2px) scale(1.03); box-shadow: 0 6px 36px rgba(37,99,235,0.40); }
         .btn-generate:active:not(:disabled) { transform: scale(0.97); }
         .btn-generate:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
         .btn-generate .btn-icon { font-size: 0.9rem; }
         @media (max-width: 768px) { .btn-generate .btn-icon { font-size: 1rem; } }
-        .btn-generate .btn-arrow { 
-            transition: transform 0.3s; 
-            font-size: 0.8rem; 
-        }
+        .btn-generate .btn-arrow { transition: transform 0.3s; font-size: 0.8rem; }
         @media (max-width: 768px) { .btn-generate .btn-arrow { font-size: 0.9rem; } }
         .btn-generate:hover:not(:disabled) .btn-arrow { transform: translateX(6px); }
         
-        /* ===== RESET BUTTON ===== */
         .btn-reset {
             background: rgba(255,70,85,0.06);
             border: 1px solid rgba(255,70,85,0.08);
@@ -630,88 +434,12 @@
             transition: all 0.3s;
             white-space: nowrap;
         }
-        @media (max-width: 768px) { 
-            .btn-reset { 
-                padding: 12px 24px; 
-                font-size: 0.85rem;
-                gap: 10px;
-            } 
-        }
-        @media (max-width: 480px) { 
-            .btn-reset { 
-                padding: 10px 16px; 
-                font-size: 0.7rem;
-                gap: 6px;
-            } 
-        }
-        @media (max-width: 380px) { 
-            .btn-reset { 
-                padding: 8px 12px; 
-                font-size: 0.6rem;
-            } 
-            .btn-reset .btn-text { display: none; }
-            .btn-reset i { font-size: 0.9rem; }
-        }
-        .btn-reset:hover { 
-            background: rgba(255,70,85,0.12); 
-            border-color: rgba(255,70,85,0.15);
-            transform: translateY(-2px);
-            color: #FFB3BB;
-            box-shadow: 0 4px 20px rgba(255,70,85,0.10);
-        }
+        @media (max-width: 768px) { .btn-reset { padding: 12px 24px; font-size: 0.85rem; gap: 10px; } }
+        @media (max-width: 480px) { .btn-reset { padding: 10px 16px; font-size: 0.7rem; gap: 6px; } }
+        @media (max-width: 380px) { .btn-reset { padding: 8px 12px; font-size: 0.6rem; } .btn-reset .btn-text { display: none; } .btn-reset i { font-size: 0.9rem; } }
+        .btn-reset:hover { background: rgba(255,70,85,0.12); border-color: rgba(255,70,85,0.15); transform: translateY(-2px); color: #FFB3BB; box-shadow: 0 4px 20px rgba(255,70,85,0.10); }
         .btn-reset i { font-size: 0.8rem; }
         @media (max-width: 768px) { .btn-reset i { font-size: 0.9rem; } }
-        
-        /* ================================================================ */
-        /* ===== RESPONSIVE CONTROL LEFT ===== */
-        /* ================================================================ */
-        @media (max-width: 600px) {
-            .control-left {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .timeframe-item {
-                padding: 6px 12px;
-            }
-            .pair-item {
-                padding: 6px 12px;
-            }
-            .accuracy-badge {
-                padding: 5px 10px;
-                font-size: 0.6rem;
-            }
-        }
-        @media (max-width: 400px) {
-            .timeframe-item {
-                padding: 5px 10px;
-                gap: 6px;
-            }
-            .pair-item {
-                padding: 5px 10px;
-                gap: 6px;
-            }
-            .timeframe-icon {
-                width: 28px;
-                height: 28px;
-            }
-            .pair-icon {
-                width: 28px;
-                height: 28px;
-            }
-            .timeframe-label {
-                font-size: 0.75rem;
-            }
-            .pair-label {
-                font-size: 0.7rem;
-            }
-            .accuracy-badge {
-                padding: 4px 8px;
-                font-size: 0.55rem;
-            }
-            .accuracy-badge .acc-value {
-                font-size: 0.6rem;
-            }
-        }
         
         /* ===== SIGNAL CARD ===== */
         .signal-card {
@@ -1412,80 +1140,161 @@
             background: linear-gradient(90deg, #3B82F6, #A855F7, #4ADE80) !important;
         }
         
-        /* ===== TRADING PANEL ===== */
+        /* ================================================================ */
+        /* ===== TRADING PANEL - HORIZONTAL 1x1 ===== */
+        /* ================================================================ */
         .trading-panel {
             background: rgba(255,255,255,0.02);
-            border-radius: 14px;
-            padding: 4px;
-            margin-top: 12px;
-            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 6px;
+            margin-top: 14px;
+            border: 1px solid rgba(255,255,255,0.04);
             position: relative;
             z-index: 2;
         }
-        @media (max-width: 480px) { .trading-panel { margin-top: 10px; } }
+        @media (max-width: 480px) { 
+            .trading-panel { 
+                border-radius: 14px; 
+                padding: 4px; 
+                margin-top: 10px; 
+            } 
+        }
+        
         .trading-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            border-radius: 12px;
+            gap: 6px;
+            border-radius: 14px;
             overflow: hidden;
+        }
+        @media (max-width: 600px) { 
+            .trading-grid { 
+                gap: 4px;
+            } 
         }
         @media (max-width: 480px) { 
             .trading-grid { 
-                grid-template-columns: 1fr; 
-                gap: 2px; 
+                gap: 3px;
             } 
         }
+        
         .trading-item {
             text-align: center;
-            padding: 14px 12px;
-            background: rgba(255,255,255,0.01);
+            padding: 16px 12px;
+            background: rgba(255,255,255,0.02);
             transition: all 0.3s;
-            border-radius: 10px;
+            border-radius: 12px;
             position: relative;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        @media (max-width: 768px) { 
+            .trading-item { 
+                padding: 14px 10px; 
+            } 
         }
         @media (max-width: 480px) { 
             .trading-item { 
-                padding: 12px 10px; 
+                padding: 12px 8px; 
+                border-radius: 10px;
             } 
         }
-        .trading-item:hover { background: rgba(37,99,235,0.05); }
-        .trading-item .trading-icon {
-            font-size: 0.7rem;
-            color: #6B7280;
-            margin-bottom: 4px;
-            display: block;
+        .trading-item:hover { 
+            background: rgba(37,99,235,0.06);
+            transform: translateY(-2px);
+            border-color: rgba(37,99,235,0.10);
         }
-        .trading-value { 
-            font-size: 1.1rem; 
-            font-weight: 800; 
-            font-family: 'Inter', monospace;
-            letter-spacing: -0.2px;
+        
+        .trading-item .trading-icon {
+            font-size: 0.75rem;
+            color: #6B7280;
+            margin-bottom: 6px;
+            display: block;
             transition: all 0.3s;
         }
         @media (max-width: 480px) { 
-            .trading-value { 
-                font-size: 0.95rem; 
+            .trading-item .trading-icon { 
+                font-size: 0.65rem; 
+                margin-bottom: 4px; 
             } 
         }
-        .trading-value.spot { color: #60A5FA; }
+        .trading-item:hover .trading-icon {
+            color: #60A5FA;
+        }
+        
+        .trading-item .trading-icon.entry-icon { color: #60A5FA; }
+        .trading-item .trading-icon.sl-icon { color: #F87171; }
+        .trading-item .trading-icon.tp-icon { color: #4ADE80; }
+        
+        .trading-value { 
+            font-size: 1.2rem; 
+            font-weight: 800; 
+            font-family: 'Inter', monospace;
+            letter-spacing: -0.3px;
+            transition: all 0.3s;
+        }
+        @media (max-width: 768px) { 
+            .trading-value { 
+                font-size: 1.05rem; 
+            } 
+        }
+        @media (max-width: 480px) { 
+            .trading-value { 
+                font-size: 0.9rem; 
+            } 
+        }
+        .trading-value.entry { color: #60A5FA; }
         .trading-value.sl { color: #F87171; }
         .trading-value.tp { color: #4ADE80; }
+        
         .trading-label { 
-            font-size: 0.55rem; 
+            font-size: 0.6rem; 
             color: #6B7280; 
             margin-top: 4px; 
-            letter-spacing: 0.6px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
+            transition: all 0.3s;
         }
         @media (max-width: 480px) { 
             .trading-label { 
                 font-size: 0.5rem; 
-                margin-top: 3px; 
+                letter-spacing: 0.6px;
+                margin-top: 3px;
             } 
         }
+        .trading-item:hover .trading-label {
+            color: #9CA3AF;
+        }
         
+        /* ===== TRADING PANEL - ENTRY LEVEL CARD ===== */
+        .trading-item.entry-item {
+            background: rgba(37,99,235,0.04);
+            border-color: rgba(37,99,235,0.08);
+        }
+        .trading-item.entry-item:hover {
+            background: rgba(37,99,235,0.08);
+            border-color: rgba(37,99,235,0.15);
+        }
+        
+        .trading-item.sl-item {
+            background: rgba(248,113,113,0.04);
+            border-color: rgba(248,113,113,0.08);
+        }
+        .trading-item.sl-item:hover {
+            background: rgba(248,113,113,0.08);
+            border-color: rgba(248,113,113,0.15);
+        }
+        
+        .trading-item.tp-item {
+            background: rgba(74,222,128,0.04);
+            border-color: rgba(74,222,128,0.08);
+        }
+        .trading-item.tp-item:hover {
+            background: rgba(74,222,128,0.08);
+            border-color: rgba(74,222,128,0.15);
+        }
+        
+        /* ===== FOOTER ===== */
         .footer-note {
             text-align: center;
             margin-top: 18px;
@@ -1734,31 +1543,23 @@
         </div>
     </div>
 
-    <!-- ===== CONTROL BAR - TIMEFRAME DIPISAH ===== -->
+    <!-- CONTROL BAR -->
     <div class="control-bar">
-        <!-- LEFT: TIMEFRAME & PAIR DIPISAH -->
         <div class="control-left">
-            <!-- M15 dengan icon chart -->
             <div class="timeframe-item">
                 <div class="timeframe-icon"><i class="fas fa-chart-line"></i></div>
                 <span class="timeframe-label">M15</span>
             </div>
-            
-            <!-- XAU/USD dengan icon gold -->
             <div class="pair-item">
                 <div class="pair-icon"><i class="fas fa-coins"></i></div>
                 <span class="pair-label">XAU/USD <small>Emas</small></span>
             </div>
-            
-            <!-- Akurasi 80% -->
             <div class="accuracy-badge">
                 <i class="fas fa-bullseye"></i>
                 <span class="acc-value">80%</span>
                 <span style="font-weight:400; opacity:0.7;">Akurasi</span>
             </div>
         </div>
-        
-        <!-- RIGHT: ACTIONS -->
         <div class="control-right">
             <div class="limit-box">
                 <i class="fas fa-chart-simple"></i>
@@ -1848,25 +1649,30 @@
                 </div>
             </div>
             
+            <!-- ===== TRADING PANEL - HORIZONTAL 1x1 ===== -->
             <div class="trading-panel">
                 <div class="trading-grid">
-                    <div class="trading-item">
-                        <span class="trading-icon"><i class="fas fa-circle-dot"></i></span>
-                        <div id="currentPrice" class="trading-value spot">$ ----.--</div>
-                        <div class="trading-label">SPOT XAU/USD</div>
+                    <!-- LEVEL ENTRY -->
+                    <div class="trading-item entry-item">
+                        <span class="trading-icon entry-icon"><i class="fas fa-arrow-right-to-bracket"></i></span>
+                        <div id="currentPrice" class="trading-value entry">$ ----.--</div>
+                        <div class="trading-label">LEVEL ENTRY</div>
                     </div>
-                    <div class="trading-item">
-                        <span class="trading-icon"><i class="fas fa-stop"></i></span>
+                    <!-- STOP LOSS -->
+                    <div class="trading-item sl-item">
+                        <span class="trading-icon sl-icon"><i class="fas fa-stop"></i></span>
                         <div id="slValue" class="trading-value sl">—</div>
                         <div class="trading-label">STOP LOSS</div>
                     </div>
-                    <div class="trading-item">
-                        <span class="trading-icon"><i class="fas fa-flag-checkered"></i></span>
+                    <!-- TAKE PROFIT -->
+                    <div class="trading-item tp-item">
+                        <span class="trading-icon tp-icon"><i class="fas fa-flag-checkered"></i></span>
                         <div id="tpValue" class="trading-value tp">—</div>
                         <div class="trading-label">TAKE PROFIT</div>
                     </div>
                 </div>
             </div>
+            
             <div class="footer-note">RISK/REWARD 2.5:2.0 • STOP LOSS 2.5x ATR • TAKE PROFIT 2.0x ATR</div>
         </div>
     </div>
@@ -2338,7 +2144,7 @@
     // Init
     loadLimit();
     generateUniqueCode();
-    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 2.5:2.0 | LARGER & MODERN UI');
+    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 2.5:2.0 | TRADING PANEL 1x1 HORIZONTAL');
 </script>
 </body>
 </html>
