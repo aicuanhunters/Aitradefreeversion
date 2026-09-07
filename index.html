@@ -135,7 +135,7 @@
         @media (max-width: 480px) { .live-badge span { font-size: 0.65rem; } }
         
         /* ================================================================ */
-        /* ===== CONTROL BAR - SUPER MODERN & LARGER ===== */
+        /* ===== CONTROL BAR - TIMEFRAME DIPISAH ===== */
         /* ================================================================ */
         .control-bar {
             background: rgba(10, 12, 21, 0.75);
@@ -167,45 +167,51 @@
         }
         .control-bar:hover { border-color: rgba(59, 130, 246, 0.08); }
         
-        /* ===== LEFT SECTION - TIMEFRAME (LARGER) ===== */
+        /* ===== LEFT SECTION - TIMEFRAME DIPISAH ===== */
         .control-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             flex-shrink: 0;
+            flex-wrap: wrap;
         }
         @media (max-width: 768px) { 
             .control-left { 
                 justify-content: center;
-                gap: 12px;
+                gap: 10px;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .control-left { 
+                gap: 8px;
             } 
         }
         
-        .timeframe {
+        /* ===== TIMEFRAME ITEM - M15 ===== */
+        .timeframe-item {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             background: rgba(255,255,255,0.03);
-            padding: 8px 20px;
+            padding: 8px 16px;
             border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.3s;
             cursor: default;
         }
         @media (max-width: 768px) { 
-            .timeframe { 
-                padding: 10px 22px; 
-                gap: 14px;
-                border-radius: 100px;
+            .timeframe-item { 
+                padding: 10px 18px; 
+                gap: 12px;
             } 
         }
         @media (max-width: 480px) { 
-            .timeframe { 
-                padding: 8px 16px; 
-                gap: 10px;
+            .timeframe-item { 
+                padding: 8px 12px; 
+                gap: 8px;
             } 
         }
-        .timeframe:hover {
+        .timeframe-item:hover {
             background: rgba(255,255,255,0.05);
             border-color: rgba(59, 130, 246, 0.15);
             transform: translateY(-1px);
@@ -213,66 +219,204 @@
         
         .timeframe-icon {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 2px 16px rgba(37,99,235,0.25);
             flex-shrink: 0;
             transition: all 0.3s;
         }
         @media (max-width: 768px) { 
             .timeframe-icon { 
-                width: 42px; 
-                height: 42px; 
+                width: 40px; 
+                height: 40px; 
             } 
         }
         @media (max-width: 480px) { 
             .timeframe-icon { 
-                width: 36px; 
-                height: 36px; 
+                width: 34px; 
+                height: 34px; 
             } 
         }
-        .timeframe:hover .timeframe-icon {
+        .timeframe-item:hover .timeframe-icon {
             box-shadow: 0 4px 24px rgba(37,99,235,0.35);
             transform: scale(1.05);
         }
         .timeframe-icon i { 
-            font-size: 0.9rem; 
+            font-size: 0.85rem; 
             color: white; 
         }
         @media (max-width: 768px) { 
-            .timeframe-icon i { font-size: 1rem; } 
+            .timeframe-icon i { font-size: 0.95rem; } 
+        }
+        @media (max-width: 480px) { 
+            .timeframe-icon i { font-size: 0.75rem; } 
         }
         
-        .timeframe-text h3 { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: #60A5FA; 
+        .timeframe-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #60A5FA;
             letter-spacing: -0.2px;
         }
         @media (max-width: 768px) { 
-            .timeframe-text h3 { font-size: 1.1rem; } 
+            .timeframe-label { font-size: 1.1rem; } 
         }
         @media (max-width: 480px) { 
-            .timeframe-text h3 { font-size: 0.95rem; } 
-        }
-        .timeframe-text p { 
-            font-size: 0.6rem; 
-            color: #FBBF24; 
-            display: flex; 
-            align-items: center; 
-            gap: 4px; 
-            opacity: 0.85;
-        }
-        @media (max-width: 768px) { 
-            .timeframe-text p { font-size: 0.65rem; gap: 5px; } 
-        }
-        @media (max-width: 480px) { 
-            .timeframe-text p { font-size: 0.55rem; } 
+            .timeframe-label { font-size: 0.9rem; } 
         }
         
-        /* ===== RIGHT SECTION - ACTIONS (LARGER) ===== */
+        /* ===== PAIR ITEM - XAU/USD ===== */
+        .pair-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.03);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            cursor: default;
+        }
+        @media (max-width: 768px) { 
+            .pair-item { 
+                padding: 10px 18px; 
+                gap: 12px;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .pair-item { 
+                padding: 8px 12px; 
+                gap: 8px;
+            } 
+        }
+        .pair-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(245,158,11,0.15);
+            transform: translateY(-1px);
+        }
+        
+        .pair-icon {
+            background: linear-gradient(135deg, #F59E0B, #F97316);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 16px rgba(245,158,11,0.20);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        @media (max-width: 768px) { 
+            .pair-icon { 
+                width: 40px; 
+                height: 40px; 
+            } 
+        }
+        @media (max-width: 480px) { 
+            .pair-icon { 
+                width: 34px; 
+                height: 34px; 
+            } 
+        }
+        .pair-item:hover .pair-icon {
+            box-shadow: 0 4px 24px rgba(245,158,11,0.35);
+            transform: scale(1.05) rotate(-5deg);
+        }
+        .pair-icon i { 
+            font-size: 0.85rem; 
+            color: white; 
+        }
+        @media (max-width: 768px) { 
+            .pair-icon i { font-size: 0.95rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-icon i { font-size: 0.75rem; } 
+        }
+        
+        .pair-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #FBBF24;
+            letter-spacing: -0.2px;
+        }
+        @media (max-width: 768px) { 
+            .pair-label { font-size: 0.95rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-label { font-size: 0.8rem; } 
+        }
+        .pair-label small {
+            font-size: 0.55rem;
+            color: #9CA3AF;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) { 
+            .pair-label small { font-size: 0.6rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-label small { font-size: 0.5rem; } 
+        }
+        
+        /* ===== ACCURACY BADGE ===== */
+        .accuracy-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(74,222,128,0.08);
+            padding: 6px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(74,222,128,0.10);
+            font-size: 0.7rem;
+            color: #4ADE80;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: default;
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-badge { 
+                padding: 8px 16px; 
+                font-size: 0.8rem;
+                gap: 8px;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .accuracy-badge { 
+                padding: 6px 12px; 
+                font-size: 0.65rem;
+                gap: 5px;
+            } 
+        }
+        .accuracy-badge:hover {
+            background: rgba(74,222,128,0.12);
+            border-color: rgba(74,222,128,0.20);
+            transform: scale(1.02);
+        }
+        .accuracy-badge i {
+            font-size: 0.7rem;
+            color: #4ADE80;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-badge i { font-size: 0.8rem; } 
+        }
+        .accuracy-badge .acc-value {
+            font-weight: 800;
+            font-size: 0.75rem;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-badge .acc-value { font-size: 0.85rem; } 
+        }
+        @media (max-width: 480px) { 
+            .accuracy-badge .acc-value { font-size: 0.7rem; } 
+        }
+        
+        /* ===== RIGHT SECTION - ACTIONS ===== */
         .control-right {
             display: flex;
             align-items: center;
@@ -290,7 +434,7 @@
             .control-right { gap: 8px; } 
         }
         
-        /* ===== LIMIT BOX - SUPER MODERN ===== */
+        /* ===== LIMIT BOX ===== */
         .limit-box { 
             display: flex; 
             align-items: center; 
@@ -399,7 +543,7 @@
         .cooldown i { font-size: 0.8rem; }
         @media (max-width: 768px) { .cooldown i { font-size: 0.9rem; } }
         
-        /* ===== GENERATE BUTTON - SUPER MODERN ===== */
+        /* ===== GENERATE BUTTON ===== */
         .btn-generate {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
             border: none;
@@ -470,7 +614,7 @@
         @media (max-width: 768px) { .btn-generate .btn-arrow { font-size: 0.9rem; } }
         .btn-generate:hover:not(:disabled) .btn-arrow { transform: translateX(6px); }
         
-        /* ===== RESET BUTTON - SUPER MODERN ===== */
+        /* ===== RESET BUTTON ===== */
         .btn-reset {
             background: rgba(255,70,85,0.06);
             border: 1px solid rgba(255,70,85,0.08);
@@ -517,6 +661,57 @@
         }
         .btn-reset i { font-size: 0.8rem; }
         @media (max-width: 768px) { .btn-reset i { font-size: 0.9rem; } }
+        
+        /* ================================================================ */
+        /* ===== RESPONSIVE CONTROL LEFT ===== */
+        /* ================================================================ */
+        @media (max-width: 600px) {
+            .control-left {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .timeframe-item {
+                padding: 6px 12px;
+            }
+            .pair-item {
+                padding: 6px 12px;
+            }
+            .accuracy-badge {
+                padding: 5px 10px;
+                font-size: 0.6rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .timeframe-item {
+                padding: 5px 10px;
+                gap: 6px;
+            }
+            .pair-item {
+                padding: 5px 10px;
+                gap: 6px;
+            }
+            .timeframe-icon {
+                width: 28px;
+                height: 28px;
+            }
+            .pair-icon {
+                width: 28px;
+                height: 28px;
+            }
+            .timeframe-label {
+                font-size: 0.75rem;
+            }
+            .pair-label {
+                font-size: 0.7rem;
+            }
+            .accuracy-badge {
+                padding: 4px 8px;
+                font-size: 0.55rem;
+            }
+            .accuracy-badge .acc-value {
+                font-size: 0.6rem;
+            }
+        }
         
         /* ===== SIGNAL CARD ===== */
         .signal-card {
@@ -1539,16 +1734,27 @@
         </div>
     </div>
 
-    <!-- ===== CONTROL BAR - SUPER MODERN ===== -->
+    <!-- ===== CONTROL BAR - TIMEFRAME DIPISAH ===== -->
     <div class="control-bar">
-        <!-- LEFT: TIMEFRAME -->
+        <!-- LEFT: TIMEFRAME & PAIR DIPISAH -->
         <div class="control-left">
-            <div class="timeframe">
+            <!-- M15 dengan icon chart -->
+            <div class="timeframe-item">
                 <div class="timeframe-icon"><i class="fas fa-chart-line"></i></div>
-                <div class="timeframe-text">
-                    <h3>M15</h3>
-                    <p><i class="fas fa-coins"></i> XAU/USD</p>
-                </div>
+                <span class="timeframe-label">M15</span>
+            </div>
+            
+            <!-- XAU/USD dengan icon gold -->
+            <div class="pair-item">
+                <div class="pair-icon"><i class="fas fa-coins"></i></div>
+                <span class="pair-label">XAU/USD <small>Emas</small></span>
+            </div>
+            
+            <!-- Akurasi 80% -->
+            <div class="accuracy-badge">
+                <i class="fas fa-bullseye"></i>
+                <span class="acc-value">80%</span>
+                <span style="font-weight:400; opacity:0.7;">Akurasi</span>
             </div>
         </div>
         
@@ -1581,7 +1787,7 @@
         <div id="emptyState" class="empty-state">
             <div class="empty-icon"><i class="fas fa-chart-line"></i></div>
             <div class="empty-title">Siap Menganalisis</div>
-            <div class="empty-subtitle">Tekan GENERATE untuk analisis 12 indikator dengan akurasi 95%+</div>
+            <div class="empty-subtitle">Tekan GENERATE untuk analisis 12 indikator dengan akurasi 80%</div>
         </div>
 
         <!-- LIMIT EXHAUSTED -->
@@ -1907,11 +2113,11 @@
         strength = Math.min(95, Math.max(30, strength));
         
         let interpretation = '';
-        if (normalizedScore >= 85) interpretation = '🚀 SIGNAL SUPER KUAT - Kondisi ideal untuk entry! (95%+ akurasi)';
-        else if (normalizedScore >= 68) interpretation = '✅ SIGNAL KUAT - Mayoritas indikator konfirmasi (85%+ akurasi)';
-        else if (normalizedScore >= 50) interpretation = '📈 SIGNAL CUKUP - Perlu konfirmasi tambahan (70% akurasi)';
+        if (normalizedScore >= 85) interpretation = '🚀 SIGNAL SUPER KUAT - Kondisi ideal untuk entry! (80%+ akurasi)';
+        else if (normalizedScore >= 68) interpretation = '✅ SIGNAL KUAT - Mayoritas indikator konfirmasi (80%+ akurasi)';
+        else if (normalizedScore >= 50) interpretation = '📈 SIGNAL CUKUP - Perlu konfirmasi tambahan (80% akurasi)';
         else if (normalizedScore >= 35) interpretation = '⚠️ SIGNAL NETRAL - Hindari entry, tunggu sinyal lebih jelas';
-        else interpretation = '🔻 SIGNAL BEARISH KUAT - Sell signal valid (90%+ akurasi)';
+        else interpretation = '🔻 SIGNAL BEARISH KUAT - Sell signal valid (80%+ akurasi)';
         
         const signals = {
             psar: { signal: psarBullish ? 'BUY' : 'SELL', value: currentSAR.toFixed(2), weight: INDICATOR_WEIGHTS.psar, icon: 'fa-chart-line' },
