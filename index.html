@@ -131,91 +131,88 @@
         .live-badge span { font-size: 0.7rem; font-weight: 600; color: #00FFAA; letter-spacing: 0.5px; white-space: nowrap; }
         @media (max-width: 480px) { .live-badge { padding: 4px 12px; } .live-badge span { font-size: 0.6rem; } }
         
-        /* ===== CONTROL BAR - SUPER MODERN & RAPIH ===== */
+        /* ================================================================ */
+        /* ===== CONTROL BAR - SUPER RAPIH ===== */
+        /* ================================================================ */
         .control-bar {
             background: rgba(10, 12, 21, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 12px 18px;
+            padding: 10px 18px;
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.25);
             transition: all 0.3s;
+            flex-wrap: wrap;
         }
         .control-bar:hover { border-color: rgba(59, 130, 246, 0.08); }
         
-        /* --- LEFT SECTION: TIMEFRAME --- */
+        /* LEFT SECTION - TIMEFRAME */
         .control-left {
             display: flex;
             align-items: center;
-            gap: 14px;
-            flex: 1;
-            min-width: 0;
+            gap: 12px;
+            flex-shrink: 0;
         }
         .timeframe {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: rgba(255,255,255,0.03);
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.04);
-            flex-shrink: 0;
         }
         .timeframe-icon {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
-            width: 34px; height: 34px;
+            width: 32px; height: 32px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 14px rgba(37,99,235,0.20);
             flex-shrink: 0;
         }
-        .timeframe-icon i { font-size: 0.85rem; color: white; }
+        .timeframe-icon i { font-size: 0.8rem; color: white; }
         .timeframe-text h3 { 
-            font-size: 0.9rem; font-weight: 700; color: #60A5FA; letter-spacing: -0.2px;
+            font-size: 0.85rem; font-weight: 700; color: #60A5FA; letter-spacing: -0.2px;
         }
         .timeframe-text p { 
-            font-size: 0.55rem; color: #FBBF24; display: flex; align-items: center; gap: 4px; opacity: 0.8;
+            font-size: 0.5rem; color: #FBBF24; display: flex; align-items: center; gap: 3px; opacity: 0.8;
         }
         
-        /* --- RIGHT SECTION: ACTIONS --- */
+        /* RIGHT SECTION - ACTIONS */
         .control-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            flex: 1;
-            justify-content: flex-end;
-            min-width: 0;
+            flex-shrink: 0;
         }
         
         /* LIMIT BOX */
         .limit-box { 
             display: flex; 
             align-items: center; 
-            gap: 6px; 
+            gap: 5px; 
             background: rgba(255,255,255,0.03); 
-            padding: 5px 14px; 
+            padding: 4px 12px; 
             border-radius: 100px; 
             border: 1px solid rgba(255,255,255,0.04);
-            flex-shrink: 0;
         }
-        .limit-box i { color: #9CA3AF; font-size: 0.75rem; }
-        .limit-box span { font-size: 0.7rem; color: #9CA3AF; }
+        .limit-box i { color: #9CA3AF; font-size: 0.7rem; }
+        .limit-box .limit-label { font-size: 0.65rem; color: #9CA3AF; }
         .limit-badge { 
             background: linear-gradient(135deg, #2563EB, #7C3AED);
-            padding: 2px 12px; 
+            padding: 1px 10px; 
             border-radius: 40px; 
             font-weight: 700; 
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: white;
-            min-width: 22px;
+            min-width: 20px;
             text-align: center;
             transition: all 0.3s;
         }
@@ -226,26 +223,25 @@
         .cooldown { 
             display: flex; 
             align-items: center; 
-            gap: 6px; 
+            gap: 5px; 
             background: rgba(251,191,36,0.06); 
-            padding: 5px 14px; 
+            padding: 4px 12px; 
             border-radius: 100px; 
             color: #FBBF24;
             border: 1px solid rgba(251,191,36,0.06);
             display: none; 
-            font-size: 0.7rem;
-            flex-shrink: 0;
+            font-size: 0.65rem;
         }
-        .cooldown i { font-size: 0.7rem; }
+        .cooldown i { font-size: 0.65rem; }
         
-        /* GENERATE BUTTON - SUPER MODERN */
+        /* GENERATE BUTTON */
         .btn-generate {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
             border: none;
-            padding: 8px 24px;
+            padding: 7px 20px;
             border-radius: 100px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: white;
             cursor: pointer;
             display: flex;
@@ -256,7 +252,6 @@
             position: relative;
             overflow: hidden;
             white-space: nowrap;
-            flex-shrink: 0;
         }
         .btn-generate::before {
             content: ''; position: absolute; top: 0; left: -100%;
@@ -271,27 +266,25 @@
         }
         .btn-generate:active:not(:disabled) { transform: scale(0.97); }
         .btn-generate:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-        .btn-generate .btn-icon { font-size: 0.85rem; }
-        .btn-generate .btn-text { font-weight: 700; }
-        .btn-generate .btn-arrow { transition: transform 0.3s; }
+        .btn-generate .btn-icon { font-size: 0.8rem; }
+        .btn-generate .btn-arrow { transition: transform 0.3s; font-size: 0.7rem; }
         .btn-generate:hover:not(:disabled) .btn-arrow { transform: translateX(4px); }
         
         /* RESET BUTTON */
         .btn-reset {
             background: rgba(255,70,85,0.05);
             border: 1px solid rgba(255,70,85,0.06);
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 100px;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #FF8A96;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: all 0.3s;
             white-space: nowrap;
-            flex-shrink: 0;
         }
         .btn-reset:hover { 
             background: rgba(255,70,85,0.10); 
@@ -301,68 +294,71 @@
         }
         .btn-reset i { font-size: 0.7rem; }
         
-        /* --- RESPONSIVE CONTROL BAR --- */
+        /* ================================================================ */
+        /* ===== RESPONSIVE CONTROL BAR ===== */
+        /* ================================================================ */
         @media (max-width: 768px) {
             .control-bar {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 10px;
-                padding: 14px 16px;
+                gap: 8px;
+                padding: 12px 14px;
             }
             .control-left {
                 justify-content: center;
-                flex: none;
             }
             .control-right {
                 justify-content: center;
-                flex: none;
-                gap: 8px;
             }
-            .timeframe { padding: 5px 14px; }
-            .timeframe-icon { width: 30px; height: 30px; }
-            .timeframe-icon i { font-size: 0.75rem; }
-            .timeframe-text h3 { font-size: 0.8rem; }
+            .timeframe { padding: 4px 12px; gap: 8px; }
+            .timeframe-icon { width: 28px; height: 28px; }
+            .timeframe-icon i { font-size: 0.7rem; }
+            .timeframe-text h3 { font-size: 0.75rem; }
+            .timeframe-text p { font-size: 0.45rem; }
             .btn-generate { 
-                padding: 7px 18px; 
+                padding: 6px 16px; 
                 font-size: 0.7rem;
-                flex: 1;
-                justify-content: center;
-                min-width: 100px;
             }
-            .btn-reset { padding: 7px 14px; font-size: 0.65rem; }
-            .limit-box { padding: 4px 12px; }
-            .limit-box span { font-size: 0.65rem; }
-            .limit-badge { font-size: 0.7rem; padding: 1px 10px; min-width: 20px; }
-        }
-        @media (max-width: 480px) {
-            .control-right { gap: 6px; }
-            .btn-generate { 
-                padding: 6px 14px; 
-                font-size: 0.65rem;
-                min-width: 80px;
-            }
-            .btn-generate .btn-icon { font-size: 0.7rem; }
             .btn-reset { padding: 6px 12px; font-size: 0.6rem; }
             .limit-box { padding: 3px 10px; }
-            .limit-box i { font-size: 0.65rem; }
-            .limit-box span { font-size: 0.6rem; }
+            .limit-box .limit-label { font-size: 0.6rem; }
             .limit-badge { font-size: 0.65rem; padding: 1px 8px; min-width: 18px; }
-            .cooldown { font-size: 0.6rem; padding: 4px 10px; }
-            .timeframe { padding: 4px 12px; gap: 8px; }
-            .timeframe-icon { width: 26px; height: 26px; }
-            .timeframe-icon i { font-size: 0.65rem; }
-            .timeframe-text h3 { font-size: 0.7rem; }
-            .timeframe-text p { font-size: 0.5rem; }
+        }
+        @media (max-width: 480px) {
+            .control-bar { padding: 10px 12px; gap: 6px; }
+            .control-left { gap: 8px; }
+            .control-right { gap: 6px; flex-wrap: wrap; }
+            .timeframe { padding: 3px 10px; gap: 6px; }
+            .timeframe-icon { width: 24px; height: 24px; }
+            .timeframe-icon i { font-size: 0.6rem; }
+            .timeframe-text h3 { font-size: 0.65rem; }
+            .timeframe-text p { font-size: 0.4rem; }
+            .btn-generate { 
+                padding: 5px 12px; 
+                font-size: 0.6rem;
+                gap: 4px;
+            }
+            .btn-generate .btn-icon { font-size: 0.7rem; }
+            .btn-generate .btn-arrow { font-size: 0.6rem; }
+            .btn-reset { padding: 5px 10px; font-size: 0.55rem; gap: 4px; }
+            .btn-reset i { font-size: 0.6rem; }
+            .limit-box { padding: 3px 8px; gap: 3px; }
+            .limit-box i { font-size: 0.6rem; }
+            .limit-box .limit-label { font-size: 0.55rem; }
+            .limit-badge { font-size: 0.6rem; padding: 1px 6px; min-width: 16px; }
+            .cooldown { font-size: 0.55rem; padding: 3px 8px; }
+            .cooldown i { font-size: 0.55rem; }
         }
         @media (max-width: 380px) {
-            .control-right { flex-wrap: wrap; justify-content: center; }
-            .btn-generate { min-width: 70px; padding: 5px 12px; font-size: 0.6rem; }
+            .control-right { gap: 4px; }
+            .btn-generate { padding: 4px 10px; font-size: 0.55rem; gap: 3px; }
             .btn-generate .btn-text { display: none; }
             .btn-generate .btn-icon { font-size: 0.8rem; }
-            .btn-reset { padding: 5px 10px; font-size: 0.55rem; }
-            .btn-reset span { display: none; }
+            .btn-reset .btn-text { display: none; }
             .btn-reset i { font-size: 0.8rem; }
-            .limit-box span { display: none; }
+            .limit-box .limit-label { display: none; }
+            .timeframe { padding: 3px 8px; gap: 4px; }
+            .timeframe-text p { display: none; }
         }
         
         /* ===== SIGNAL CARD ===== */
@@ -507,10 +503,6 @@
             background: linear-gradient(135deg, rgba(248,113,113,0.08), transparent, rgba(248,113,113,0.08));
             z-index: -1;
             animation: borderGlowSell 3s ease-in-out infinite;
-        }
-        @media (min-width: 768px) {
-            .signal-main.buy::after { border-radius: 21px; }
-            .signal-main.sell::after { border-radius: 21px; }
         }
         @keyframes borderGlowBuy {
             0%, 100% { opacity: 0.3; transform: scale(1); }
@@ -1214,8 +1206,9 @@
         </div>
     </div>
 
-    <!-- CONTROL BAR - SUPER MODERN & RAPIH -->
+    <!-- ===== CONTROL BAR - RAPIH ===== -->
     <div class="control-bar">
+        <!-- LEFT: TIMEFRAME -->
         <div class="control-left">
             <div class="timeframe">
                 <div class="timeframe-icon"><i class="fas fa-chart-line"></i></div>
@@ -1225,10 +1218,12 @@
                 </div>
             </div>
         </div>
+        
+        <!-- RIGHT: ACTIONS -->
         <div class="control-right">
             <div class="limit-box">
                 <i class="fas fa-chart-simple"></i>
-                <span>Limit</span>
+                <span class="limit-label">Limit</span>
                 <span class="limit-badge" id="limitCount">5</span>
             </div>
             <div class="cooldown" id="cooldownTimer">
@@ -1242,7 +1237,7 @@
             </button>
             <button class="btn-reset" id="resetDisplayBtn">
                 <i class="fas fa-eraser"></i>
-                <span>RESET</span>
+                <span class="btn-text">RESET</span>
             </button>
         </div>
     </div>
