@@ -1,543 +1,1022 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>AI Trading Quantum - Hunters Group</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000000; color: #E0E0E0; overflow-x: hidden; min-height: 100vh; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #0A0C15; 
+            color: #E8EDF5; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 10% 20%, rgba(37,99,235,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(124,58,237,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 0%, #0A0C15 100%);
+        }
         body.modal-open { overflow: hidden; }
         
-        .bg-animated { position: fixed; width: 100%; height: 100%; background: radial-gradient(ellipse at 20% 30%, rgba(44,62,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 85% 70%, rgba(157,78,255,0.06) 0%, transparent 55%), linear-gradient(135deg, #05070A 0%, #000000 100%); pointer-events: none; z-index: 0; }
-        .orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
-        .orb-1 { width: 500px; height: 500px; background: #1E2A6E; top: -200px; left: -150px; opacity: 0.1; }
-        .orb-2 { width: 450px; height: 450px; background: #6B2FA0; bottom: -150px; right: -100px; opacity: 0.08; }
-        .app-container { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
-        @media (max-width: 768px) { .app-container { padding: 16px; } }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2563EB, #7C3AED); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #3B82F6, #8B5CF6); }
         
-        /* HEADER */
-        .header {
-            background: rgba(6, 10, 20, 0.85);
-            backdrop-filter: blur(24px);
-            border-radius: 28px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 16px 28px;
-            margin-bottom: 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+        .app-container { 
+            position: relative; 
+            z-index: 2; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px 28px; 
         }
-        .header:hover { border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-        .logo-area { display: flex; align-items: center; gap: 18px; }
-        .logo { height: 52px; width: auto; filter: drop-shadow(0 0 20px rgba(44,62,255,0.5)); transition: all 0.3s; }
-        .logo:hover { transform: scale(1.05); }
-        .title h1 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #FFFFFF, #60A5FA, #A78BFA); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .title p { font-size: 0.7rem; color: #FBBF24; letter-spacing: 1px; margin-top: 2px; }
-        .live-badge { display: flex; align-items: center; gap: 10px; background: rgba(0, 255, 170, 0.1); padding: 8px 24px; border-radius: 60px; border: 1px solid rgba(0, 255, 170, 0.3); }
-        .led { width: 10px; height: 10px; background: #00FFAA; border-radius: 50%; box-shadow: 0 0 12px #00FFAA; animation: pulse 1.2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .live-badge span { font-size: 0.85rem; font-weight: 700; color: #00FFAA; }
+        @media (max-width: 768px) { .app-container { padding: 12px 16px; } }
         
-        /* CONTROL BAR */
-        .control-bar {
-            background: rgba(8, 12, 25, 0.75);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(66, 153, 225, 0.3);
-            padding: 14px 24px;
-            margin-bottom: 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .timeframe {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.06));
-            padding: 8px 24px;
-            border-radius: 60px;
-            border: 1px solid rgba(59,130,246,0.2);
-        }
-        .timeframe-icon {
-            background: linear-gradient(135deg, #2563EB, #7C3AED);
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .timeframe-icon i { font-size: 1.2rem; color: white; }
-        .timeframe-text h3 { font-size: 1.1rem; font-weight: 800; color: #60A5FA; }
-        .timeframe-text p { font-size: 0.65rem; color: #FBBF24; display: flex; align-items: center; gap: 5px; }
-        
-        .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .limit-box { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 6px 18px; border-radius: 60px; }
-        .limit-badge { background: #2563EB; padding: 3px 10px; border-radius: 40px; font-weight: 700; font-size: 0.85rem; }
-        .limit-badge.zero { background: #DC2626; animation: pulse-red 1s infinite; }
-        .cooldown { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); padding: 6px 16px; border-radius: 60px; color: #FBBF24; display: none; }
-        @keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-        .btn-generate {
-            background: linear-gradient(105deg, #2563EB, #7C3AED);
-            border: none; padding: 10px 36px; border-radius: 60px; font-weight: 700; color: white;
-            cursor: pointer; display: flex; align-items: center; gap: 10px;
-            transition: all 0.3s; box-shadow: 0 6px 20px rgba(37,99,235,0.3);
-        }
-        .btn-generate:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-reset {
-            background: rgba(255,70,85,0.12); border: 1px solid rgba(255,70,85,0.3);
-            padding: 8px 28px; border-radius: 60px; font-weight: 600; color: #FF8A96;
-            cursor: pointer; display: flex; align-items: center; gap: 8px;
-        }
-        .btn-reset:hover { background: rgba(255,70,85,0.25); color: #FFB3BB; }
-        
-        /* SIGNAL CARD */
-        .signal-card {
-            background: rgba(8, 12, 25, 0.75);
-            backdrop-filter: blur(24px);
-            border-radius: 32px;
-            border: 1px solid rgba(66, 153, 225, 0.3);
-            padding: 28px;
-        }
-        @media (max-width: 640px) { .signal-card { padding: 20px; } }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(0,0,0,0.4);
-            border-radius: 28px;
-            border: 1px dashed rgba(66,153,225,0.4);
-        }
-        .empty-icon { font-size: 4rem; color: #4B5563; margin-bottom: 20px; }
-        .empty-title { font-size: 1.4rem; font-weight: 700; color: #9CA3AF; }
-        .empty-subtitle { font-size: 0.85rem; color: #6B7280; margin-top: 8px; }
-        
-        .limit-exhausted {
-            text-align: center;
-            padding: 50px 20px;
-            background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(245,158,11,0.05));
-            border-radius: 28px;
-            border: 1px solid rgba(239,68,68,0.4);
-            display: none;
-        }
-        .btn-buy-limit {
-            background: linear-gradient(105deg, #FF8C00, #FFD700);
-            border: none; padding: 12px 40px; border-radius: 60px; font-weight: 700; color: #0A0C15;
-            cursor: pointer; margin-top: 20px; display: inline-flex; align-items: center; gap: 10px;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow { 0%,100% { box-shadow: 0 6px 20px rgba(255,140,0,0.3); } 50% { box-shadow: 0 6px 30px rgba(255,215,0,0.5); } }
-        
-        .signal-output { display: none; animation: fadeInUp 0.5s ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .signal-main {
-            text-align: center;
-            padding: 30px 20px;
-            border-radius: 28px;
-            position: relative;
-        }
-        .signal-main.buy { background: linear-gradient(135deg, rgba(74,222,128,0.12), rgba(74,222,128,0.02)); border: 1px solid rgba(74,222,128,0.5); }
-        .signal-main.sell { background: linear-gradient(135deg, rgba(248,113,113,0.12), rgba(248,113,113,0.02)); border: 1px solid rgba(248,113,113,0.5); }
-        .signal-main.wait { background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.02)); border: 1px solid rgba(251,191,36,0.4); }
-        
-        .reset-signal {
-            position: absolute; top: 12px; right: 12px;
-            background: rgba(255,70,85,0.12); border: 1px solid rgba(255,70,85,0.3);
-            padding: 5px 14px; border-radius: 40px; font-size: 0.65rem; color: #FF8A96;
-            cursor: pointer; display: flex; align-items: center; gap: 6px;
-        }
-        .reset-signal:hover { background: rgba(255,70,85,0.25); color: #FFB3BB; }
-        
-        .signal-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 18px;
-            border-radius: 60px;
-            font-size: 0.7rem;
-            margin-bottom: 20px;
-        }
-        .signal-value {
-            font-size: 4rem;
-            font-weight: 800;
-            letter-spacing: 8px;
-            margin: 15px 0;
-        }
-        .signal-value.buy { color: #4ADE80; text-shadow: 0 0 30px rgba(74,222,128,0.4); }
-        .signal-value.sell { color: #F87171; text-shadow: 0 0 30px rgba(248,113,113,0.4); }
-        .signal-value.wait { color: #FBBF24; text-shadow: 0 0 20px rgba(251,191,36,0.3); }
-        
-        .accuracy-card {
-            background: rgba(0,0,0,0.4);
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin: 16px 0;
-        }
-        .accuracy-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-        }
-        .accuracy-bar {
-            background: #1F2937;
-            border-radius: 20px;
-            height: 6px;
-            overflow: hidden;
-        }
-        .accuracy-fill {
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            width: 0%;
-            border-radius: 20px;
-            transition: width 0.6s ease;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
         }
-        .accuracy-fill.buy { background: linear-gradient(90deg, #22C55E, #4ADE80); }
-        .accuracy-fill.sell { background: linear-gradient(90deg, #EF4444, #F87171); }
-        .accuracy-desc { font-size: 0.65rem; text-align: center; margin-top: 10px; color: #9CA3AF; }
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+        .glow-orb-1 { 
+            width: 600px; height: 600px; 
+            background: #1E3A8A; 
+            top: -200px; left: -200px; 
+            opacity: 0.15;
+            animation-delay: 0s;
+        }
+        .glow-orb-2 { 
+            width: 500px; height: 500px; 
+            background: #6D28D9; 
+            bottom: -150px; right: -150px; 
+            opacity: 0.12;
+            animation-delay: -7s;
+        }
+        .glow-orb-3 {
+            width: 400px; height: 400px;
+            background: #0EA5E9;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.05;
+            animation-delay: -14s;
+        }
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 40px) scale(0.95); }
+            75% { transform: translate(30px, 20px) scale(1.02); }
+        }
         
-        .psar-info {
-            background: rgba(0,0,0,0.35);
-            border-radius: 18px;
-            padding: 14px 20px;
-            margin: 16px 0;
+        /* ===== HEADER ===== */
+        .header {
+            background: rgba(10, 12, 21, 0.8);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 24px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
-        .psar-value { font-size: 1rem; font-weight: 700; font-family: monospace; color: #60A5FA; }
-        .trend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-        .trend-dot.up { background: #4ADE80; box-shadow: 0 0 8px #4ADE80; animation: pulse-green 1.5s infinite; }
-        .trend-dot.down { background: #F87171; box-shadow: 0 0 8px #F87171; animation: pulse-red 1.5s infinite; }
-        @keyframes pulse-green { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .header:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 8px 48px rgba(37,99,235,0.08);
+        }
+        .logo-area { display: flex; align-items: center; gap: 16px; }
+        .logo-wrapper {
+            width: 52px; height: 52px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+            flex-shrink: 0;
+            overflow: hidden;
+            padding: 4px;
+        }
+        .logo-wrapper:hover {
+            transform: scale(1.05) rotate(-3deg);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 40px rgba(37,99,235,0.25);
+        }
+        .logo { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; filter: drop-shadow(0 0 20px rgba(37,99,235,0.2)); transition: all 0.4s; }
+        .logo-wrapper:hover .logo { filter: drop-shadow(0 0 40px rgba(37,99,235,0.4)); }
+        .title h1 { 
+            font-size: 1.4rem; font-weight: 800; 
+            background: linear-gradient(135deg, #FFFFFF 0%, #60A5FA 40%, #A78BFA 70%, #C084FC 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .title p { font-size: 0.65rem; color: #FBBF24; letter-spacing: 1.5px; margin-top: 2px; opacity: 0.8; }
+        .live-badge { 
+            display: flex; align-items: center; gap: 10px; 
+            background: rgba(0, 255, 170, 0.06); padding: 6px 20px; 
+            border-radius: 100px; border: 1px solid rgba(0, 255, 170, 0.15);
+            transition: all 0.3s;
+        }
+        .live-badge:hover { background: rgba(0, 255, 170, 0.10); border-color: rgba(0, 255, 170, 0.25); }
+        .led { 
+            width: 8px; height: 8px; background: #00FFAA; border-radius: 50%; 
+            box-shadow: 0 0 16px #00FFAA, 0 0 32px rgba(0,255,170,0.3);
+            animation: pulse-led 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-led { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        .live-badge span { font-size: 0.75rem; font-weight: 600; color: #00FFAA; letter-spacing: 0.5px; }
         
-        /* INDICATOR CARDS - COLLAPSIBLE */
+        /* ===== CONTROL BAR ===== */
+        .control-bar {
+            background: rgba(10, 12, 21, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        .control-bar:hover { border-color: rgba(59, 130, 246, 0.12); }
+        .timeframe {
+            display: flex; align-items: center; gap: 14px;
+            background: rgba(255,255,255,0.02); padding: 6px 18px;
+            border-radius: 100px; border: 1px solid rgba(255,255,255,0.04);
+        }
+        .timeframe-icon {
+            background: linear-gradient(135deg, #2563EB, #7C3AED);
+            width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+        }
+        .timeframe-icon i { font-size: 1rem; color: white; }
+        .timeframe-text h3 { font-size: 1rem; font-weight: 700; color: #60A5FA; letter-spacing: -0.3px; }
+        .timeframe-text p { font-size: 0.6rem; color: #FBBF24; display: flex; align-items: center; gap: 5px; opacity: 0.8; }
+        .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .limit-box { 
+            display: flex; align-items: center; gap: 8px; 
+            background: rgba(255,255,255,0.03); padding: 5px 16px; 
+            border-radius: 100px; border: 1px solid rgba(255,255,255,0.04);
+        }
+        .limit-box i { color: #9CA3AF; font-size: 0.8rem; }
+        .limit-box span { font-size: 0.75rem; color: #9CA3AF; }
+        .limit-badge { 
+            background: linear-gradient(135deg, #2563EB, #7C3AED);
+            padding: 2px 12px; border-radius: 40px; font-weight: 700; font-size: 0.8rem;
+            color: white; min-width: 24px; text-align: center; transition: all 0.3s;
+        }
+        .limit-badge.zero { background: linear-gradient(135deg, #DC2626, #EF4444); animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .cooldown { 
+            display: flex; align-items: center; gap: 8px; 
+            background: rgba(251,191,36,0.08); padding: 5px 16px; 
+            border-radius: 100px; color: #FBBF24;
+            border: 1px solid rgba(251,191,36,0.1); display: none; font-size: 0.75rem;
+        }
+        .btn-generate {
+            background: linear-gradient(135deg, #2563EB, #7C3AED);
+            border: none; padding: 8px 28px; border-radius: 100px;
+            font-weight: 700; font-size: 0.8rem; color: white;
+            cursor: pointer; display: flex; align-items: center; gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(37,99,235,0.25);
+            position: relative; overflow: hidden;
+        }
+        .btn-generate::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s;
+        }
+        .btn-generate:hover:not(:disabled)::before { left: 100%; }
+        .btn-generate:hover:not(:disabled) { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 32px rgba(37,99,235,0.4); }
+        .btn-generate:active:not(:disabled) { transform: scale(0.97); }
+        .btn-generate:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .btn-reset {
+            background: rgba(255,70,85,0.06); border: 1px solid rgba(255,70,85,0.1);
+            padding: 8px 20px; border-radius: 100px; font-weight: 600; font-size: 0.75rem;
+            color: #FF8A96; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s;
+        }
+        .btn-reset:hover { background: rgba(255,70,85,0.12); border-color: rgba(255,70,85,0.2); transform: translateY(-1px); }
+        
+        /* ===== SIGNAL CARD ===== */
+        .signal-card {
+            background: rgba(10, 12, 21, 0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 28px;
+            box-shadow: 0 8px 48px rgba(0,0,0,0.4);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .signal-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(37,99,235,0.03), transparent 50%);
+            pointer-events: none;
+        }
+        @media (max-width: 640px) { .signal-card { padding: 16px; } }
+        
+        .empty-state { text-align: center; padding: 60px 20px; position: relative; z-index: 1; }
+        .empty-icon { font-size: 4rem; background: linear-gradient(135deg, #2563EB, #7C3AED); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; display: inline-block; animation: float-icon 3s ease-in-out infinite; }
+        @keyframes float-icon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .empty-title { font-size: 1.5rem; font-weight: 800; color: #E8EDF5; margin-bottom: 8px; }
+        .empty-subtitle { font-size: 0.85rem; color: #9CA3AF; max-width: 400px; margin: 0 auto; }
+        
+        .limit-exhausted { text-align: center; padding: 50px 20px; background: linear-gradient(135deg, rgba(239,68,68,0.05), rgba(245,158,11,0.03)); border-radius: 24px; border: 1px solid rgba(239,68,68,0.15); display: none; position: relative; z-index: 1; }
+        .btn-buy-limit { background: linear-gradient(135deg, #F59E0B, #F97316); border: none; padding: 12px 40px; border-radius: 100px; font-weight: 700; color: #0A0C15; cursor: pointer; margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; box-shadow: 0 4px 24px rgba(245,158,11,0.3); }
+        .btn-buy-limit:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 40px rgba(245,158,11,0.4); }
+        
+        /* ================================================================ */
+        /* ===== SUPER MODERN SIGNAL OUTPUT ===== */
+        /* ================================================================ */
+        .signal-output { display: none; animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 1; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .signal-main {
+            text-align: center;
+            padding: 40px 30px 30px;
+            border-radius: 24px;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .signal-main::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(37,99,235,0.05), transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(124,58,237,0.04), transparent 50%);
+            pointer-events: none;
+            animation: shimmerBg 8s ease-in-out infinite;
+        }
+        @keyframes shimmerBg {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, -2%) rotate(2deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+        .signal-main.buy { 
+            background: linear-gradient(135deg, rgba(74,222,128,0.08), rgba(74,222,128,0.02)); 
+            border: 1px solid rgba(74,222,128,0.2);
+        }
+        .signal-main.sell { 
+            background: linear-gradient(135deg, rgba(248,113,113,0.08), rgba(248,113,113,0.02)); 
+            border: 1px solid rgba(248,113,113,0.2);
+        }
+        .signal-main.wait { 
+            background: linear-gradient(135deg, rgba(251,191,36,0.06), rgba(251,191,36,0.01)); 
+            border: 1px solid rgba(251,191,36,0.12);
+        }
+        .signal-main.buy::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(74,222,128,0.1), transparent, rgba(74,222,128,0.1));
+            z-index: -1;
+            animation: borderGlowBuy 3s ease-in-out infinite;
+        }
+        .signal-main.sell::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(248,113,113,0.1), transparent, rgba(248,113,113,0.1));
+            z-index: -1;
+            animation: borderGlowSell 3s ease-in-out infinite;
+        }
+        @keyframes borderGlowBuy {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        @keyframes borderGlowSell {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        
+        .reset-signal {
+            position: absolute; top: 14px; right: 14px;
+            background: rgba(255,70,85,0.06); border: 1px solid rgba(255,70,85,0.08);
+            padding: 5px 16px; border-radius: 40px; font-size: 0.6rem;
+            color: #FF8A96; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            transition: all 0.3s; z-index: 10;
+        }
+        .reset-signal:hover { background: rgba(255,70,85,0.12); border-color: rgba(255,70,85,0.2); }
+        
+        .signal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.04);
+            padding: 6px 20px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: #9CA3AF;
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        .signal-badge i { 
+            color: #60A5FA; 
+            font-size: 0.8rem;
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+        @keyframes pulse-icon {
+            0%, 100% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .signal-badge .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot-badge 1.5s ease-in-out infinite;
+        }
+        .signal-badge .badge-dot.buy { background: #4ADE80; box-shadow: 0 0 12px rgba(74,222,128,0.5); }
+        .signal-badge .badge-dot.sell { background: #F87171; box-shadow: 0 0 12px rgba(248,113,113,0.5); }
+        .signal-badge .badge-dot.wait { background: #FBBF24; box-shadow: 0 0 12px rgba(251,191,36,0.4); }
+        @keyframes pulse-dot-badge {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.6); opacity: 1; }
+        }
+        
+        .signal-value-wrapper {
+            position: relative;
+            z-index: 2;
+            margin: 10px 0 16px;
+        }
+        .signal-value {
+            font-size: 5.5rem;
+            font-weight: 900;
+            letter-spacing: 16px;
+            line-height: 1;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: inline-block;
+        }
+        .signal-value.buy { 
+            color: #4ADE80; 
+            text-shadow: 0 0 80px rgba(74,222,128,0.3), 0 0 160px rgba(74,222,128,0.1);
+            animation: glowPulseBuy 2.5s ease-in-out infinite;
+        }
+        .signal-value.sell { 
+            color: #F87171; 
+            text-shadow: 0 0 80px rgba(248,113,113,0.3), 0 0 160px rgba(248,113,113,0.1);
+            animation: glowPulseSell 2.5s ease-in-out infinite;
+        }
+        .signal-value.wait { 
+            color: #FBBF24; 
+            text-shadow: 0 0 60px rgba(251,191,36,0.2), 0 0 120px rgba(251,191,36,0.08);
+            animation: glowPulseWait 3s ease-in-out infinite;
+        }
+        @keyframes glowPulseBuy {
+            0%, 100% { text-shadow: 0 0 60px rgba(74,222,128,0.25), 0 0 120px rgba(74,222,128,0.1); transform: scale(1); }
+            50% { text-shadow: 0 0 100px rgba(74,222,128,0.4), 0 0 200px rgba(74,222,128,0.15); transform: scale(1.02); }
+        }
+        @keyframes glowPulseSell {
+            0%, 100% { text-shadow: 0 0 60px rgba(248,113,113,0.25), 0 0 120px rgba(248,113,113,0.1); transform: scale(1); }
+            50% { text-shadow: 0 0 100px rgba(248,113,113,0.4), 0 0 200px rgba(248,113,113,0.15); transform: scale(1.02); }
+        }
+        @keyframes glowPulseWait {
+            0%, 100% { text-shadow: 0 0 40px rgba(251,191,36,0.15), 0 0 80px rgba(251,191,36,0.05); transform: scale(1); }
+            50% { text-shadow: 0 0 70px rgba(251,191,36,0.25), 0 0 140px rgba(251,191,36,0.08); transform: scale(1.01); }
+        }
+        .signal-value::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, currentColor 0%, transparent 70%);
+            opacity: 0.05;
+            filter: blur(40px);
+            z-index: -1;
+            animation: particleGlow 4s ease-in-out infinite;
+        }
+        @keyframes particleGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.03; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.08; }
+        }
+        
+        .signal-subtitle {
+            font-size: 0.7rem;
+            color: #6B7280;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: -6px;
+            margin-bottom: 16px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+        .signal-subtitle span {
+            padding: 0 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        
+        .accuracy-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 16px 22px;
+            margin: 12px 0;
+            border: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .accuracy-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+        .accuracy-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #9CA3AF;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .accuracy-header span:first-child i { color: #60A5FA; margin-right: 8px; }
+        .accuracy-header .score-value {
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.5s;
+        }
+        .accuracy-header .score-value.buy { color: #4ADE80; }
+        .accuracy-header .score-value.sell { color: #F87171; }
+        .accuracy-header .score-value.wait { color: #FBBF24; }
+        
+        .accuracy-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .accuracy-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: barShimmer 3s ease-in-out infinite;
+        }
+        @keyframes barShimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        .accuracy-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .accuracy-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: inherit;
+            box-shadow: 0 0 20px currentColor;
+            opacity: 0.6;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+        .accuracy-fill.buy { background: linear-gradient(90deg, #22C55E, #4ADE80); }
+        .accuracy-fill.sell { background: linear-gradient(90deg, #EF4444, #F87171); }
+        
+        .accuracy-desc { 
+            font-size: 0.7rem; 
+            text-align: center; 
+            margin-top: 10px; 
+            color: #9CA3AF;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 2;
+        }
+        .accuracy-desc i { margin-right: 6px; }
+        
+        .psar-info {
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 14px 20px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .psar-info:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+        .psar-info > div { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-size: 0.75rem; 
+            color: #9CA3AF;
+        }
+        .psar-value { 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            font-family: 'Inter', monospace; 
+            color: #60A5FA;
+            transition: all 0.3s;
+        }
+        .psar-value.up { color: #4ADE80; }
+        .psar-value.down { color: #F87171; }
+        
+        .trend-dot { 
+            width: 10px; 
+            height: 10px; 
+            border-radius: 50%; 
+            display: inline-block; 
+            transition: all 0.5s;
+        }
+        .trend-dot.up { 
+            background: #4ADE80; 
+            box-shadow: 0 0 20px rgba(74,222,128,0.5);
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+        .trend-dot.down { 
+            background: #F87171; 
+            box-shadow: 0 0 20px rgba(248,113,113,0.5);
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+        #trendText { font-weight: 600; font-size: 0.8rem; }
+        #trendText.up { color: #4ADE80; }
+        #trendText.down { color: #F87171; }
+        #psarPosition { font-size: 0.7rem; color: #6B7280; }
+        #psarPosition span { font-weight: 600; }
+        
         .indicators-container {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin: 20px 0;
+            gap: 12px;
+            margin: 16px 0;
+            position: relative;
+            z-index: 2;
         }
         
         .indicator-group-card {
-            background: rgba(0,0,0,0.35);
-            border-radius: 20px;
-            border: 1px solid rgba(66,153,225,0.2);
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         .indicator-group-card:hover {
-            border-color: rgba(66,153,225,0.4);
+            border-color: rgba(59, 130, 246, 0.12);
+            transform: translateY(-1px);
         }
         
         .indicator-group-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 14px 18px;
             cursor: pointer;
-            background: rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.01);
+            transition: all 0.3s;
+            user-select: none;
         }
-        
         .indicator-group-header:hover {
-            background: rgba(37,99,235,0.1);
+            background: rgba(37,99,235,0.05);
         }
-        
         .indicator-group-title {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        
         .group-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(124,58,237,0.2));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-        
-        .group-icon i {
-            font-size: 1.1rem;
-            color: #60A5FA;
-        }
-        
-        .group-title-text {
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        
-        .group-title-text span {
-            font-size: 0.65rem;
-            color: #9CA3AF;
-            margin-left: 8px;
-        }
-        
+        .group-icon i { font-size: 0.9rem; color: #60A5FA; }
+        .group-title-text { font-weight: 600; font-size: 0.8rem; color: #E8EDF5; }
+        .group-title-text span { font-size: 0.6rem; color: #6B7280; margin-left: 6px; font-weight: 400; }
         .group-toggle {
-            width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.05);
+            width: 28px; height: 28px;
+            background: rgba(255,255,255,0.03);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
         }
-        
-        .group-toggle i {
-            font-size: 0.8rem;
-            color: #9CA3AF;
-            transition: transform 0.3s ease;
-        }
-        
-        .indicator-group-header.active .group-toggle i {
-            transform: rotate(180deg);
-        }
+        .group-toggle i { font-size: 0.7rem; color: #6B7280; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .indicator-group-header.active .group-toggle i { transform: rotate(180deg); }
         
         .indicator-group-content {
             display: none;
-            padding: 20px;
+            padding: 16px 18px;
             background: rgba(0,0,0,0.2);
-            border-top: 1px solid rgba(66,153,225,0.15);
+            border-top: 1px solid rgba(255,255,255,0.03);
         }
-        
         .indicator-group-content.show {
             display: block;
-            animation: slideDown 0.3s ease;
+            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .indicator-subgrid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 8px;
         }
-        
         .indicator-item-card {
-            background: rgba(0,0,0,0.3);
-            border-radius: 14px;
-            padding: 12px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 10px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-left: 3px solid transparent;
             transition: all 0.3s;
         }
-        
         .indicator-item-card.bullish {
             border-left-color: #4ADE80;
             background: rgba(74,222,128,0.05);
         }
-        
         .indicator-item-card.bearish {
             border-left-color: #F87171;
             background: rgba(248,113,113,0.05);
         }
-        
         .indicator-item-card:hover {
             transform: translateX(4px);
-            background: rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.06);
         }
-        
-        .indicator-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .indicator-name-card {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #CBD5E0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .indicator-name-card i {
-            font-size: 0.8rem;
-            color: #60A5FA;
-        }
-        
-        .indicator-value-card {
-            font-size: 0.7rem;
-            color: #9CA3AF;
-            font-family: monospace;
-        }
-        
+        .indicator-info { display: flex; flex-direction: column; gap: 2px; }
+        .indicator-name-card { font-size: 0.7rem; font-weight: 700; color: #CBD5E0; display: flex; align-items: center; gap: 6px; }
+        .indicator-name-card i { font-size: 0.7rem; color: #60A5FA; }
+        .indicator-weight-badge { font-size: 0.5rem; color: #6B7280; margin-left: 4px; font-weight: 400; }
+        .indicator-value-card { font-size: 0.65rem; color: #9CA3AF; font-family: 'Inter', monospace; }
         .indicator-signal-card {
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 20px;
+            font-size: 0.65rem; font-weight: 700;
+            padding: 3px 12px; border-radius: 20px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .indicator-signal-card.buy { background: rgba(74,222,128,0.12); color: #4ADE80; }
+        .indicator-signal-card.sell { background: rgba(248,113,113,0.12); color: #F87171; }
+        .indicator-signal-card.wait { background: rgba(156,163,175,0.08); color: #9CA3AF; }
+        
+        .strength-fill {
+            background: linear-gradient(90deg, #3B82F6, #A855F7, #4ADE80) !important;
         }
         
-        .indicator-signal-card.buy {
-            background: rgba(74,222,128,0.2);
-            color: #4ADE80;
-        }
-        
-        .indicator-signal-card.sell {
-            background: rgba(248,113,113,0.2);
-            color: #F87171;
-        }
-        
-        .indicator-signal-card.wait {
-            background: rgba(156,163,175,0.2);
-            color: #9CA3AF;
-        }
-        
-        .indicator-weight-badge {
-            font-size: 0.6rem;
-            color: #6B7280;
-            margin-left: 6px;
-        }
-        
-        /* Trading Panel */
         .trading-panel {
-            background: rgba(0,0,0,0.35);
-            border-radius: 20px;
-            padding: 6px;
-            margin-top: 16px;
-        }
-        .trading-grid {
-            display: flex;
-            gap: 1px;
             background: rgba(255,255,255,0.02);
             border-radius: 16px;
+            padding: 4px;
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            z-index: 2;
+        }
+        .trading-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            border-radius: 14px;
             overflow: hidden;
         }
         .trading-item {
-            flex: 1;
             text-align: center;
-            padding: 14px 12px;
-            background: rgba(0,0,0,0.4);
+            padding: 14px 10px;
+            background: rgba(255,255,255,0.01);
+            transition: all 0.3s;
+            border-radius: 12px;
+            position: relative;
+        }
+        .trading-item:hover { 
+            background: rgba(37,99,235,0.06); 
+            transform: translateY(-2px);
+        }
+        .trading-item .trading-icon {
+            font-size: 0.7rem;
+            color: #6B7280;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .trading-value { 
+            font-size: 1.15rem; 
+            font-weight: 800; 
+            font-family: 'Inter', monospace;
+            letter-spacing: -0.3px;
             transition: all 0.3s;
         }
-        .trading-item:hover { background: rgba(37,99,235,0.1); }
-        .trading-value { font-size: 1.2rem; font-weight: 800; font-family: monospace; }
         .trading-value.spot { color: #60A5FA; }
         .trading-value.sl { color: #F87171; }
         .trading-value.tp { color: #4ADE80; }
-        .trading-label { font-size: 0.55rem; color: #9CA3AF; margin-top: 5px; letter-spacing: 1px; }
+        .trading-label { 
+            font-size: 0.5rem; 
+            color: #6B7280; 
+            margin-top: 4px; 
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
         
         .footer-note {
             text-align: center;
-            margin-top: 28px;
-            font-size: 0.6rem;
-            opacity: 0.4;
+            margin-top: 24px;
+            font-size: 0.55rem;
+            opacity: 0.3;
             color: #6B7280;
+            letter-spacing: 0.5px;
         }
         
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(24px); z-index: 10000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.35s; }
+        /* ===== MODAL ===== */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            z-index: 10000; display: flex; justify-content: center; align-items: center; 
+            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-container { background: rgba(12,15,22,0.98); border-radius: 40px; border: 1px solid rgba(255,215,0,0.35); max-width: 780px; width: 90%; max-height: 90vh; overflow-y: auto; padding: 24px 28px; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 24px; background: rgba(239,68,68,0.2); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .confirm-btn { width: 100%; background: linear-gradient(105deg, #4ADE80, #3B82F6); border: none; padding: 12px; border-radius: 60px; font-weight: 800; color: white; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .payment-info-row { display: flex; flex-wrap: wrap; gap: 20px; }
-        .qris-section { flex: 1; text-align: center; }
-        .qris-image { width: 120px; height: 120px; margin: 0 auto; border-radius: 20px; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,215,0,0.3); }
+        .modal-container { 
+            background: rgba(10,12,21,0.95); border-radius: 32px;
+            border: 1px solid rgba(255,215,0,0.12);
+            max-width: 780px; width: 92%; max-height: 92vh;
+            overflow-y: auto; padding: 28px 32px;
+            position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+            transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay.active .modal-container { transform: scale(1); }
+        .close-modal { 
+            position: absolute; top: 16px; right: 20px;
+            background: rgba(239,68,68,0.08); width: 32px; height: 32px;
+            border-radius: 50%; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            border: 1px solid rgba(239,68,68,0.1);
+            transition: all 0.3s; color: #9CA3AF;
+        }
+        .close-modal:hover { background: rgba(239,68,68,0.15); color: #F87171; }
+        .confirm-btn { 
+            width: 100%; background: linear-gradient(135deg, #4ADE80, #3B82F6);
+            border: none; padding: 14px; border-radius: 100px;
+            font-weight: 700; color: white; cursor: pointer;
+            margin-top: 12px; display: flex; align-items: center;
+            justify-content: center; gap: 10px;
+            transition: all 0.3s; font-size: 0.9rem;
+        }
+        .confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(74,222,128,0.3); }
+        .payment-info-row { display: flex; flex-wrap: wrap; gap: 24px; }
+        .qris-section { flex: 1; text-align: center; min-width: 140px; }
+        .qris-image { width: 120px; height: 120px; margin: 0 auto; border-radius: 16px; overflow: hidden; cursor: pointer; border: 1px solid rgba(255,215,0,0.1); transition: all 0.3s; }
+        .qris-image:hover { transform: scale(1.02); border-color: rgba(255,215,0,0.2); }
         .qris-image img { width: 100%; height: 100%; object-fit: contain; }
-        .amount-value { font-size: 1.5rem; font-weight: 800; color: #FBBF24; }
-        .details-section { flex: 1.6; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { font-size: 0.7rem; margin-bottom: 4px; display: block; color: #CBD5E0; }
-        .form-group input, .form-group select { width: 100%; padding: 8px 12px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #F0F0F0; }
-        .total-price { background: rgba(37,99,235,0.15); padding: 10px; border-radius: 16px; text-align: center; margin: 10px 0; }
+        .amount-value { font-size: 1.6rem; font-weight: 800; color: #FBBF24; margin-top: 8px; }
+        .details-section { flex: 1.6; min-width: 200px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { 
+            font-size: 0.65rem; margin-bottom: 4px; display: block;
+            color: #9CA3AF; font-weight: 500; letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .form-group input, .form-group select { 
+            width: 100%; padding: 10px 14px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px; color: #E8EDF5;
+            font-family: 'Inter', sans-serif; transition: all 0.3s; font-size: 0.85rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none; border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(255,255,255,0.06);
+        }
+        .total-price { background: rgba(37,99,235,0.06); padding: 12px; border-radius: 12px; text-align: center; margin: 8px 0; border: 1px solid rgba(37,99,235,0.06); }
         
-        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(16px); z-index: 9000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s; }
+        /* ===== LOADING ===== */
+        .loading-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            z-index: 9000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .loading-overlay.active { opacity: 1; visibility: visible; }
-        .loading-card { background: rgba(10,10,15,0.98); border-radius: 40px; padding: 40px 50px; text-align: center; border: 1px solid rgba(59,130,246,0.4); }
+        .loading-card { 
+            background: rgba(10,12,21,0.95); border-radius: 32px;
+            padding: 48px 56px; text-align: center;
+            border: 1px solid rgba(59,130,246,0.08);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+            max-width: 440px; width: 92%;
+        }
         .loading-animation { position: relative; width: 70px; height: 70px; margin: 0 auto 24px; }
-        .loading-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; border-top-color: #3B82F6; border-right-color: #A855F7; animation: spinRing 1s linear infinite; }
+        .loading-ring { 
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 50%; border: 3px solid transparent;
+            border-top-color: #3B82F6; border-right-color: #A855F7;
+            animation: spinRing 1s linear infinite;
+        }
         .loading-ring:nth-child(2) { width: 50px; height: 50px; top: 10px; left: 10px; border-top-color: #A855F7; border-right-color: #4ADE80; animation: spinRingReverse 1.2s linear infinite; }
         .loading-ring:nth-child(3) { width: 30px; height: 30px; top: 20px; left: 20px; border-top-color: #4ADE80; border-right-color: #3B82F6; animation: spinRing 0.8s linear infinite; }
         @keyframes spinRing { to { transform: rotate(360deg); } }
         @keyframes spinRingReverse { to { transform: rotate(-360deg); } }
-        .loading-text { font-size: 1.2rem; font-weight: 700; background: linear-gradient(135deg, #FFFFFF, #90CDF4); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .loading-progress { width: 240px; background: #1F2937; border-radius: 40px; height: 4px; margin: 16px auto; }
+        .loading-text { font-size: 1.1rem; font-weight: 700; background: linear-gradient(135deg, #FFFFFF, #90CDF4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .loading-subtext { font-size: 0.7rem; color: #6B7280; margin-top: 4px; }
+        .loading-progress { width: 100%; background: rgba(255,255,255,0.04); border-radius: 40px; height: 4px; margin: 16px 0; }
         .loading-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #3B82F6, #4ADE80); border-radius: 40px; transition: width 0.1s linear; }
-        .loading-steps { display: flex; justify-content: center; gap: 16px; margin-top: 20px; }
-        .step { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.55rem; color: #6B7280; }
+        .loading-steps { display: flex; justify-content: center; gap: 24px; margin-top: 16px; }
+        .step { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.5rem; color: #4B5563; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s; }
         .step.active { color: #3B82F6; }
         .step.completed { color: #4ADE80; }
+        .step i { font-size: 1.2rem; margin-bottom: 2px; }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .title h1 { font-size: 1.1rem; }
+            .logo-wrapper { width: 44px; height: 44px; border-radius: 14px; }
+            .live-badge { padding: 4px 14px; }
+            .live-badge span { font-size: 0.65rem; }
+            .signal-value { font-size: 3.5rem; letter-spacing: 8px; }
+            .trading-grid { grid-template-columns: 1fr; gap: 2px; }
+            .trading-item { padding: 10px; }
+            .indicator-subgrid { grid-template-columns: 1fr; }
+            .loading-card { padding: 32px 24px; }
+            .modal-container { padding: 20px; }
+            .payment-info-row { flex-direction: column; }
+            .signal-main { padding: 30px 16px 20px; }
+        }
+        @media (max-width: 480px) {
+            .app-container { padding: 8px 10px; }
+            .header { padding: 10px 16px; flex-direction: column; align-items: stretch; }
+            .logo-area { justify-content: center; }
+            .title { text-align: center; }
+            .live-badge { justify-content: center; }
+            .control-bar { flex-direction: column; align-items: stretch; }
+            .timeframe { justify-content: center; }
+            .actions { justify-content: center; }
+            .signal-card { padding: 12px; }
+            .signal-main { padding: 20px 10px 16px; }
+            .signal-value { font-size: 2.8rem; letter-spacing: 4px; }
+            .psar-info { flex-direction: column; align-items: center; text-align: center; }
+            .reset-signal { top: 8px; right: 8px; padding: 3px 10px; font-size: 0.5rem; }
+            .logo-wrapper { width: 38px; height: 38px; border-radius: 12px; }
+            .signal-badge { font-size: 0.55rem; padding: 4px 12px; }
+            .accuracy-card { padding: 12px 14px; }
+        }
     </style>
 </head>
 <body>
-<div class="bg-animated"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
 
+<!-- ===== BACKGROUND ===== -->
+<div class="bg-grid"></div>
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+<div class="glow-orb glow-orb-3"></div>
+
+<!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="paymentModal">
     <div class="modal-container">
-        <button class="close-modal" id="closeModalBtn">&times;</button>
-        <div class="modal-header" style="text-align: center; margin-bottom: 16px;">
-            <h2 style="background: linear-gradient(135deg, #FBBF24, #F97316); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 1.5rem;"><i class="fas fa-gem"></i> Tambah Limit</h2>
+        <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
+        <div style="text-align:center; margin-bottom:20px;">
+            <h2 style="background:linear-gradient(135deg, #FBBF24, #F97316); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:1.4rem; font-weight:800;">
+                <i class="fas fa-gem"></i> Tambah Limit
+            </h2>
+            <p style="color:#6B7280; font-size:0.75rem;">Dapatkan akses analisis tanpa batas</p>
         </div>
         <div class="payment-info-row">
             <div class="qris-section">
                 <div class="qris-image" id="qrisImage">
-                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhH0Z6ewE2H7V-Maa0448YScMvF2qjha4Xt6uKlioFSJeUXHSzYesEbB2CsWE1LRdJSN7QxwYW1yGRDN2uyYVY6DtaTfKn_727s9cC2dWr3mNoezeKIFci6rRK6HzbQzCE1DYg8q1F5DWOm9RbypUNB5ipKcIDbXL0GW9d9SRIQ3QePOqw_lcEL4t1Wh_DK" style="width:100%; height:100%; object-fit:contain;">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhH0Z6ewE2H7V-Maa0448YScMvF2qjha4Xt6uKlioFSJeUXHSzYesEbB2CsWE1LRdJSN7QxwYW1yGRDN2uyYVY6DtaTfKn_727s9cC2dWr3mNoezeKIFci6rRK6HzbQzCE1DYg8q1F5DWOm9RbypUNB5ipKcIDbXL0GW9d9SRIQ3QePOqw_lcEL4t1Wh_DK" alt="QRIS">
                 </div>
                 <div class="amount-value">Rp8.000</div>
-                <div style="font-size:0.7rem;">Kode Unik: <strong id="uniqueCode" style="color:#4ADE80;">000</strong></div>
+                <div style="font-size:0.65rem; color:#6B7280;">Kode Unik: <strong id="uniqueCode" style="color:#4ADE80; font-size:0.9rem;">000</strong></div>
             </div>
             <div class="details-section">
-                <div class="form-group"><label>Jumlah Limit (Maks 20)</label><input type="number" id="limitAmount" value="1" min="1" max="20"></div>
-                <div class="total-price">Total: <strong id="totalAmountDisplay" style="color:#FBBF24;">Rp 0</strong></div>
-                <div class="form-group"><label>Sumber Dana</label><select id="sourceBank"><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option><option>GoPay</option><option>OVO</option><option>DANA</option></select></div>
-                <div class="form-group"><label>Atas Nama</label><input type="text" id="senderName"></div>
+                <div class="form-group">
+                    <label><i class="fas fa-layer-group"></i> Jumlah Limit (Maks 20)</label>
+                    <input type="number" id="limitAmount" value="1" min="1" max="20">
+                </div>
+                <div class="total-price">
+                    Total: <strong id="totalAmountDisplay" style="color:#FBBF24; font-size:1.2rem;">Rp 0</strong>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-university"></i> Sumber Dana</label>
+                    <select id="sourceBank">
+                        <option>BCA</option><option>Mandiri</option><option>BNI</option>
+                        <option>BRI</option><option>GoPay</option><option>OVO</option><option>DANA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Atas Nama</label>
+                    <input type="text" id="senderName" placeholder="Nama lengkap">
+                </div>
             </div>
         </div>
-        <button class="confirm-btn" id="confirmPaymentBtn"><i class="fas fa-check-circle"></i> Konfirmasi Pembayaran</button>
+        <button class="confirm-btn" id="confirmPaymentBtn">
+            <i class="fas fa-check-circle"></i> Konfirmasi Pembayaran
+        </button>
     </div>
 </div>
 
+<!-- ===== LOADING ===== -->
 <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-card">
-        <div class="loading-animation"><div class="loading-ring"></div><div class="loading-ring"></div><div class="loading-ring"></div></div>
+        <div class="loading-animation">
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+        </div>
         <div class="loading-text" id="loadingMainText">12 INDIKATOR ENGINE</div>
-        <div class="loading-subtext" id="loadingSubText" style="font-size:0.65rem; color:#9CA3AF;">Analyzing with 12 indicators...</div>
+        <div class="loading-subtext" id="loadingSubText">Menganalisis dengan 12 indikator...</div>
         <div class="loading-progress"><div class="loading-progress-fill" id="loadingProgressFill"></div></div>
-        <div class="loading-steps"><div class="step" id="step1"><i class="fas fa-database"></i><span>DATA</span></div><div class="step" id="step2"><i class="fas fa-chart-line"></i><span>12 INDIKATOR</span></div><div class="step" id="step3"><i class="fas fa-calculator"></i><span>SCORING</span></div><div class="step" id="step4"><i class="fas fa-bullhorn"></i><span>SIGNAL</span></div></div>
+        <div class="loading-steps">
+            <div class="step" id="step1"><i class="fas fa-database"></i><span>DATA</span></div>
+            <div class="step" id="step2"><i class="fas fa-chart-line"></i><span>INDIKATOR</span></div>
+            <div class="step" id="step3"><i class="fas fa-calculator"></i><span>SKOR</span></div>
+            <div class="step" id="step4"><i class="fas fa-bullhorn"></i><span>SINYAL</span></div>
+        </div>
     </div>
 </div>
 
+<!-- ===== APP ===== -->
 <div class="app-container">
     <!-- HEADER -->
     <div class="header">
         <div class="logo-area">
-            <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9YQmaIHSrk0AT8IpfU-nDQ2NmGo700YpMQSj3Lvo-_7kX4G6xyX_pd5KyxCznX6r0Tl2vYvZkZf797uCgHXQflFsDW5-HThG2rIg3PCR1LXrhuU3GDndJkLyyfdhC5LfsQuw2TFnwTAePABrvRF-PVrOF3ZTqBqMNYZ-ErDcXvCW5sCzLGcIkWzO_6YwN/s1024/1000832791.png" alt="Logo">
+            <div class="logo-wrapper">
+                <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9YQmaIHSrk0AT8IpfU-nDQ2NmGo700YpMQSj3Lvo-_7kX4G6xyX_pd5KyxCznX6r0Tl2vYvZkZf797uCgHXQflFsDW5-HThG2rIg3PCR1LXrhuU3GDndJkLyyfdhC5LfsQuw2TFnwTAePABrvRF-PVrOF3ZTqBqMNYZ-ErDcXvCW5sCzLGcIkWzO_6YwN/s1024/1000832791.png" alt="Logo">
+            </div>
             <div class="title">
                 <h1>AI Trading Quantum</h1>
-                <p>Hunters Group • 12 Indicator Weighted System</p>
+                <p>HUNTERS GROUP • 12 INDIKATOR WEIGHTED SYSTEM</p>
             </div>
         </div>
         <div class="live-badge">
@@ -566,7 +1045,7 @@
                 <span id="cooldownTime">10:00</span>
             </div>
             <button class="btn-generate" id="generateBtn">
-                <i class="fas fa-microchip"></i> GENERATE SIGNAL <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-microchip"></i> GENERATE <i class="fas fa-arrow-right"></i>
             </button>
             <button class="btn-reset" id="resetDisplayBtn">
                 <i class="fas fa-eraser"></i> RESET
@@ -576,57 +1055,101 @@
 
     <!-- SIGNAL CARD -->
     <div class="signal-card">
+        <!-- EMPTY STATE -->
         <div id="emptyState" class="empty-state">
             <div class="empty-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="empty-title">12 Indicator Weighted System</div>
-            <div class="empty-subtitle">Click GENERATE SIGNAL for ultra-accurate analysis (95%+ accuracy)</div>
+            <div class="empty-title">Siap Menganalisis</div>
+            <div class="empty-subtitle">Tekan GENERATE untuk analisis 12 indikator dengan akurasi 95%+</div>
         </div>
 
+        <!-- LIMIT EXHAUSTED -->
         <div id="limitExhausted" class="limit-exhausted">
-            <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
-            <div class="empty-title">Limit Habis!</div>
-            <div class="empty-subtitle">Anda telah menggunakan 5 analisa gratis.<br>Tambah limit untuk melanjutkan.</div>
+            <div style="font-size:3rem; margin-bottom:12px;"><i class="fas fa-exclamation-triangle" style="color:#FBBF24;"></i></div>
+            <div style="font-size:1.2rem; font-weight:700; color:#E8EDF5;">Limit Habis!</div>
+            <div style="font-size:0.8rem; color:#9CA3AF; margin-top:4px;">Anda telah menggunakan 5 analisa gratis.<br>Tambah limit untuk melanjutkan.</div>
             <button class="btn-buy-limit" id="buyLimitBtn"><i class="fas fa-cart-plus"></i> BELI LIMIT <i class="fas fa-arrow-right"></i></button>
         </div>
 
+        <!-- ===== SIGNAL OUTPUT SUPER MODERN ===== -->
         <div id="signalOutput" class="signal-output">
             <div id="signalMain" class="signal-main">
                 <button class="reset-signal" id="resetOutputBtn"><i class="fas fa-arrow-rotate-right"></i> RESET</button>
-                <div class="signal-badge"><i class="fas fa-robot"></i> QUANTUM AI RECOMMENDATION</div>
-                <div id="signalValue" class="signal-value">—</div>
                 
-                <div class="accuracy-card">
-                    <div class="accuracy-header"><span><i class="fas fa-chart-line"></i> WEIGHTED SCORE</span><span id="accuracyPercent">0%</span></div>
-                    <div class="accuracy-bar"><div id="accuracyFill" class="accuracy-fill"></div></div>
-                    <div id="accuracyDesc" class="accuracy-desc">Menunggu analisis...</div>
+                <!-- SIGNAL BADGE -->
+                <div class="signal-badge">
+                    <i class="fas fa-robot"></i>
+                    <span class="badge-dot" id="badgeDot"></span>
+                    <span id="badgeText">QUANTUM AI RECOMMENDATION</span>
                 </div>
                 
-                <!-- INDICATOR CARDS - COLLAPSIBLE -->
+                <!-- SIGNAL VALUE -->
+                <div class="signal-value-wrapper">
+                    <div id="signalValue" class="signal-value">—</div>
+                </div>
+                <div class="signal-subtitle">
+                    <span id="signalSubtitle">ANALISIS 12 INDIKATOR</span>
+                </div>
+                
+                <!-- ACCURACY CARD -->
+                <div class="accuracy-card">
+                    <div class="accuracy-header">
+                        <span><i class="fas fa-chart-line"></i> WEIGHTED SCORE</span>
+                        <span class="score-value" id="accuracyPercent">0%</span>
+                    </div>
+                    <div class="accuracy-bar">
+                        <div id="accuracyFill" class="accuracy-fill"></div>
+                    </div>
+                    <div id="accuracyDesc" class="accuracy-desc">
+                        <i class="fas fa-hourglass-half"></i> Menunggu analisis...
+                    </div>
+                </div>
+                
+                <!-- INDICATORS -->
                 <div id="indicatorsContainer" class="indicators-container"></div>
                 
+                <!-- PSAR INFO -->
                 <div class="psar-info">
                     <div><i class="fas fa-chart-line"></i> PSAR: <span id="psarValue" class="psar-value">$0.00</span></div>
                     <div><span id="trendDot" class="trend-dot"></span><span id="trendText">—</span></div>
                     <div id="psarPosition">—</div>
                 </div>
                 
-                <div class="accuracy-card" style="margin-top:0">
-                    <div class="accuracy-header"><span><i class="fas fa-charging-station"></i> SIGNAL STRENGTH</span><span id="strengthPercent">0%</span></div>
-                    <div class="accuracy-bar"><div id="strengthFill" class="accuracy-fill" style="background:linear-gradient(90deg,#3B82F6,#A855F7,#4ADE80)"></div></div>
+                <!-- STRENGTH CARD -->
+                <div class="accuracy-card" style="margin-top:0;">
+                    <div class="accuracy-header">
+                        <span><i class="fas fa-charging-station"></i> SIGNAL STRENGTH</span>
+                        <span class="score-value" id="strengthPercent">0%</span>
+                    </div>
+                    <div class="accuracy-bar">
+                        <div id="strengthFill" class="accuracy-fill strength-fill"></div>
+                    </div>
                 </div>
             </div>
             
+            <!-- TRADING PANEL -->
             <div class="trading-panel">
                 <div class="trading-grid">
-                    <div class="trading-item"><div id="currentPrice" class="trading-value spot">$ ----.--</div><div class="trading-label">SPOT XAU/USD</div></div>
-                    <div class="trading-item"><div id="slValue" class="trading-value sl">—</div><div class="trading-label">STOP LOSS</div></div>
-                    <div class="trading-item"><div id="tpValue" class="trading-value tp">—</div><div class="trading-label">TAKE PROFIT</div></div>
+                    <div class="trading-item">
+                        <span class="trading-icon"><i class="fas fa-circle-dot"></i></span>
+                        <div id="currentPrice" class="trading-value spot">$ ----.--</div>
+                        <div class="trading-label">SPOT XAU/USD</div>
+                    </div>
+                    <div class="trading-item">
+                        <span class="trading-icon"><i class="fas fa-stop"></i></span>
+                        <div id="slValue" class="trading-value sl">—</div>
+                        <div class="trading-label">STOP LOSS</div>
+                    </div>
+                    <div class="trading-item">
+                        <span class="trading-icon"><i class="fas fa-flag-checkered"></i></span>
+                        <div id="tpValue" class="trading-value tp">—</div>
+                        <div class="trading-label">TAKE PROFIT</div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-note">RISK/REWARD 0.55:0.5 • STOP LOSS 0.55x ATR • TAKE PROFIT 0.5x ATR</div>
+            <div class="footer-note">RISK/REWARD 2.5:2.0 • STOP LOSS 2.5x ATR • TAKE PROFIT 2.0x ATR</div>
         </div>
     </div>
-    <div class="footer-note">AI Trading Quantum • Hunters Group • XAU/USD • 12 Indicator Weighted System • RR 0.55:0.5</div>
+    <div class="footer-note">AI Trading Quantum • Hunters Group • XAU/USD • 12 Indicator Weighted System • RR 2.5:2.0</div>
 </div>
 
 <script>
@@ -639,11 +1162,8 @@
     const TIMEFRAME = '15min';
     const API_URL = `https://api.twelvedata.com/time_series?symbol=${SYMBOL}&interval=${TIMEFRAME}&outputsize=120&apikey=${API_KEY}`;
     
-    // 🔴 RR 0.55 : 0.5 🔴
-    // Risk = 0.55 x ATR (Stop Loss)
-    // Reward = 0.5 x ATR (Take Profit)
-    const SL_MULTIPLIER = 0.55;   // Stop Loss = 0.55 × ATR
-    const TP_MULTIPLIER = 0.5;    // Take Profit = 0.5 × ATR
+    const SL_MULTIPLIER = 2.5;
+    const TP_MULTIPLIER = 2.0;
     
     const INDICATOR_WEIGHTS = {
         psar: 14, ema: 12, macd: 12, rsi: 10, stochastic: 8, williams: 8,
@@ -662,6 +1182,7 @@
     let resetCountdownInterval = null;
     let userLimit = { remaining: MAX_ANALYSIS, resetTime: null, hasResetScheduled: false };
     let currentUniqueCode = Math.floor(Math.random() * 900) + 100;
+    let lastPrice = null; // Untuk menyimpan harga terakhir
 
     // DOM Elements
     const generateBtn = document.getElementById('generateBtn');
@@ -672,6 +1193,9 @@
     const limitExhausted = document.getElementById('limitExhausted');
     const signalOutput = document.getElementById('signalOutput');
     const signalValueSpan = document.getElementById('signalValue');
+    const signalSubtitle = document.getElementById('signalSubtitle');
+    const badgeDot = document.getElementById('badgeDot');
+    const badgeText = document.getElementById('badgeText');
     const accuracyFill = document.getElementById('accuracyFill');
     const accuracyPercent = document.getElementById('accuracyPercent');
     const accuracyDesc = document.getElementById('accuracyDesc');
@@ -715,7 +1239,34 @@
     function showEmptyState() { emptyState.style.display = 'block'; limitExhausted.style.display = 'none'; signalOutput.style.display = 'none'; }
     function showLimitExhaustedState() { emptyState.style.display = 'none'; limitExhausted.style.display = 'block'; signalOutput.style.display = 'none'; if (userLimit.hasResetScheduled) startResetCountdown(); }
     function showSignalOutput() { emptyState.style.display = 'none'; limitExhausted.style.display = 'none'; signalOutput.style.display = 'block'; }
-    function resetDisplay() { showEmptyState(); signalValueSpan.textContent = '—'; accuracyFill.style.width = '0%'; accuracyPercent.textContent = '0%'; strengthFill.style.width = '0%'; strengthPercent.textContent = '0%'; accuracyDesc.textContent = 'Menunggu analisis...'; currentPriceSpan.textContent = '$ ----.--'; slSpan.textContent = '—'; tpSpan.textContent = '—'; psarValueSpan.textContent = '$0.00'; trendTextSpan.textContent = '—'; psarPositionSpan.textContent = '—'; trendDot.className = 'trend-dot'; signalMain.classList.remove('buy', 'sell', 'wait'); signalValueSpan.classList.remove('buy', 'sell', 'wait'); indicatorsContainer.innerHTML = ''; }
+    function resetDisplay() { 
+        showEmptyState(); 
+        signalValueSpan.textContent = '—'; 
+        signalValueSpan.className = 'signal-value';
+        signalSubtitle.textContent = 'ANALISIS 12 INDIKATOR';
+        badgeDot.className = 'badge-dot';
+        badgeText.textContent = 'QUANTUM AI RECOMMENDATION';
+        accuracyFill.style.width = '0%'; 
+        accuracyPercent.textContent = '0%';
+        accuracyPercent.className = 'score-value';
+        strengthFill.style.width = '0%'; 
+        strengthPercent.textContent = '0%';
+        strengthPercent.className = 'score-value';
+        accuracyDesc.innerHTML = '<i class="fas fa-hourglass-half"></i> Menunggu analisis...';
+        currentPriceSpan.textContent = '$ ----.--'; 
+        slSpan.textContent = '—'; 
+        tpSpan.textContent = '—'; 
+        psarValueSpan.textContent = '$0.00';
+        psarValueSpan.className = 'psar-value';
+        trendTextSpan.textContent = '—';
+        trendTextSpan.className = '';
+        psarPositionSpan.textContent = '—'; 
+        trendDot.className = 'trend-dot'; 
+        signalMain.className = 'signal-main';
+        signalMain.classList.remove('buy', 'sell', 'wait');
+        indicatorsContainer.innerHTML = ''; 
+        lastPrice = null;
+    }
 
     // Limit Management
     function startResetCountdown() { if (resetCountdownInterval) clearInterval(resetCountdownInterval); if (userLimit.resetTime && userLimit.hasResetScheduled) updateCountdownDisplay(), resetCountdownInterval = setInterval(updateCountdownDisplay, 1000); }
@@ -756,6 +1307,9 @@
     function analyze12Indicator(ohlc) {
         const highs = ohlc.map(c=>c.high), lows = ohlc.map(c=>c.low), closes = ohlc.map(c=>c.close);
         const price = closes[closes.length-1];
+        
+        // Simpan harga terakhir untuk ditampilkan
+        lastPrice = price;
         
         const { sar } = calculateParabolicSAR(highs, lows);
         const currentSAR = sar.length > 0 ? sar[sar.length-1] : price;
@@ -867,9 +1421,9 @@
     // Render collapsible indicator groups
     function renderIndicatorGroups(signals) {
         const groups = [
-            { title: "📊 TREND INDIKATORS", icon: "fa-chart-line", color: "#60A5FA", indicators: ["psar", "ema", "macd"], description: "Menentukan arah trend utama pasar" },
-            { title: "⚡ MOMENTUM INDIKATORS", icon: "fa-bolt", color: "#FBBF24", indicators: ["rsi", "stochastic", "williams", "adx"], description: "Mengukur kekuatan dan momentum pergerakan" },
-            { title: "🔍 KONFIRMASI INDIKATORS", icon: "fa-check-double", color: "#4ADE80", indicators: ["ichimoku", "volume", "atr", "bollinger", "sr"], description: "Mengkonfirmasi tingkat akurasi sinyal" }
+            { title: "TREND INDIKATORS", icon: "fa-chart-line", color: "#60A5FA", indicators: ["psar", "ema", "macd"], description: "Menentukan arah trend utama pasar" },
+            { title: "MOMENTUM INDIKATORS", icon: "fa-bolt", color: "#FBBF24", indicators: ["rsi", "stochastic", "williams", "adx"], description: "Mengukur kekuatan dan momentum pergerakan" },
+            { title: "KONFIRMASI INDIKATORS", icon: "fa-check-double", color: "#4ADE80", indicators: ["ichimoku", "volume", "atr", "bollinger", "sr"], description: "Mengkonfirmasi tingkat akurasi sinyal" }
         ];
         
         let html = '';
@@ -912,7 +1466,7 @@
                         <div class="indicator-subgrid">
                             ${indicatorsHtml}
                         </div>
-                        <div style="font-size:0.65rem; color:#6B7280; margin-top:14px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-size:0.6rem; color:#6B7280; margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.04);">
                             <i class="fas fa-info-circle"></i> ${group.description}
                         </div>
                     </div>
@@ -922,7 +1476,6 @@
         
         indicatorsContainer.innerHTML = html;
         
-        // Add click handlers for collapsible sections
         document.querySelectorAll('.indicator-group-card').forEach((group, idx) => {
             const header = group.querySelector('.indicator-group-header');
             const content = group.querySelector('.indicator-group-content');
@@ -938,7 +1491,6 @@
                 }
             });
             
-            // Auto expand first group by default
             if (idx === 0) {
                 header.classList.add('active');
                 content.classList.add('show');
@@ -948,37 +1500,89 @@
     
     function displaySignal(analysis, sl, tp) {
         showSignalOutput();
-        currentPriceSpan.textContent = `$ ${analysis.price.toFixed(2)}`;
+        
+        // Gunakan harga asli dari analysis (harga close terakhir)
+        const displayPrice = analysis.price;
+        
+        // Update price - TAMPILKAN HARGA ASLI
+        currentPriceSpan.textContent = `$ ${displayPrice.toFixed(2)}`;
+        
+        // Update signal value with animation
         signalValueSpan.textContent = analysis.signal;
-        strengthFill.style.width = `${analysis.strength}%`;
-        strengthPercent.textContent = `${analysis.strength}%`;
+        signalValueSpan.className = 'signal-value';
+        signalValueSpan.classList.add(analysis.signal.toLowerCase());
+        
+        // Update subtitle
+        if (analysis.signal === 'BUY') {
+            signalSubtitle.textContent = 'BULLISH SIGNAL • REKOMENDASI BUY';
+        } else if (analysis.signal === 'SELL') {
+            signalSubtitle.textContent = 'BEARISH SIGNAL • REKOMENDASI SELL';
+        } else {
+            signalSubtitle.textContent = 'NETRAL • TUNGGU KONFIRMASI';
+        }
+        
+        // Update badge
+        badgeDot.className = 'badge-dot';
+        badgeDot.classList.add(analysis.signal.toLowerCase());
+        badgeText.textContent = 'QUANTUM AI RECOMMENDATION';
+        
+        // Update SL & TP - tetap menggunakan perhitungan dengan multiplier
         slSpan.textContent = `$ ${sl.toFixed(2)}`;
         tpSpan.textContent = `$ ${tp.toFixed(2)}`;
+        
+        // Update PSAR
         psarValueSpan.textContent = `$ ${analysis.psarValue.toFixed(2)}`;
+        psarValueSpan.className = 'psar-value';
+        if (analysis.psarBullish) {
+            psarValueSpan.classList.add('up');
+        } else {
+            psarValueSpan.classList.add('down');
+        }
         
-        accuracyFill.style.width = `${analysis.accuracy}%`;
-        accuracyPercent.textContent = `${analysis.accuracy}%`;
-        if (analysis.signal === 'BUY') accuracyFill.classList.add('buy');
-        else if (analysis.signal === 'SELL') accuracyFill.classList.add('sell');
-        accuracyDesc.textContent = analysis.interpretation;
-        
-        renderIndicatorGroups(analysis.signals);
-        
+        // Update trend
         if (analysis.psarBullish) {
             trendDot.className = 'trend-dot up';
             trendTextSpan.textContent = 'UPTREND';
+            trendTextSpan.className = 'up';
             psarPositionSpan.innerHTML = '<i class="fas fa-arrow-down"></i> PSAR di BAWAH harga <span style="color:#4ADE80">(BULLISH)</span>';
         } else {
             trendDot.className = 'trend-dot down';
             trendTextSpan.textContent = 'DOWNTREND';
+            trendTextSpan.className = 'down';
             psarPositionSpan.innerHTML = '<i class="fas fa-arrow-up"></i> PSAR di ATAS harga <span style="color:#F87171">(BEARISH)</span>';
         }
         
-        signalMain.classList.remove('buy', 'sell', 'wait');
-        signalValueSpan.classList.remove('buy', 'sell', 'wait');
-        if (analysis.signal === 'BUY') { signalMain.classList.add('buy'); signalValueSpan.classList.add('buy'); accuracyFill.classList.add('buy'); }
-        else if (analysis.signal === 'SELL') { signalMain.classList.add('sell'); signalValueSpan.classList.add('sell'); accuracyFill.classList.add('sell'); }
-        else { signalMain.classList.add('wait'); signalValueSpan.classList.add('wait'); }
+        // Update accuracy
+        accuracyFill.style.width = `${analysis.accuracy}%`;
+        accuracyPercent.textContent = `${analysis.accuracy}%`;
+        accuracyPercent.className = 'score-value';
+        if (analysis.signal === 'BUY') {
+            accuracyFill.className = 'accuracy-fill buy';
+            accuracyPercent.classList.add('buy');
+        } else if (analysis.signal === 'SELL') {
+            accuracyFill.className = 'accuracy-fill sell';
+            accuracyPercent.classList.add('sell');
+        } else {
+            accuracyFill.className = 'accuracy-fill';
+            accuracyPercent.classList.add('wait');
+        }
+        
+        // Update accuracy description with highlight
+        accuracyDesc.innerHTML = `<i class="fas fa-info-circle"></i> ${analysis.interpretation}`;
+        
+        // Update strength
+        strengthFill.style.width = `${analysis.strength}%`;
+        strengthPercent.textContent = `${analysis.strength}%`;
+        
+        // Update main container
+        signalMain.className = 'signal-main';
+        signalMain.classList.add(analysis.signal.toLowerCase());
+        
+        // Render indicators
+        renderIndicatorGroups(analysis.signals);
+        
+        // Log harga untuk debugging
+        console.log(`📊 Harga Spot XAU/USD: $${displayPrice.toFixed(2)} | SL: $${sl.toFixed(2)} | TP: $${tp.toFixed(2)} | ATR: $${analysis.atr.toFixed(2)}`);
     }
     
     async function fetchAndAnalyze() {
@@ -996,22 +1600,26 @@
             let atr = analysis.atr || 2.0;
             if (atr <= 0.2) atr = 2.0;
             
+            // Gunakan harga dari analysis (close terakhir)
+            const price = analysis.price;
+            
             let sl, tp;
             if (analysis.signal === 'BUY') { 
-                sl = analysis.price - (atr * SL_MULTIPLIER);
-                tp = analysis.price + (atr * TP_MULTIPLIER);
+                sl = price - (atr * SL_MULTIPLIER);
+                tp = price + (atr * TP_MULTIPLIER);
             } else if (analysis.signal === 'SELL') { 
-                sl = analysis.price + (atr * SL_MULTIPLIER);
-                tp = analysis.price - (atr * TP_MULTIPLIER);
+                sl = price + (atr * SL_MULTIPLIER);
+                tp = price - (atr * TP_MULTIPLIER);
             } else { 
-                sl = analysis.price - atr; 
-                tp = analysis.price + atr;
+                sl = price - (atr * 1.5); 
+                tp = price + (atr * 1.5);
             }
             
             useAnalysis();
             displaySignal(analysis, sl, tp);
             startCooldown();
-            console.log(`🎯 12 INDIKATOR: ${analysis.signal} | Accuracy: ${analysis.accuracy}% | RR: 0.55:0.5 (SL:0.55x ATR, TP:0.5x ATR)`);
+            console.log(`🎯 12 INDIKATOR: ${analysis.signal} | Accuracy: ${analysis.accuracy}% | RR: 2.5:2.0 (SL:2.5x ATR, TP:2.0x ATR)`);
+            console.log(`💰 Harga Entry: $${price.toFixed(2)} | SL: $${sl.toFixed(2)} | TP: $${tp.toFixed(2)}`);
         } catch (error) { console.error(error); generateBtn.disabled = false; alert('Error: ' + error.message); }
     }
 
@@ -1029,7 +1637,8 @@
     // Init
     loadLimit();
     generateUniqueCode();
-    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 0.55:0.5 | SL:0.55x ATR, TP:0.5x ATR | Collapsible indicator cards');
+    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 2.5:2.0 | SL:2.5x ATR, TP:2.0x ATR | SUPER MODERN UI');
+    console.log('📌 Spot price akan menampilkan harga close terakhir dari data real-time');
 </script>
 </body>
 </html>
