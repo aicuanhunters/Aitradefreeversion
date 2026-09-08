@@ -19,7 +19,7 @@
                 radial-gradient(ellipse at 90% 80%, rgba(124,58,237,0.06) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 0%, #0A0C15 100%);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale; 
+            -moz-osx-font-smoothing: grayscale;
         }
         body.modal-open { overflow: hidden; }
         
@@ -135,7 +135,7 @@
         @media (max-width: 480px) { .live-badge span { font-size: 0.65rem; } }
         
         /* ================================================================ */
-        /* ===== CONTROL BAR ===== */
+        /* ===== CONTROL BAR - HORIZONTAL 1x1 ===== */
         /* ================================================================ */
         .control-bar {
             background: rgba(10, 12, 21, 0.75);
@@ -167,17 +167,34 @@
         }
         .control-bar:hover { border-color: rgba(59, 130, 246, 0.08); }
         
+        /* ===== LEFT SECTION - 3 KOLOM HORIZONTAL ===== */
         .control-left {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 10px;
             align-items: center;
-            gap: 12px;
             flex-shrink: 0;
-            flex-wrap: wrap;
         }
-        @media (max-width: 768px) { .control-left { justify-content: center; gap: 10px; } }
-        @media (max-width: 480px) { .control-left { gap: 8px; } }
+        @media (max-width: 768px) { 
+            .control-left { 
+                justify-content: center;
+                gap: 8px;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .control-left { 
+                gap: 6px;
+                grid-template-columns: repeat(3, 1fr);
+            } 
+        }
+        @media (max-width: 380px) { 
+            .control-left { 
+                gap: 4px;
+            } 
+        }
         
-        .timeframe-item {
+        /* ===== CARD 1: TIMEFRAME M15 ===== */
+        .timeframe-card {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -185,46 +202,103 @@
             padding: 8px 16px;
             border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: default;
+            min-width: 0;
         }
-        @media (max-width: 768px) { .timeframe-item { padding: 10px 18px; gap: 12px; } }
-        @media (max-width: 480px) { .timeframe-item { padding: 8px 12px; gap: 8px; } }
-        .timeframe-item:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(59, 130, 246, 0.15);
-            transform: translateY(-1px);
+        @media (max-width: 768px) { 
+            .timeframe-card { 
+                padding: 10px 14px; 
+                gap: 10px;
+                justify-content: center;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .timeframe-card { 
+                padding: 8px 10px; 
+                gap: 6px;
+            } 
+        }
+        @media (max-width: 380px) { 
+            .timeframe-card { 
+                padding: 6px 8px; 
+                gap: 4px;
+            } 
+        }
+        .timeframe-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(59, 130, 246, 0.20);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(37,99,235,0.10);
         }
         
         .timeframe-icon {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
-            width: 36px; height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 2px 16px rgba(37,99,235,0.25);
             flex-shrink: 0;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) { .timeframe-icon { width: 40px; height: 40px; } }
-        @media (max-width: 480px) { .timeframe-icon { width: 34px; height: 34px; } }
-        .timeframe-item:hover .timeframe-icon {
-            box-shadow: 0 4px 24px rgba(37,99,235,0.35);
-            transform: scale(1.05);
+        @media (max-width: 768px) { 
+            .timeframe-icon { 
+                width: 36px; 
+                height: 36px; 
+            } 
         }
-        .timeframe-icon i { font-size: 0.85rem; color: white; }
-        @media (max-width: 768px) { .timeframe-icon i { font-size: 0.95rem; } }
-        @media (max-width: 480px) { .timeframe-icon i { font-size: 0.75rem; } }
+        @media (max-width: 480px) { 
+            .timeframe-icon { 
+                width: 30px; 
+                height: 30px; 
+            } 
+        }
+        @media (max-width: 380px) { 
+            .timeframe-icon { 
+                width: 26px; 
+                height: 26px; 
+            } 
+        }
+        .timeframe-card:hover .timeframe-icon {
+            box-shadow: 0 4px 24px rgba(37,99,235,0.40);
+            transform: scale(1.08);
+        }
+        .timeframe-icon i { 
+            font-size: 0.8rem; 
+            color: white; 
+        }
+        @media (max-width: 768px) { 
+            .timeframe-icon i { font-size: 0.85rem; } 
+        }
+        @media (max-width: 480px) { 
+            .timeframe-icon i { font-size: 0.7rem; } 
+        }
+        @media (max-width: 380px) { 
+            .timeframe-icon i { font-size: 0.6rem; } 
+        }
         
         .timeframe-label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #60A5FA;
             letter-spacing: -0.2px;
+            white-space: nowrap;
         }
-        @media (max-width: 768px) { .timeframe-label { font-size: 1.1rem; } }
-        @media (max-width: 480px) { .timeframe-label { font-size: 0.9rem; } }
+        @media (max-width: 768px) { 
+            .timeframe-label { font-size: 1rem; } 
+        }
+        @media (max-width: 480px) { 
+            .timeframe-label { font-size: 0.8rem; } 
+        }
+        @media (max-width: 380px) { 
+            .timeframe-label { font-size: 0.7rem; } 
+        }
         
-        .pair-item {
+        /* ===== CARD 2: PAIR XAU/USD ===== */
+        .pair-card {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -232,81 +306,221 @@
             padding: 8px 16px;
             border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: default;
+            min-width: 0;
         }
-        @media (max-width: 768px) { .pair-item { padding: 10px 18px; gap: 12px; } }
-        @media (max-width: 480px) { .pair-item { padding: 8px 12px; gap: 8px; } }
-        .pair-item:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(245,158,11,0.15);
-            transform: translateY(-1px);
+        @media (max-width: 768px) { 
+            .pair-card { 
+                padding: 10px 14px; 
+                gap: 10px;
+                justify-content: center;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .pair-card { 
+                padding: 8px 10px; 
+                gap: 6px;
+            } 
+        }
+        @media (max-width: 380px) { 
+            .pair-card { 
+                padding: 6px 8px; 
+                gap: 4px;
+            } 
+        }
+        .pair-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(245,158,11,0.20);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(245,158,11,0.10);
         }
         
         .pair-icon {
             background: linear-gradient(135deg, #F59E0B, #F97316);
-            width: 36px; height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 2px 16px rgba(245,158,11,0.20);
             flex-shrink: 0;
             transition: all 0.3s;
         }
-        @media (max-width: 768px) { .pair-icon { width: 40px; height: 40px; } }
-        @media (max-width: 480px) { .pair-icon { width: 34px; height: 34px; } }
-        .pair-item:hover .pair-icon {
-            box-shadow: 0 4px 24px rgba(245,158,11,0.35);
-            transform: scale(1.05) rotate(-5deg);
+        @media (max-width: 768px) { 
+            .pair-icon { 
+                width: 36px; 
+                height: 36px; 
+            } 
         }
-        .pair-icon i { font-size: 0.85rem; color: white; }
-        @media (max-width: 768px) { .pair-icon i { font-size: 0.95rem; } }
-        @media (max-width: 480px) { .pair-icon i { font-size: 0.75rem; } }
+        @media (max-width: 480px) { 
+            .pair-icon { 
+                width: 30px; 
+                height: 30px; 
+            } 
+        }
+        @media (max-width: 380px) { 
+            .pair-icon { 
+                width: 26px; 
+                height: 26px; 
+            } 
+        }
+        .pair-card:hover .pair-icon {
+            box-shadow: 0 4px 24px rgba(245,158,11,0.40);
+            transform: scale(1.08) rotate(-5deg);
+        }
+        .pair-icon i { 
+            font-size: 0.8rem; 
+            color: white; 
+        }
+        @media (max-width: 768px) { 
+            .pair-icon i { font-size: 0.85rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-icon i { font-size: 0.7rem; } 
+        }
+        @media (max-width: 380px) { 
+            .pair-icon i { font-size: 0.6rem; } 
+        }
         
         .pair-label {
             font-size: 0.85rem;
             font-weight: 600;
             color: #FBBF24;
             letter-spacing: -0.2px;
+            white-space: nowrap;
         }
-        @media (max-width: 768px) { .pair-label { font-size: 0.95rem; } }
-        @media (max-width: 480px) { .pair-label { font-size: 0.8rem; } }
+        @media (max-width: 768px) { 
+            .pair-label { font-size: 0.9rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-label { 
+                font-size: 0.7rem; 
+            } 
+        }
+        @media (max-width: 380px) { 
+            .pair-label { 
+                font-size: 0.6rem; 
+            } 
+        }
         .pair-label small {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: #9CA3AF;
             font-weight: 400;
             margin-left: 4px;
         }
-        @media (max-width: 768px) { .pair-label small { font-size: 0.6rem; } }
-        @media (max-width: 480px) { .pair-label small { font-size: 0.5rem; } }
+        @media (max-width: 768px) { 
+            .pair-label small { font-size: 0.55rem; } 
+        }
+        @media (max-width: 480px) { 
+            .pair-label small { 
+                font-size: 0.45rem; 
+                margin-left: 2px;
+            } 
+        }
+        @media (max-width: 380px) { 
+            .pair-label small { 
+                font-size: 0.4rem; 
+            } 
+        }
         
-        .accuracy-badge {
+        /* ===== CARD 3: AKURASI 80% ===== */
+        .accuracy-card-badge {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: rgba(74,222,128,0.08);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 100px;
             border: 1px solid rgba(74,222,128,0.10);
-            font-size: 0.7rem;
-            color: #4ADE80;
-            font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: default;
+            min-width: 0;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-card-badge { 
+                padding: 10px 14px; 
+                gap: 8px;
+                justify-content: center;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .accuracy-card-badge { 
+                padding: 8px 10px; 
+                gap: 5px;
+            } 
+        }
+        @media (max-width: 380px) { 
+            .accuracy-card-badge { 
+                padding: 6px 8px; 
+                gap: 4px;
+            } 
+        }
+        .accuracy-card-badge:hover {
+            background: rgba(74,222,128,0.14);
+            border-color: rgba(74,222,128,0.20);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(74,222,128,0.10);
+        }
+        
+        .accuracy-card-badge i { 
+            font-size: 0.75rem; 
+            color: #4ADE80;
+            transition: all 0.3s;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-card-badge i { font-size: 0.8rem; } 
+        }
+        @media (max-width: 480px) { 
+            .accuracy-card-badge i { font-size: 0.65rem; } 
+        }
+        @media (max-width: 380px) { 
+            .accuracy-card-badge i { font-size: 0.55rem; } 
+        }
+        .accuracy-card-badge:hover i {
+            transform: scale(1.2) rotate(-10deg);
+        }
+        
+        .accuracy-card-badge .acc-value {
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: #4ADE80;
+        }
+        @media (max-width: 768px) { 
+            .accuracy-card-badge .acc-value { font-size: 0.85rem; } 
+        }
+        @media (max-width: 480px) { 
+            .accuracy-card-badge .acc-value { font-size: 0.7rem; } 
+        }
+        @media (max-width: 380px) { 
+            .accuracy-card-badge .acc-value { font-size: 0.6rem; } 
+        }
+        
+        .accuracy-card-badge .acc-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #9CA3AF;
+            opacity: 0.7;
             white-space: nowrap;
         }
-        @media (max-width: 768px) { .accuracy-badge { padding: 8px 16px; font-size: 0.8rem; gap: 8px; } }
-        @media (max-width: 480px) { .accuracy-badge { padding: 6px 12px; font-size: 0.65rem; gap: 5px; } }
-        .accuracy-badge:hover {
-            background: rgba(74,222,128,0.12);
-            border-color: rgba(74,222,128,0.20);
-            transform: scale(1.02);
+        @media (max-width: 768px) { 
+            .accuracy-card-badge .acc-label { font-size: 0.7rem; } 
         }
-        .accuracy-badge i { font-size: 0.7rem; color: #4ADE80; }
-        @media (max-width: 768px) { .accuracy-badge i { font-size: 0.8rem; } }
-        .accuracy-badge .acc-value { font-weight: 800; font-size: 0.75rem; }
-        @media (max-width: 768px) { .accuracy-badge .acc-value { font-size: 0.85rem; } }
-        @media (max-width: 480px) { .accuracy-badge .acc-value { font-size: 0.7rem; } }
+        @media (max-width: 480px) { 
+            .accuracy-card-badge .acc-label { 
+                font-size: 0.55rem; 
+            } 
+        }
+        @media (max-width: 380px) { 
+            .accuracy-card-badge .acc-label { 
+                font-size: 0.5rem; 
+            } 
+        }
         
+        /* ================================================================ */
+        /* ===== RIGHT SECTION - ACTIONS ===== */
+        /* ================================================================ */
         .control-right {
             display: flex;
             align-items: center;
@@ -314,9 +528,17 @@
             flex-wrap: wrap;
             flex-shrink: 0;
         }
-        @media (max-width: 768px) { .control-right { justify-content: center; gap: 10px; } }
-        @media (max-width: 480px) { .control-right { gap: 8px; } }
+        @media (max-width: 768px) { 
+            .control-right { 
+                justify-content: center;
+                gap: 10px;
+            } 
+        }
+        @media (max-width: 480px) { 
+            .control-right { gap: 8px; } 
+        }
         
+        /* ===== LIMIT BOX ===== */
         .limit-box { 
             display: flex; 
             align-items: center; 
@@ -359,6 +581,7 @@
         .limit-badge.zero { background: linear-gradient(135deg, #DC2626, #EF4444); animation: pulse-red 1s infinite; box-shadow: 0 2px 16px rgba(239,68,68,0.3); }
         @keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
         
+        /* ===== COOLDOWN ===== */
         .cooldown { 
             display: flex; 
             align-items: center; 
@@ -378,6 +601,7 @@
         .cooldown i { font-size: 0.8rem; }
         @media (max-width: 768px) { .cooldown i { font-size: 0.9rem; } }
         
+        /* ===== GENERATE BUTTON ===== */
         .btn-generate {
             background: linear-gradient(135deg, #2563EB, #7C3AED);
             border: none;
@@ -419,6 +643,7 @@
         @media (max-width: 768px) { .btn-generate .btn-arrow { font-size: 0.9rem; } }
         .btn-generate:hover:not(:disabled) .btn-arrow { transform: translateX(6px); }
         
+        /* ===== RESET BUTTON ===== */
         .btn-reset {
             background: rgba(255,70,85,0.06);
             border: 1px solid rgba(255,70,85,0.08);
@@ -1140,9 +1365,7 @@
             background: linear-gradient(90deg, #3B82F6, #A855F7, #4ADE80) !important;
         }
         
-        /* ================================================================ */
         /* ===== TRADING PANEL - HORIZONTAL 1x1 ===== */
-        /* ================================================================ */
         .trading-panel {
             background: rgba(255,255,255,0.02);
             border-radius: 16px;
@@ -1266,7 +1489,6 @@
             color: #9CA3AF;
         }
         
-        /* ===== TRADING PANEL - ENTRY LEVEL CARD ===== */
         .trading-item.entry-item {
             background: rgba(37,99,235,0.04);
             border-color: rgba(37,99,235,0.08);
@@ -1294,7 +1516,6 @@
             border-color: rgba(74,222,128,0.15);
         }
         
-        /* ===== FOOTER ===== */
         .footer-note {
             text-align: center;
             margin-top: 18px;
@@ -1543,23 +1764,31 @@
         </div>
     </div>
 
-    <!-- CONTROL BAR -->
+    <!-- ===== CONTROL BAR - HORIZONTAL 1x1 ===== -->
     <div class="control-bar">
+        <!-- LEFT: 3 KOLOM HORIZONTAL -->
         <div class="control-left">
-            <div class="timeframe-item">
+            <!-- CARD 1: M15 -->
+            <div class="timeframe-card">
                 <div class="timeframe-icon"><i class="fas fa-chart-line"></i></div>
                 <span class="timeframe-label">M15</span>
             </div>
-            <div class="pair-item">
+            
+            <!-- CARD 2: XAU/USD -->
+            <div class="pair-card">
                 <div class="pair-icon"><i class="fas fa-coins"></i></div>
                 <span class="pair-label">XAU/USD <small>Emas</small></span>
             </div>
-            <div class="accuracy-badge">
+            
+            <!-- CARD 3: AKURASI 80% -->
+            <div class="accuracy-card-badge">
                 <i class="fas fa-bullseye"></i>
                 <span class="acc-value">80%</span>
-                <span style="font-weight:400; opacity:0.7;">Akurasi</span>
+                <span class="acc-label">Akurasi</span>
             </div>
         </div>
+        
+        <!-- RIGHT: ACTIONS -->
         <div class="control-right">
             <div class="limit-box">
                 <i class="fas fa-chart-simple"></i>
@@ -1652,19 +1881,16 @@
             <!-- ===== TRADING PANEL - HORIZONTAL 1x1 ===== -->
             <div class="trading-panel">
                 <div class="trading-grid">
-                    <!-- LEVEL ENTRY -->
                     <div class="trading-item entry-item">
                         <span class="trading-icon entry-icon"><i class="fas fa-arrow-right-to-bracket"></i></span>
                         <div id="currentPrice" class="trading-value entry">$ ----.--</div>
                         <div class="trading-label">LEVEL ENTRY</div>
                     </div>
-                    <!-- STOP LOSS -->
                     <div class="trading-item sl-item">
                         <span class="trading-icon sl-icon"><i class="fas fa-stop"></i></span>
                         <div id="slValue" class="trading-value sl">—</div>
                         <div class="trading-label">STOP LOSS</div>
                     </div>
-                    <!-- TAKE PROFIT -->
                     <div class="trading-item tp-item">
                         <span class="trading-icon tp-icon"><i class="fas fa-flag-checkered"></i></span>
                         <div id="tpValue" class="trading-value tp">—</div>
@@ -2144,7 +2370,7 @@
     // Init
     loadLimit();
     generateUniqueCode();
-    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 2.5:2.0 | TRADING PANEL 1x1 HORIZONTAL');
+    console.log('✅ 12 INDIKATOR WEIGHTED SYSTEM READY | RR 2.5:2.0 | HORIZONTAL 1x1');
 </script>
 </body>
 </html>
